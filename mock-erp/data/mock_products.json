@@ -1,0 +1,34 @@
+[
+    {
+        "id": "0",
+        "name": "90° Corner Duct"
+    },
+    {
+        "id": "1",
+        "name": "120° Corner Duct"
+    },
+    {
+        "id": "2",
+        "name": "Duct Output"
+    },
+    {
+        "id": "3",
+        "name": "Duct Input"
+    },
+    {
+        "id": "4",
+        "name": "Straight Duct (1m)"
+    },
+    {
+        "id": "5",
+        "name": "Straight Duct (3m)"
+    },
+    {
+        "id": "6",
+        "name": "Straight Duct (5m)"
+    },
+    {
+        "id": "7",
+        "name": "Straight Duct (10m)"
+    }
+]
