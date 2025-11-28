@@ -4,8 +4,10 @@ import { OrderItem } from './order-item'
 export interface Order {
     orderHeader: {
         orderNumber: number,
-        orderDate: Date,
+        orderDate: string,
         customer: Customer,
     },
-    orderItems: OrderItem[]
+    orderItems: {
+        item: OrderItem[]
+    }
 }

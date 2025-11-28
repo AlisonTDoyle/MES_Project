@@ -56,11 +56,15 @@ export default function Home() {
       let order: Order = {
         orderHeader: {
           orderNumber: Math.floor(Math.random() * 100000000),
-          orderDate: new Date(),
+          // xml cant handle data as its an object to needs to be a string
+          orderDate: new Date().toLocaleDateString(), 
           customer: selectedCustomer
         },
-        orderItems: orderItems
+        orderItems: {
+          item: orderItems
+        }
       }
+      console.log(order)
 
       // convert from json object to xml
       let builder = new Builder();
@@ -72,7 +76,7 @@ export default function Home() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'order.xml';
+      a.download = `order_${selectedCustomer.id}_${order.orderHeader.orderNumber}_${order.orderHeader.orderDate}.xml`;
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -141,24 +145,26 @@ export default function Home() {
           <button onClick={(e) => AddProductToOrder(e)} className="my-4 p-2 rounded border border-slate-500 bg-slate-800 hover:border-sky-500 hover:bg-sky-800 hover:cursor-pointer">Add To Order</button>
         </div>
         <div className="dark:bg-neutral-900 h-full">
-          <table className="border-collapse rounded border border-neutral-500 p-2 dark:bg-neutral-900 w-full">
-            <thead>
-              <tr>
-                <th className="border border-neutral-500 bg-neutral-800 p-2">Item ID</th>
-                <th className="border border-neutral-500 bg-neutral-800 p-2">Item Name</th>
-                <th className="border border-neutral-500 bg-neutral-800 p-2">Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orderItems?.map((p) => (
-                <tr key={p.id}>
-                  <td className='align-top rounded border border-neutral-500 p-2'>{p.id}</td>
-                  <td className='align-top rounded border border-neutral-500 p-2'>{p.description}</td>
-                  <td className='align-top rounded border border-neutral-500 p-2'>{p.quantity}</td>
+          <div className="h-[48rem] max-h-[48rem] overflow-y-auto border rounded border-neutral-500">
+            <table className="border-collapse w-full dark:bg-neutral-900">
+              <thead>
+                <tr>
+                  <th className="border border-neutral-500 bg-neutral-800 p-2">Item ID</th>
+                  <th className="border border-neutral-500 bg-neutral-800 p-2">Item Name</th>
+                  <th className="border border-neutral-500 bg-neutral-800 p-2">Quantity</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {orderItems?.map((p) => (
+                  <tr key={p.id}>
+                    <td className="align-top border border-neutral-500 p-2">{p.id}</td>
+                    <td className="align-top border border-neutral-500 p-2">{p.description}</td>
+                    <td className="align-top border border-neutral-500 p-2">{p.quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <button onClick={(e) => CreateOrderFile()} className="self-auto md:self-end my-4 p-2 rounded border border-slate-500 bg-slate-800 hover:border-sky-500 hover:bg-sky-800 hover:cursor-pointer">Submit Order</button>
