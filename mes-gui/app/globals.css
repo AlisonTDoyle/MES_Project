@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer base {
+  .tile-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .section-header {
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+}
