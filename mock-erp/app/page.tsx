@@ -4,10 +4,10 @@ import customers from '@/data/mock_customers.json'
 import products from '@/data/mock_products.json'
 import { useState } from "react";
 import { Builder } from "xml2js";
-import { Customer } from '@/classes/customer'
-import { Item } from '@/classes/item'
-import { OrderItem } from '@/classes/order-item';
-import { Order } from '@/classes/order';
+import { Customer } from '@/interfaces/customer'
+import { Item } from '@/interfaces/item'
+import { OrderItem } from '@/interfaces/order-item';
+import { Order } from '@/interfaces/order';
 
 export default function Home() {
   //#region code behind
