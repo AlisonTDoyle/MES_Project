@@ -1,14 +1,32 @@
 [
     {
-        "name": "John Doe",
-        "id": "28112025"
+      "id": "c001",
+      "name": "JojaMart",
+      "address": {
+        "line1": "123 Industrial Way",
+        "line2": "Suite 5",
+        "city": "Stardew Valley",
+        "country": "USA"
+      }
     },
     {
-        "name": "Real Company Ltd.",
-        "id": "10131167"
+      "id": "c002",
+      "name": "Greenfield Construction",
+      "address": {
+        "line1": "45 Builder's Lane",
+        "line2": "",
+        "city": "Dublin",
+        "country": "Ireland"
+      }
     },
     {
-        "name": "Joja Mart",
-        "id": "12345678"
+      "id": "c003",
+      "name": "Skyline HVAC",
+      "address": {
+        "line1": "678 Mechanical Blvd",
+        "line2": "Floor 2",
+        "city": "Cork",
+        "country": "Ireland"
+      }
     }
-]
+  ]

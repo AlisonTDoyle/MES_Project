@@ -1,3 +1,5 @@
-interface OrderItem extends Item {
+import {Item} from './item'
+
+export interface OrderItem extends Item {
     quantity:number
 }

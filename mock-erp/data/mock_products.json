@@ -1,34 +1,27 @@
 [
     {
-        "id": "0",
-        "name": "90° Corner Duct"
+        "id": "i001",
+        "description": "Round Duct 6 inch diameter",
+        "unit": "meter"
     },
     {
-        "id": "1",
-        "name": "120° Corner Duct"
+        "id": "i002",
+        "description": "Rectangular Duct 12x6 inch",
+        "unit": "meter"
     },
     {
-        "id": "2",
-        "name": "Duct Output"
+        "id": "i003",
+        "description": "Duct Connector 6 inch",
+        "unit": "piece"
     },
     {
-        "id": "3",
-        "name": "Duct Input"
+        "id": "i004",
+        "description": "Flexible Duct 10 inch",
+        "unit": "meter"
     },
     {
-        "id": "4",
-        "name": "Straight Duct (1m)"
-    },
-    {
-        "id": "5",
-        "name": "Straight Duct (3m)"
-    },
-    {
-        "id": "6",
-        "name": "Straight Duct (5m)"
-    },
-    {
-        "id": "7",
-        "name": "Straight Duct (10m)"
+        "id": "i005",
+        "description": "Duct Insulation Wrap",
+        "unit": "roll"
     }
 ]
