@@ -8,13 +8,16 @@ import { Customer } from '@/interfaces/customer'
 import { Item } from '@/interfaces/item'
 import { OrderItem } from '@/interfaces/order-item';
 import { Order } from '@/interfaces/order';
+import * as fs from 'fs';
 
 export default function Home() {
   //#region code behind
+  // properties
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[] | null>(null);
 
+  // methods
   function UpdateSelectedCustomer(event: any): any {
     let id = event.target.value;
     let customer = customers.find(c => c.id === id) || null;
@@ -41,6 +44,7 @@ export default function Home() {
       unit: products.find(p => p.id == productId)?.unit || ""
     }
 
+    // updating order items. to add new product need to re-add older ones and current
     setOrderItems(prev => prev ? [...prev, product] : [product]);
 
     console.log(orderItems);
@@ -61,7 +65,7 @@ export default function Home() {
       // convert from json object to xml
       let builder = new Builder();
       let xml = builder.buildObject(order);
-      console.log(xml)
+      console.log(xml);
 
       // publish xml file
       const blob = new Blob([xml], { type: 'application/xml' });
