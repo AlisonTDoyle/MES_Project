@@ -3,19 +3,44 @@
 import { MouseEventHandler, MouseEvent, useState } from "react";
 
 export default function OperatorStationStatusButton() {
-    const buttonTextOptions:string[] = ["Check into Station", "Check out of Station"];
+    let signedIn: number = 0;
+
+    const buttonTextOptions: string[] = ["Check into Station", "Check out of Station"];
     const [checkedIntoStation, setCheckedIntoStation] = useState(false);
     const [buttonText, setButtonText] = useState(buttonTextOptions[0]);
 
-    function ChangeStationStaus(event:MouseEvent<HTMLButtonElement>):void  {
-        const newCheckedState = !checkedIntoStation;
-        setCheckedIntoStation(newCheckedState);
-        setButtonText(newCheckedState ? buttonTextOptions[1] : buttonTextOptions[0]);
+    async function ChangeStationStatus(event: MouseEvent<HTMLButtonElement>): Promise<void> {
+        let currentStatus = await CheckCurrentStatus();
+        setCheckedIntoStation(currentStatus == 1 ? true : false);
+        setButtonText(currentStatus == 1 ? buttonTextOptions[0] : buttonTextOptions[1]);
 
-        
+        signedIn = currentStatus == 1 ? 0 : 1
+        console.log(`newCheckedState: ${currentStatus}, signedIn: ${signedIn}`)
+
+        // update status
+        await fetch("/api/operator/1/line-status", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "operatorId": 1,
+                "lineId": 1,
+                "newStatus": signedIn
+            }),
+        });
     }
 
-    return(
-        <button onClick={ChangeStationStaus} className="p-2 rounded border border-red-800 bg-red-900 hover:border-red-500 hover:bg-red-800 hover:cursor-pointer">{buttonText}</button>
+    async function CheckCurrentStatus() {
+        let response = await fetch("/api/operator/1/line-status");
+
+        const data = await response.json();
+        let currentStatus = data.result != null ? data.result.eventType : 0
+
+        return currentStatus;
+    }
+
+    return (
+        <button onClick={ChangeStationStatus} className="p-2 rounded border border-red-800 bg-red-900 hover:border-red-500 hover:bg-red-800 hover:cursor-pointer">{buttonText}</button>
     )
 }
