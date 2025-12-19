@@ -21,16 +21,17 @@ export default function LogIn() {
         <div>
             <div>
                 <label htmlFor="">Email</label><br/>
-                <input className="border border-neutral-500 rounded mb-4 p-2 w-70 sm:w-100" type="text" name="text" id="email" required/>
+                <input className="input mb-4 p-2 w-70 sm:w-100" type="text" name="text" id="email" required/>
             </div>
 
             <div>
                 <label htmlFor="">Password</label><br/>
-                <input className="border border-neutral-500 rounded mb-4 p-2 w-70 sm:w-100" type="password" name="password" id="password"/>
+                <input className="input mb-4 w-70 sm:w-100" type="password" name="password" id="password"/>
             </div>
 
-            <button onClick={Nav} className="rounded bg-red-800 p-2 w-70 sm:w-100 hover:cursor-pointer mb-4">Sign In</button><br/>
-            <button type='button' className="rounded border border-red-800 p-2 w-70 sm:w-100 hover:cursor-pointer">Forgot Password</button>
+            <button onClick={Nav} className="btn-primary w-100 mb-4">Sign In</button><br/>
+            {/* <button type='button' className="rounded border border-red-800 p-2 w-70 sm:w-100 hover:cursor-pointer">Forgot Password</button> */}
+            <button type='button' className="btn-secondary w-100">Forgot Password</button>
         </div>
     )
 }

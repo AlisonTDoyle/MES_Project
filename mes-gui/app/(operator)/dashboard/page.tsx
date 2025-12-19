@@ -1,10 +1,13 @@
+import BreakdownForm from "./_components/breakdown-form";
 import OperatorStationStatusButton from "./_components/operator-station-status-button";
+import UpcomingWorkOrders from "./_components/Upcoming-Work-Orders";
 
 export default function Dashboard() {
     return(
         <div>
-            this is the operator dashboard<br/>
             <OperatorStationStatusButton></OperatorStationStatusButton>
+            <UpcomingWorkOrders></UpcomingWorkOrders>
+            <BreakdownForm></BreakdownForm>
         </div>
     )
 }

@@ -27,7 +27,7 @@ export default function AuthenticationLayout({
         {/* right/top column. contains authentication forms (login, forgot password etc) */}
         <div className="col-start-1 row-start-1 lg:col-start-auto lg:row-start-auto
                         z-10 h-screen p-16 grid place-content-center">
-            <div className="bg-neutral-800 p-8 sm:p-16 flex flex-col items-center justify-center">
+            <div className="tile sm:p-16 flex flex-col items-center justify-center">
                 <div className="flex flex-col items-center justify-center pb-4">
                     <h2 className='text-2xl font-bold'>{companyName}</h2>
                     <h1 className='text-xl'>MES System</h1>
