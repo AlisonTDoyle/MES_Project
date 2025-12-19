@@ -1,8 +1,7 @@
-"use server";
+'use server';
 
 import { BreakdownType } from "@/app/_interfaces/breakdown-type";
 import Form from "next/form";
-import { SubmitBreakdown } from "./submit-breakdown";
 
 export default async function BreakdownForm() {
     let _breakdownTypes: BreakdownType[] = await FetchBreakdownTypes();
@@ -19,10 +18,14 @@ export default async function BreakdownForm() {
         }
     }
 
+    function ReportError(error: any) {
+        alert("An error occurred while submitting the breakdown report: " + error.message);
+    }
+
     return (
         <div>
             <h1>Record Breakdown</h1>
-            <Form action={SubmitBreakdown}>
+            <form >
                 <div className="input-container">
                     <label htmlFor="">Machine</label><br />
                     <input type="text" className="input" name="machineId" id="machineId" />
@@ -42,7 +45,7 @@ export default async function BreakdownForm() {
                     </select>
                 </div>
                 <button className="btn-primary my-2" type="submit">Submit Breakdown</button>
-            </Form>
+            </form>
         </div>
     )
 }

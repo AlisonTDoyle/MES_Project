@@ -1,0 +1,22 @@
+{
+    "opertatorid": 1,
+    "line": 1,
+    "tasks" : [
+        {
+            "id": 1001234,
+            "description": "Cut metal sheet",
+            "dimensions": "200x300mm",
+            "material": "Aluminum",
+            "quantity": 10,
+            "complete": false
+        },
+        {
+            "id": 1001235,
+            "description": "Cut plastic sheet",
+            "dimensions": "500x400mm",
+            "material": "PET",
+            "quantity": 5,
+            "complete": false
+        }
+    ]
+}
