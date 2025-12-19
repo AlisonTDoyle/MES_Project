@@ -11,6 +11,7 @@ const _supabase = createClient(_supabaseUrl, _supabaseKey)
 export async function GET(request: Request, { params }: { params: Promise<{ operatorId: Number }> }) {
   let operatorId:Number = await Number((await params).operatorId);
 
+  // get the latest entry for operator by sorting by timestamp desc and limiting to 1
   const { data, error } = await _supabase
     .from(_statusTable)
     .select("*")
