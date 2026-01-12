@@ -19,7 +19,11 @@ app.use(express.json());
 app.use("/api/breakdown", breakdownRoutes);
 app.use("/api/operator", operatorRoutes)
 
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
+
 // Start server
 app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}!`);
+    console.log(`MES API listening on port ${PORT}!`);
 })

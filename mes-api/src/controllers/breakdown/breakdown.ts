@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import Joi from "joi";
 import { createClient } from '@supabase/supabase-js'
 import dotenv from "dotenv";
-import { MachineBreakdown } from "../../interfaces/machine-breakdown";
+import { MachineBreakdown } from "../../interfaces/object-models/machine-breakdown";
 
 dotenv.config();
 

@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import Joi from "joi";
 import { createClient } from '@supabase/supabase-js'
 import dotenv from "dotenv";
-import { UpdatedOperatorInformation } from "../../interfaces/updatedOperatorInformation";
+import { UpdatedOperatorInformation } from "../../interfaces/request-models/update-op-line-status-req";
 
 dotenv.config();
 
@@ -19,10 +19,6 @@ export const createNewOperatorLineStatusRecord = async (req: Request, res: Respo
     let operatorId = req.params.operatorId as string;
     let statusInformation: UpdatedOperatorInformation = req.body as UpdatedOperatorInformation;
     let timestamp = new Date();
-
-    console.log(operatorId);
-    console.log(statusInformation);
-    console.log(timestamp);
 
     try {
         // create new operator line status record
