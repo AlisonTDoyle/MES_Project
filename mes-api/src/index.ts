@@ -2,6 +2,7 @@
 import express, { Application, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import breakdownRoutes from "./routes/breakdown";
 
 // Enable environment variables
 dotenv.config();
@@ -13,6 +14,8 @@ const app: Application = express();
 // Adding functionality
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/breakdown", breakdownRoutes);
 
 // Start server
 app.listen(PORT, () => {
