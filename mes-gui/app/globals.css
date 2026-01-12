@@ -72,6 +72,14 @@ h3 {
   @apply rounded border border-sky-300 dark:border-sky-600 bg-sky-300/20 dark:bg-sky-800/20 p-2 hover:dark:border-sky-400 hover:bg-sky-400/20 hover:dark:bg-sky-700/20 hover:cursor-pointer focus:ring-sky-500 focus:ring-2;
 }
 
+.btn-success {
+  @apply text-white rounded border border-green-300 dark:border-green-600 bg-green-600 dark:bg-green-800 p-2 hover:dark:border-green-400 hover:bg-green-500 hover:dark:bg-green-700 hover:cursor-pointer focus:ring-green-500 focus:ring-2;
+}
+
+.btn-danger {
+  @apply text-white rounded border border-red-300 dark:border-red-600 bg-red-500 dark:bg-red-800 p-2 hover:dark:border-red-400 hover:bg-red-400 hover:dark:bg-red-700 hover:cursor-pointer focus:ring-red-500 focus:ring-2;
+}
+
 /* Misc component styles */
 .tile {
   @apply rounded bg-neutral-200 dark:bg-neutral-800 p-8;

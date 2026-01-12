@@ -19,11 +19,15 @@ const _workOrderTable: string = process.env.WORK_ORDER_TABLE || ""
 export const readTodaysWorkOrders  = async (req: Request, res: Response) => {
     // parse information
     let operatorId = req.params.operatorId as string;
+    let today = new Date();
+
+    console.log(`Reading work orders for operator ${operatorId}`);
 
     // read in all work orders for today for this operator
     let {data, error} = await _supabase
         .from(_workOrderTable)
         .select("*")
+        .eq("scheduleDate", today.toISOString().split('T')[0])
         .eq("operatorId", operatorId)
         .order("scheduleDate", { ascending: true });
     
