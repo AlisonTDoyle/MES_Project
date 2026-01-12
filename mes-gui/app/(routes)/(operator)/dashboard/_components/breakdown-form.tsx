@@ -8,7 +8,7 @@ export default async function BreakdownForm() {
     let _breakdownHintText: string = "Give as much information as possible about the breakdown such as error codes or steps to reproduce";
 
     async function FetchBreakdownTypes(): Promise<BreakdownType[]> {
-        let response = await fetch("http://localhost:3000/api/breakdown/type", { method: "GET" });
+        let response = await fetch("http://localhost:3001/api/breakdown/type", { method: "GET" });
         const data = await response.json();
 
         if (data.result) {

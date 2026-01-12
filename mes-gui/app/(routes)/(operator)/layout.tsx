@@ -1,4 +1,4 @@
-import Clock from '@/app/(operator)/dashboard/_components/clock'
+import Clock from "@/app/(routes)/(operator)/dashboard/_components/clock";
 
 let companyName = process.env.COMPANY_NAME
 
