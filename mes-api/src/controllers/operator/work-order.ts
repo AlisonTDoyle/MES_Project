@@ -21,8 +21,6 @@ export const readTodaysWorkOrders  = async (req: Request, res: Response) => {
     let operatorId = req.params.operatorId as string;
     let today = new Date();
 
-    console.log(`Reading work orders for operator ${operatorId}`);
-
     // read in all work orders for today for this operator
     let {data, error} = await _supabase
         .from(_workOrderTable)
@@ -42,7 +40,10 @@ export const readTodaysWorkOrders  = async (req: Request, res: Response) => {
 // Update
 export const updateWorkOrderStatus = async (req: Request, res: Response) => {
     // parse information
+    console.log(req.body)
     let workOrderReq = req.body as WorkOrderCompleteReqBody;
+
+    console.log(workOrderReq)
 
     // update work order as completed
     let {data, error} = await _supabase
