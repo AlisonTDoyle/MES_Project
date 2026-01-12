@@ -5,4 +5,5 @@ export interface MachineBreakdown {
     description:string,
     timestamp:Date,
     resolved:boolean,
+    type:number
 }

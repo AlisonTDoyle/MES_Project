@@ -29,6 +29,7 @@ export const createNewBreakdownRecord = async (req: Request, res: Response) => {
                 description: mb.description,
                 timestamp: timestamp,
                 resolved: false,
+                type: mb.type
             }])
             .select();
 
