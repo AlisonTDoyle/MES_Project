@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import breakdownRoutes from "./routes/breakdown";
 import operatorRoutes from "./routes/operator";
+import workOrderRoutes from "./routes/work-order";
 
 // Enable environment variables
 dotenv.config();
@@ -17,7 +18,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/breakdown", breakdownRoutes);
-app.use("/api/operator", operatorRoutes)
+app.use("/api/operator", operatorRoutes);
+app.use("/api/work-order", workOrderRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!')

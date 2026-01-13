@@ -1,0 +1,36 @@
+// Imports
+import { Request, Response } from "express";
+import Joi from "joi";
+import { createClient } from '@supabase/supabase-js'
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// Properties
+const _supabaseUrl: string = process.env.SUPABASE_URL || "";
+const _supabaseKey: string = process.env.SUPABASE_KEY || "";
+const _supabase = createClient(_supabaseUrl, _supabaseKey);
+const _workOrderTable:string = process.env.WORK_ORDER_TABLE || "";
+
+// Create
+
+// Read
+export const readWorkOrders = async (req:Request, res:Response) => {
+    let today = new Date();
+
+    let {data, error} = await _supabase
+        .from(_workOrderTable)
+        .select("*")
+        .eq("scheduleDate", today.toISOString().split('T')[0])
+        .order("scheduleDate", { ascending: true });
+        
+    if (error) {
+        res.status(400).json({ message: error.message });
+    }
+
+    res.status(200).json({ data });
+}
+
+// Update
+
+// Delete
