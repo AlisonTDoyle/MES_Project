@@ -1,11 +1,13 @@
 import express, { Router } from "express";
-import { readWorkOrders } from "../controllers/work-order/work-order";
+import { readWorkOrders, readWorkOrdersForTimePeriod } from "../controllers/work-order/work-order";
 
 // Set up router
 const router: Router = express.Router();
 
 // Routes
-router.get("/", readWorkOrders)
+router.get("/", readWorkOrders);
+
+router.post("/", readWorkOrdersForTimePeriod);
 
 // Make router available
 export default router;
