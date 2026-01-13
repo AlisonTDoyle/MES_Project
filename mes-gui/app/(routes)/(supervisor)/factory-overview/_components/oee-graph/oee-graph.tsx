@@ -37,14 +37,14 @@ export function OeeGraph() {
     };
 
     return (
-        <div className="tile mb-4">
+        <div>
             <h3>OEE</h3>
             <div className="h-30 mb-8">
                 <ResponsivePie data={machineData}
                     colors={{ datum: 'data.color' }}
                     startAngle={-90}
                     endAngle={90}
-                    cornerRadius={8}
+                    cornerRadius={6}
                     innerRadius={0.72}
                     margin={{ top: 0, right: 10, bottom: 8, left: 10 }}
                     arcLinkLabelsDiagonalLength={0}

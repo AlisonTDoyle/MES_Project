@@ -22,15 +22,36 @@ let machineData = [{
 
 export function MachineStatusesPieChart() {
     return (
-        <div className="tile h-full">
-            <h3>Machine Statuses Pie Charts</h3>
+        <div className="h-64">
+            <h3>Machine Statuses</h3>
             <ResponsivePie data={machineData}
                 colors={{ datum: 'data.color' }}
-                cornerRadius={8}
+                cornerRadius={6}
                 padAngle={4}
-                arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
-                margin={{ top: 0, right: 72, bottom: 48, left: 72 }}
-                arcLinkLabelsDiagonalLength={0} />
+                enableArcLinkLabels={false}
+                margin={{ top: 0, right: 72, bottom: 100, left: 72 }}
+                arcLinkLabelsDiagonalLength={0}
+                legends={[
+                    {
+                        anchor: 'bottom',
+                        direction: 'row',
+                        effects: [
+                            {
+                                on: 'hover',
+                                style: {
+                                    itemTextColor: '#000'
+                                }
+                            }
+                        ],
+                        itemHeight: 18,
+                        itemTextColor: '#999',
+                        itemWidth: 100,
+                        symbolShape: 'circle',
+                        symbolSize: 18,
+                        toggleSerie: true,
+                        translateY: 56
+                    }
+                ]} />
         </div>
     )
 }
