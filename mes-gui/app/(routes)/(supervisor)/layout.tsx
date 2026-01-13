@@ -4,7 +4,7 @@ export default function SupervisorLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid grid-cols-[20%_80%]">
+    <div className="grid grid-cols-[16%_84%] min-h-screen">
         <div className="bg-neutral-800 p-8">
             this is the side bar
         </div>

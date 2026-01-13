@@ -7,8 +7,8 @@ export async function ActiveWorkOrders() {
     const workOrders: WorkOrder[] = parsedRes.data;
 
     return (
-        <div>
-            <h2>Active Work Orders</h2>
+        <div className="tile mb-2">
+            <h3>Active Work Orders</h3>
             <table>
                 <thead>
                     <tr>

@@ -39,6 +39,10 @@ body {
 
 /* DEFINE CUSTOM STYLES HERE */
 /* Text styles */
+.base-text {
+  @apply text-black dark:text-white;
+}
+
 h1 {
   @apply text-3xl font-bold my-1;
 }
@@ -82,7 +86,7 @@ h3 {
 
 /* Misc component styles */
 .tile {
-  @apply rounded bg-neutral-200 dark:bg-neutral-800 p-8;
+  @apply rounded bg-neutral-200 dark:bg-neutral-800 p-4;
 }
 
 .badge-success {
