@@ -1,3 +1,5 @@
+import { ActiveWorkOrders } from "./_components/active-work-orders/active-work-orders";
+
 export default function FactoryOverview({
   children,
 }: Readonly<{
@@ -5,7 +7,7 @@ export default function FactoryOverview({
 }>) {
   return (
     <div>
-        FactoryOverview
+        <ActiveWorkOrders></ActiveWorkOrders>
     </div>
   );
 }

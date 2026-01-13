@@ -61,7 +61,7 @@ h3 {
 }
 
 .input-select {
-  @apply py-1.5;;
+  @apply py-1.5;
 }
 
 .btn-primary {
@@ -83,4 +83,16 @@ h3 {
 /* Misc component styles */
 .tile {
   @apply rounded bg-neutral-200 dark:bg-neutral-800 p-8;
+}
+
+.badge-success {
+  @apply rounded border border-green-300 p-1 bg-green-800 text-green-300;
+}
+
+.badge-danger {
+  @apply rounded border border-red-300 p-1 bg-red-800 text-red-300;
+}
+
+td, th {
+  @apply p-1;
 }
