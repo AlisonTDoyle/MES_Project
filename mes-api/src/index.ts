@@ -2,7 +2,7 @@
 import express, { Application, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import breakdownRoutes from "./routes/breakdown";
+import breakdownRoutes from "./routes/machine-event";
 import operatorRoutes from "./routes/operator";
 import workOrderRoutes from "./routes/work-order";
 
@@ -17,7 +17,7 @@ const app: Application = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/breakdown", breakdownRoutes);
+app.use("/api/machine-event", breakdownRoutes);
 app.use("/api/operator", operatorRoutes);
 app.use("/api/work-order", workOrderRoutes);
 
