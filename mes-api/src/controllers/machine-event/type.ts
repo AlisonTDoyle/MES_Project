@@ -1,6 +1,5 @@
 // Imports
 import { Request, Response } from "express";
-import Joi from "joi";
 import { createClient } from '@supabase/supabase-js'
 import dotenv from "dotenv";
 

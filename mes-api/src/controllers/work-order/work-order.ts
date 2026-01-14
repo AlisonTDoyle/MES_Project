@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import Joi from "joi";
 import { createClient } from '@supabase/supabase-js'
 import dotenv from "dotenv";
+import { addDays } from "../../misc/add-date";
 
 dotenv.config();
 
@@ -58,7 +59,3 @@ export const readWorkOrdersForTimePeriod = async (req: Request, res: Response) =
 // Delete
 
 // Misc
-function addDays(date:any, days:any) {
-    const newDate = new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
-    return newDate;
-}

@@ -1,9 +1,10 @@
-export interface MachineBreakdown {
+export interface MachineEvent {
     id:number,
     machineId:number,
     reportingOperatorId:number,
     description:string,
     timestamp:Date,
     resolved:boolean,
-    type:number
+    relatedIssue:number,
+    eventType:number
 }
