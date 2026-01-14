@@ -1,6 +1,5 @@
 // Imports
 import { Request, Response } from "express";
-import Joi from "joi";
 import { createClient } from '@supabase/supabase-js'
 import dotenv from "dotenv";
 import { MachineEvent } from "../../interfaces/object-models/machine-event";
@@ -11,7 +10,7 @@ dotenv.config();
 const _supabaseUrl: string = process.env.SUPABASE_URL || "";
 const _supabaseKey: string = process.env.SUPABASE_KEY || "";
 const _supabase = createClient(_supabaseUrl, _supabaseKey)
-const _machineBreakdownTable: string = process.env.MACHINE_BREAKDOWNS_TABLE || ""
+const _machineEventsTable: string = process.env.MACHINE_EVENTS_TABLE || ""
 
 // Create
 export const createNewMachineEventRecord = async (req: Request, res: Response) => {
@@ -22,7 +21,7 @@ export const createNewMachineEventRecord = async (req: Request, res: Response) =
 
         // add to database
         let { data, error } = await _supabase
-            .from(_machineBreakdownTable)
+            .from(_machineEventsTable)
             .insert([{
                 machineId: me.machineId,
                 reportingOperatorId: me.reportingOperatorId,

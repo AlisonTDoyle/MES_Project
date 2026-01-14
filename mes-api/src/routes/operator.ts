@@ -1,5 +1,4 @@
 import express, { Router } from "express";
-import {readBreakdownTypes} from "../controllers/machine-event/type";
 import { createNewOperatorLineStatusRecord, readOperatorLineStatus } from "../controllers/operator/line-status";
 import { readTodaysWorkOrders, updateWorkOrderStatus } from "../controllers/operator/work-order";
 
