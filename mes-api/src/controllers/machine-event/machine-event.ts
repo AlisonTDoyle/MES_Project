@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import Joi from "joi";
 import { createClient } from '@supabase/supabase-js'
 import dotenv from "dotenv";
-import { MachineBreakdown } from "../../interfaces/object-models/machine-breakdown";
+import { MachineEvent } from "../../interfaces/object-models/machine-event";
 
 dotenv.config();
 
@@ -14,22 +14,22 @@ const _supabase = createClient(_supabaseUrl, _supabaseKey)
 const _machineBreakdownTable: string = process.env.MACHINE_BREAKDOWNS_TABLE || ""
 
 // Create
-export const createNewBreakdownRecord = async (req: Request, res: Response) => {
+export const createNewMachineEventRecord = async (req: Request, res: Response) => {
     try {
-        // parse req. body as new breakdown record
-        let mb: MachineBreakdown = req.body as MachineBreakdown;
+        // parse req. body as new machine event record
+        let me: MachineEvent = req.body as MachineEvent;
         let timestamp = new Date();
 
         // add to database
         let { data, error } = await _supabase
             .from(_machineBreakdownTable)
             .insert([{
-                machineId: mb.machineId,
-                reportingOperatorId: mb.reportingOperatorId,
-                description: mb.description,
+                machineId: me.machineId,
+                reportingOperatorId: me.reportingOperatorId,
+                description: me.description,
                 timestamp: timestamp,
                 resolved: false,
-                type: mb.type
+                type: me.relatedIssue
             }])
             .select();
 
