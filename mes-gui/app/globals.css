@@ -61,11 +61,35 @@ h3 {
 }
 
 .input {
-  @apply border border-neutral-300 dark:border-neutral-500 focus:outline-neutral-400 focus:dark:outline-neutral-500 dark:bg-neutral-900 rounded px-2 py-1 w-100;
+  @apply border border-stone-300 dark:border-stone-500 focus:outline-stone-400 focus:dark:outline-stone-500 bg-stone-50 dark:bg-stone-900 rounded w-100 px-2 py-1;
 }
 
 .input-select {
   @apply py-1.5;
+}
+
+.dual-input-left-control {
+  @apply border border-stone-300 dark:border-stone-500 focus:outline-stone-400 focus:dark:outline-stone-500 bg-stone-50 dark:bg-stone-900 rounded-l w-auto px-2 py-1;
+}
+
+.dual-input-right-control {
+  @apply border border-stone-300 dark:border-stone-500 focus:outline-stone-400 focus:dark:outline-stone-500 bg-stone-50 dark:bg-stone-900 rounded-r w-auto px-2 py-1;
+}
+
+.dual-input-left-leaning {
+  @apply grid grid-cols-[70%_30%] mb-2
+}
+
+.dual-input-left-leaning>.dual-input-right-control {
+  @apply text-black/50 dark:text-white/50
+}
+
+.dual-input-right-leaning {
+  @apply grid grid-cols-[30%_70%] mb-2
+}
+
+.dual-input-right-leaning>.dual-input-left-control {
+  @apply text-black/50 dark:text-white/50
 }
 
 .btn-primary {
@@ -86,7 +110,11 @@ h3 {
 
 /* Misc component styles */
 .tile {
-  @apply rounded bg-neutral-200 dark:bg-neutral-800 p-4;
+  @apply rounded bg-stone-100 dark:bg-stone-800 p-4;
+}
+
+.tile-layer-2 {
+  @apply bg-stone-200 dark:bg-stone-700 p-2;
 }
 
 .badge-success {
@@ -97,6 +125,7 @@ h3 {
   @apply rounded border border-red-300 p-1 bg-red-800 text-red-300;
 }
 
-td, th {
+td,
+th {
   @apply p-1;
 }
