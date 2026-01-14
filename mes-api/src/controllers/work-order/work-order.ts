@@ -39,7 +39,6 @@ export const readWorkOrdersForTimePeriod = async (req: Request, res: Response) =
     let today = new Date();
     let endDay = addDays(today, timePeriod);
 
-
     let { data, error } = await _supabase
         .from(_workOrderTable)
         .select("*")

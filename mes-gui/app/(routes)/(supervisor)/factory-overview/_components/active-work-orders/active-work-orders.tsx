@@ -3,7 +3,7 @@ import { WorkOrderTableItem } from "./work-order-table-item";
 
 export async function ActiveWorkOrders() {
     const response = await fetch("http://localhost:3001/api/operator/1/work-order");
-    const parsedRes:{data:[]} = await response.json();
+    const parsedRes: { data: [] } = await response.json();
     const workOrders: WorkOrder[] = parsedRes.data;
 
     return (

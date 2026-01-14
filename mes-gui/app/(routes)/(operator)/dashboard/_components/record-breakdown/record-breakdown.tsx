@@ -6,7 +6,7 @@ import BreakdownForm from "./breakdown-form";
 
 export default async function RecordBreakdown() {
     let _apiUrl: string | undefined = process.env.API_URL;
-    const _response = await fetch(`${_apiUrl}/breakdown/type`);
+    const _response = await fetch(`${_apiUrl}/machine-event/type`);
     const _parsedRes: { data: [] } = await _response.json();
     const _breakdownTypes:BreakdownType[] = _parsedRes.data;
 

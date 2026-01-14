@@ -125,6 +125,10 @@ h3 {
   @apply rounded border border-red-300 p-1 bg-red-800 text-red-300;
 }
 
+.badge-stone {
+  @apply rounded border border-stone-400 p-1 bg-stone-800 text-stone-300;
+}
+
 td,
 th {
   @apply p-1;
