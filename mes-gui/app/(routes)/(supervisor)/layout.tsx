@@ -7,11 +7,12 @@ export default function SupervisorLayout({
 }>) {
   return (
     <div className="grid grid-cols-[16%_84%] min-h-screen">
-        <div className="bg-neutral-100 dark:bg-neutral-800 p-8">
+        <div>
             <Sidebar></Sidebar>
         </div>
         <div className="p-4">
             {children}
+            
         </div>
     </div>
   );
