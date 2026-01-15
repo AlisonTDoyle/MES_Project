@@ -1,6 +1,7 @@
 "use client";
 
 import { MouseEventHandler, MouseEvent, useState } from "react";
+import {ArrowRightStartOnRectangleIcon} from '@heroicons/react/24/solid'
 
 export default function OperatorStationStatusButton() {
     let signedIn: number = 0;
@@ -41,6 +42,6 @@ export default function OperatorStationStatusButton() {
     }
 
     return (
-        <button onClick={ChangeStationStatus} className="p-2 rounded border border-red-800 bg-red-900 hover:border-red-500 hover:bg-red-800 hover:cursor-pointer">{buttonText}</button>
+        <button onClick={ChangeStationStatus} className="btn-danger w-full">{buttonText}</button>
     )
 }

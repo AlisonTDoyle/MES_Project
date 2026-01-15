@@ -1,6 +1,5 @@
 import { MachineEvent } from "@/app/_interfaces/machine-breakdown";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation, faHammer } from "@fortawesome/free-solid-svg-icons";
+import { WrenchIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 
 export async function MachineEventListItem({MachineEvent}:{MachineEvent:MachineEvent}) {
     let resolvedBadgeStyling:string = MachineEvent.resolved? 'badge-success' : 'badge-danger';
@@ -26,12 +25,12 @@ export async function MachineEventListItem({MachineEvent}:{MachineEvent:MachineE
                         // if fault or error, choose color based on severity
                         MachineEvent.eventType == 1 ? 
                             // breakdown is red
-                            <FontAwesomeIcon className='text-red-500' icon={faTriangleExclamation}/>
+                            <ExclamationTriangleIcon className='text-red-500'/>
                         :
                             // reported fault is amber
-                            <FontAwesomeIcon className='text-amber-500' icon={faTriangleExclamation}/>
+                            <ExclamationTriangleIcon className='text-amber-500'/>
                     :
-                        <FontAwesomeIcon className='text-amber-500' icon={faHammer}/>
+                        <WrenchIcon className='text-amber-500'/>
                 }
             </div>       
             <div>
