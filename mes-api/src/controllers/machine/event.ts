@@ -25,8 +25,6 @@ export const readMachineEventHistory = async (req: Request, res: Response) => {
 
     cutoffDate.setMonth(today.getMonth() - timePeriodInMonths)
 
-    console.log(cutoffDate)
-
     // fetch information related to machine
     let { data, error } = await _supabase
         .from(_machineEventsTable)

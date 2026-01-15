@@ -43,16 +43,12 @@ export const updateWorkOrderStatus = async (req: Request, res: Response) => {
     console.log(req.body)
     let workOrderReq = req.body as WorkOrderCompleteReqBody;
 
-    console.log(workOrderReq)
-
     // update work order as completed
     let {data, error} = await _supabase
         .from('Work Order')
         .update({ completed: workOrderReq.status })
         .eq('id', workOrderReq.workOrderId)
         .select()
-
-    console.log(data);
 
     // return results
     if (error) {
