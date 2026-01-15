@@ -9,21 +9,14 @@ export default function OperatorLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid grid-cols-[16%_84%] min-h-screen">
+    <div className="grid grid-cols-[16%_84%] h-screen">
       <div className="bg-neutral-100 dark:bg-neutral-800 p-8">
-        <OperatorSidebar></OperatorSidebar>
+        <OperatorSidebar />
       </div>
-      <div className="p-4">
+
+      <div className="p-4 min-h-0">
         {children}
       </div>
     </div>
   )
-        {/* <div className="bg-neutral-800 px-8 py-2">
-            <div className="grid grid-cols-[10%_90%]">
-                
-            </div>
-        </div>
-        <div className="p-8">
-            {children}
-        </div> */}
 }
