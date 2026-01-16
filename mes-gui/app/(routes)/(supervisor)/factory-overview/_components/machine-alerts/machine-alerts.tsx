@@ -39,15 +39,17 @@ export async function MachineAlerts() {
     ]
 
     return (
-        <div>
-            <h3>Alerts</h3>
-            <ul>
-                {data.map((breakdown) => (
-                    <li key={breakdown.id}>
-                        <AlertTableItem breakdown={breakdown} types={_breakdownTypes}></AlertTableItem>
-                    </li>
-                ))}
-            </ul>
+        <div className="card shadow-sm h-full">
+            <div className="card-body">
+                <span className="card-title">Alerts</span>
+                <ul className="list bg-base-100">
+                    {data.map((breakdown) => (
+                        <li className="list-row p-0" key={breakdown.id}>
+                            <AlertTableItem breakdown={breakdown} types={_breakdownTypes}></AlertTableItem>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }

@@ -9,8 +9,8 @@ export async function ActiveWorkOrders() {
     return (
         <div className="card shadow-sm h-full">
             <div className="card-body">
-                <h3>Active Work Orders</h3>
-                <table>
+                <span className="card-title">Active Production Orders</span>
+                <table className="table table-xs rounded-box border border-base-content/5 overflow-auto table-pin-rows">
                     <thead>
                         <tr>
                             <th>ID</th>
