@@ -1,4 +1,5 @@
 import { Sidebar } from "./_components/sidebar";
+import { Bars3Icon } from "@heroicons/react/24/solid";
 
 export default function SupervisorLayout({
   children,
@@ -6,13 +7,30 @@ export default function SupervisorLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid grid-cols-[16%_84%] h-screen">
-        <div>
-            <Sidebar></Sidebar>
+    <div className="h-screen">
+      <div className="drawer xl:drawer-open">
+
+        <input id="sidebar" type="checkbox" className="drawer-toggle" />
+
+        {/* main content */}
+        <div className="drawer-content">
+          {/* Drawer open trigger */}
+          <div className="fab">
+            <label htmlFor="sidebar" className="btn btn-lg btn-circle btn-primary xl:hidden">
+              <Bars3Icon className="m-2"></Bars3Icon>
+            </label>
+          </div>
+
+          {children}
         </div>
-        <div>
-            {children}
+
+        {/* side bar */}
+        <div className="drawer-side shadow-sm">
+          <label htmlFor="sidebar" aria-label="close sidebar" className="drawer-overlay"></label>
+          <Sidebar></Sidebar>
         </div>
+
+      </div>
     </div>
   );
 }

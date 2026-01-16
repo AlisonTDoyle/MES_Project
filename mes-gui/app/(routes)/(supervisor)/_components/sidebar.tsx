@@ -1,21 +1,53 @@
+import { ArrowRightStartOnRectangleIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"
+
 export function Sidebar() {
     return (
-        <div className="p-4 shadow-sm h-full">
-            <div>
-                <h2>Search</h2>
-                <div className='dual-input-right-leaning grid-cols-[60%_40%]'>
-                    <select id="product-quantity" className="dual-input-left-control" >
-                        <option>WO</option>
+        <div className="bg-base-100 w-80 p-4 shadow-lg h-full flex flex-col">
+
+            {/* TOP AREA */}
+            <div className="flex flex-col flex-1 min-h-0">
+                {/* Filter */}
+                <div className="join mb-4">
+                    <select className="select join-item">
+                        <option>PO</option>
                         <option>Machine</option>
                     </select>
-                    <input type="text" name="" id="product-quantity" className="dual-input-right-control" />
-                  </div>
+                    <input className="input join-item" placeholder="Enter ID..." />
+                    <button className="btn btn-primary join-item">
+                        <MagnifyingGlassIcon className="w-5 h-5"/>
+                    </button>
+                </div>
+
+                {/* Recently Viewed */}
+                <div className="flex flex-col min-h-0">
+                    <h4 className="mb-2">[Results Title]</h4>
+
+                    <ul className="border border-base-300 rounded-box w-full flex-1 min-h-0 overflow-auto">
+                        {Array(20).fill(1).map((_, i) => (
+                            <li key={i} className="list-row rounded-box m-1 px-2 py-1 hover:bg-neutral-100">
+                                <span>1234567890</span>
+                                <span className="badge badge-soft badge-info">Machine</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+
             </div>
-            <div>
-                <hr />
-                <h2>Controls</h2>
-                <button className="btn btn-primary w-full mb-2">Add New Line</button>
-                <button className="btn btn-primary w-full">Add New Machine</button>
+
+            {/* BOTTOM MENU */}
+            <div className="mt-auto">
+                <div className="divider" />
+                <ul className="menu menu-md w-full">
+                    <li><a>Add New Production Line</a></li>
+                    <li><a>Add New Machine</a></li>
+                    <li>
+                        <a className="bg-rose-100 hover:bg-rose-200 dark:bg-rose-400/20 dark:hover:bg-rose-400/30">
+                            <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     )
