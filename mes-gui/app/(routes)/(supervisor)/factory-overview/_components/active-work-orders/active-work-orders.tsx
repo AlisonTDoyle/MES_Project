@@ -7,22 +7,24 @@ export async function ActiveWorkOrders() {
     const workOrders: WorkOrder[] = parsedRes.data;
 
     return (
-        <div>
-            <h3>Active Work Orders</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Customer No.</th>
-                        <th>State</th>
-                        <th>Description</th>
-                        <th>Schedules</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {workOrders.map(wo => (<WorkOrderTableItem workOrder={wo}></WorkOrderTableItem>))}
-                </tbody>
-            </table>
+        <div className="card shadow-sm h-full">
+            <div className="card-body">
+                <h3>Active Work Orders</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer No.</th>
+                            <th>State</th>
+                            <th>Description</th>
+                            <th>Schedules</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {workOrders.map(wo => (<WorkOrderTableItem workOrder={wo}></WorkOrderTableItem>))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

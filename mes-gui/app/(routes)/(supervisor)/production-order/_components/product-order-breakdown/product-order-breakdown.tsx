@@ -5,7 +5,7 @@ export function ProductOrderBreakdown () {
             <div className="card-body">
                 <h3 className="card-title">Order Breakdown</h3>
                 <div className="overflow-x-auto">
-                    <table className="table table-xs">
+                    <table className="table table-xs rounded-box border border-base-content/5">
                         <thead>
                             <tr>
                                 <th>Item Number</th>

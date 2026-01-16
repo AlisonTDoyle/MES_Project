@@ -6,13 +6,12 @@ export default function SupervisorLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid grid-cols-[16%_84%] min-h-screen">
+    <div className="grid grid-cols-[16%_84%] h-screen">
         <div>
             <Sidebar></Sidebar>
         </div>
-        <div className="p-4">
+        <div>
             {children}
-            
         </div>
     </div>
   );
