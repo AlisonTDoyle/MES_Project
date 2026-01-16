@@ -24,7 +24,7 @@ export function Sidebar() {
 
                     <ul className="border border-base-300 rounded-box w-full flex-1 min-h-0 overflow-auto">
                         {Array(20).fill(1).map((_, i) => (
-                            <li key={i} className="list-row rounded-box m-1 px-2 py-1 hover:bg-neutral-100">
+                            <li key={i} className="list-row rounded-box m-1 px-2 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-500/30">
                                 <span>1234567890</span>
                                 <span className="badge badge-soft badge-info">Machine</span>
                             </li>
