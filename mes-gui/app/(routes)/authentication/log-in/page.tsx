@@ -19,19 +19,20 @@ export default function LogIn() {
 
     return (
         <div>
-            <div>
-                <label htmlFor="">Email</label><br/>
-                <input className="input mb-4 p-2 w-70 sm:w-100" type="text" name="text" id="email" required/>
-            </div>
+            <fieldset className="fieldset">
+                <label className="label">Email</label>
+                <input type="email" className="input validator w-100" placeholder="example@email.com" required />
+                <p className="validator-hint hidden m-0">Required</p>
+            </fieldset>
 
-            <div>
-                <label htmlFor="">Password</label><br/>
-                <input className="input mb-4 w-70 sm:w-100" type="password" name="password" id="password"/>
-            </div>
+            <label className="fieldset mb-4">
+                <span className="label">Password</span>
+                <input type="password" className="input validator w-100" placeholder="Password" required />
+                <span className="validator-hint hidden m-0">Required</span>
+            </label>
 
-            <button onClick={Nav} className="btn-primary w-100 mb-4">Sign In</button><br/>
-            {/* <button type='button' className="rounded border border-red-800 p-2 w-70 sm:w-100 hover:cursor-pointer">Forgot Password</button> */}
-            <button type='button' className="btn-secondary w-100">Forgot Password</button>
+            <button onClick={Nav} className="btn btn-primary w-100 mb-2">Sign In</button><br />
+            <button type='button' className="btn btn-soft btn-primary w-100">Forgot Password</button>
         </div>
     )
 }
