@@ -12,11 +12,9 @@ export async function MachineEventHistory() {
                 <span className="card-title shrink-0 pb-2">
                     Machine History
                 </span>
-                <ul className="flex-1 min-h-0 overflow-y-auto">
+                <ul className="list flex-1 min-h-0 overflow-y-auto">
                     {events.map(e => (
-                        <li key={e.id}>
-                            <MachineEventListItem MachineEvent={e} />
-                        </li>
+                        <MachineEventListItem MachineEvent={e} />
                     ))}
                 </ul>
             </div>
