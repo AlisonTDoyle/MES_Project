@@ -11,9 +11,11 @@ export default async function RecordBreakdown() {
     const _breakdownTypes:BreakdownType[] = _parsedRes.data;
 
     return (
-        <div>
-            <h1>Record Breakdown</h1>
-            <BreakdownForm breakdownTypes={_breakdownTypes}></BreakdownForm>
+        <div className="card shadow-sm">
+            <div className="card-body">
+                <span className="card-title">Record Breakdown</span>
+                <BreakdownForm breakdownTypes={_breakdownTypes}></BreakdownForm>
+            </div>
         </div>
     )
 }

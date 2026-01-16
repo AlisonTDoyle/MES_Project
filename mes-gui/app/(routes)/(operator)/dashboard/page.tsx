@@ -6,21 +6,19 @@ import { OperatorOee } from "./_components/operator-oee/operator-oee";
 
 export default function Dashboard() {
     return (
-        <div className="grid grid-cols-[33%_33%_33%] grid-rows-2 h-full min-h-0">
-            {/* row 1 */}
-            <div className="tile m-2">
+        <div className="grid grid-cols-[33%_33%_33%] grid-rows-2 h-screen min-h-0">
+            <div className="m-2 row-span-2">
                 <UpcomingWorkOrders />
             </div>
 
-            <div className="tile m-2">
+            <div className="m-2">
                 <BreakdownForm />
             </div>
 
-            <div className="tile m-2 row-span-2 overflow-hidden">
+            <div className="m-2">
                 <MachineEventHistory />
             </div>
 
-            {/* row 2 */}
             <div className="tile m-2">
                 <OperatorOee></OperatorOee>
             </div>

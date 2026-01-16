@@ -7,18 +7,19 @@ export async function MachineEventHistory() {
     const events = await response.json();
 
     return (
-        <div className="flex h-full flex-col min-h-0">
-            <h3 className="shrink-0 pb-2">
-                Machine History
-            </h3>
-
-            <ul className="flex-1 min-h-0 overflow-y-auto">
-                {events.map(e => (
-                    <li key={e.id}>
-                        <MachineEventListItem MachineEvent={e} />
-                    </li>
-                ))}
-            </ul>
+        <div className="card shadow-sm bg-base-100 flex h-full flex-col min-h-0">
+            <div className="card-body overflow-hidden">
+                <span className="card-title shrink-0 pb-2">
+                    Machine History
+                </span>
+                <ul className="flex-1 min-h-0 overflow-y-auto">
+                    {events.map(e => (
+                        <li key={e.id}>
+                            <MachineEventListItem MachineEvent={e} />
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }
