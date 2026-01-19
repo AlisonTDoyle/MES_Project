@@ -3,25 +3,29 @@ import Clock from "../dashboard/_components/clock"
 import OperatorStationStatusButton from "../dashboard/_components/operator-station-status-button"
 import { ArrowRightStartOnRectangleIcon, ClockIcon } from '@heroicons/react/24/outline'
 import { formatWithOptions } from "util";
+import { RecordEventModal } from "./record-event-modal/record-event-modal";
+import { Sidebar } from "../../(supervisor)/_components/sidebar";
+import { SidebarRecorderButtons } from "./sidebar-recorder-buttons";
 
-export function OperatorSidebar() {
+export async function OperatorSidebar() {
     let companyName = process.env.COMPANY_NAME
-    let statusCode:number = randomInt(3);
-    let status:string = "";
-    let badge:string = "badge badge-soft";
+    let statusCode: number = randomInt(3);
+    let status: string = "";
+    let badge: string = "badge badge-soft";
+    let machineEventTypes = await fetch("http://localhost:3001/api/machine-event/type").then(res => res.json()).then(data => data.data);
 
     switch (statusCode) {
         case 0:
             status = "Not Running";
-            badge+=" badge-error";
+            badge += " badge-error";
             break;
         case 1:
             status = "Paused";
-            badge+=" badge-warning";
+            badge += " badge-warning";
             break;
         case 2:
             status = "Running";
-            badge+=" badge-success";
+            badge += " badge-success";
             break;
     }
 
@@ -38,10 +42,7 @@ export function OperatorSidebar() {
                     <span className={badge}>{status}</span>
                 </div>
 
-                <ul className="menu border border-base-300 rounded-box w-full">
-                    <li><a>Record Event</a></li>
-                    <li><a>Record Quality Sample</a></li>
-                </ul>
+                <SidebarRecorderButtons props={machineEventTypes}></SidebarRecorderButtons>
             </div>
 
             {/* BOTTOM MENU */}
@@ -51,14 +52,16 @@ export function OperatorSidebar() {
                     <Clock></Clock>
                 </div>
                 <button className="btn btn-soft btn-primary mb-2 w-full">
-                    <ClockIcon className="w-5 h-5"/>
+                    <ClockIcon className="w-5 h-5" />
                     <span>Clock into Station</span>
                 </button>
                 <button className="btn btn-soft btn-error mb-2 w-full">
-                    <ArrowRightStartOnRectangleIcon className="w-5 h-5"/>
+                    <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
                     <span>Sign Out</span>
                 </button>
             </div>
         </div>
+
+
     )
 }

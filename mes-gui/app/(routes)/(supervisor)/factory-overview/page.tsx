@@ -1,8 +1,9 @@
 import { ActiveWorkOrders } from "./_components/active-work-orders/active-work-orders";
 import { MachineAlerts } from "./_components/machine-alerts/machine-alerts";
-import { MachineStatusesPieChart } from "./_components/machine-statuses-pie-chart.tsx/machine-statuses-pie-chart";
+import { MachineStatusesPieChart } from "./_components/machine-statuses-pie-chart/machine-statuses-pie-chart";
 import { OeeGraph } from "./_components/oee-graph/oee-graph";
 import { OutputTargetGraph } from "./_components/output-target-graph/output-target-graph";
+import { ProductOrderStatuses } from "./_components/product-order-statuses/product-order-statuses";
 
 export default function FactoryOverview({
   children,
@@ -26,6 +27,7 @@ export default function FactoryOverview({
       </div>
 
       <div className=" h-fill m-2 xl:col-1 xl:row-start-5 xl:row-span-2">
+        <ProductOrderStatuses></ProductOrderStatuses>
       </div>
 
       {/* Column 2 - Middle */}
