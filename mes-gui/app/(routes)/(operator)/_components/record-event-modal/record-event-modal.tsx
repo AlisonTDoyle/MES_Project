@@ -32,7 +32,6 @@ export function RecordEventModal(props: { props: any[] }) {
                             ))
                         }
                     </select>
-                    <span className="label">Optional</span>
                 </fieldset>
             </form>
             <div className="modal-action">
