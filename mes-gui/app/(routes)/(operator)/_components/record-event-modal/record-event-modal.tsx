@@ -1,46 +1,119 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+type TimeMode = "now" | "manual";
 
 export function RecordEventModal(props: { props: any[] }) {
-    const apiUrl = "http://localhost:3001/api";
+  const breakdownTypes = props.props;
 
-    const [breakdownForm, setBreakdownForm] = useState({
-        machineId: 0,
-        reportingOperatorId: 1,
-        description: "",
-        type: 0,
-    });
+  const [form, setForm] = useState({
+    machineId: 0,
+    reportingOperatorId: 1,
+    description: "",
+    typeId: 0,
+  });
 
-    let breakdownTypes = props.props;
+  const [timeMode, setTimeMode] = useState<TimeMode>("now");
+  const [manualTime, setManualTime] = useState("");
 
-    return (
-        <div className="modal-box">
-            <h3 className="font-bold text-lg">Record Machine Event</h3>
-            <form action="">
-                <fieldset className="fieldset">
-                    <legend className="fieldset-legend">Description of Issue</legend>
-                    <textarea className="textarea h-24 w-full" placeholder="Give as much information as possible about the breakdown such as error codes or steps to reproduce"></textarea>
-                </fieldset>
-                <fieldset className="fieldset">
-                    <legend className="fieldset-legend">Browsers</legend>
-                    <select defaultValue="Pick a browser" className="select w-full">
-                        <option disabled={true}>Pick an event type</option>
-                        {
-                            breakdownTypes.map((type: any) => (
-                                <option key={type.id} value={type.id}>{type.description}</option>
-                            ))
-                        }
-                    </select>
-                </fieldset>
-            </form>
-            <div className="modal-action">
-                <form method="dialog">
-                    <button className="btn btn-primary mx-2">Submit</button>
-                    {/* if there is a button in form, it will close the modal */}
-                    <button className="btn">Close</button>
-                </form>
-            </div>
-        </div>
-    )
+  const handleSubmit = () => {
+    const payload = {
+      ...form,
+      timestamp:
+        timeMode === "now" ? new Date().toISOString() : manualTime,
+    };
+
+    console.log("Machine Event:", payload);
+  };
+
+  return (
+    <div className="modal-box max-w-md space-y-4">
+      <h3 className="font-bold text-lg">Record Machine Event</h3>
+
+      <form className="space-y-4">
+        {/* Description */}
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend">Description of Issue</legend>
+          <textarea
+            className="textarea h-24 w-full"
+            placeholder="Give as much information as possible about the issue (error codes, steps to reproduce, etc.)"
+            value={form.description}
+            onChange={(e) =>
+              setForm({ ...form, description: e.target.value })
+            }
+          />
+        </fieldset>
+
+        {/* Event Type */}
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend">Event Type</legend>
+          <select
+            className="select select-bordered w-full"
+            value={form.typeId}
+            onChange={(e) =>
+              setForm({ ...form, typeId: Number(e.target.value) })
+            }
+          >
+            <option value={0} disabled>
+              Select an event type
+            </option>
+            {breakdownTypes.map((type: any) => (
+              <option key={type.id} value={type.id}>
+                {type.description}
+              </option>
+            ))}
+          </select>
+        </fieldset>
+
+        {/* Event Time */}
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend">Event Time</legend>
+
+          <div className="flex gap-4 mb-2">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                className="radio radio-primary"
+                checked={timeMode === "now"}
+                onChange={() => setTimeMode("now")}
+              />
+              <span>Use current time</span>
+            </label>
+
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                className="radio radio-primary"
+                checked={timeMode === "manual"}
+                onChange={() => setTimeMode("manual")}
+              />
+              <span>Enter manually</span>
+            </label>
+          </div>
+
+          {timeMode === "manual" && (
+            <input
+              type="datetime-local"
+              className="input input-bordered w-full"
+              value={manualTime}
+              onChange={(e) => setManualTime(e.target.value)}
+            />
+          )}
+        </fieldset>
+      </form>
+
+      <div className="modal-action">
+        <button
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+        <form method="dialog">
+          <button className="btn">Close</button>
+        </form>
+      </div>
+    </div>
+  );
 }
