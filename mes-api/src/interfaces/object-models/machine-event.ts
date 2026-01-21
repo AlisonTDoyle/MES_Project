@@ -1,5 +1,5 @@
 export interface MachineEvent {
-    id:number,
+    id?:number,
     machineId:number,
     reportingOperatorId:number,
     description:string,

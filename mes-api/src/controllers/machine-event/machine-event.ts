@@ -13,34 +13,43 @@ const _supabase = createClient(_supabaseUrl, _supabaseKey)
 const _machineEventsTable: string = process.env.MACHINE_EVENTS_TABLE || ""
 
 // Create
-export const createNewMachineEventRecord = async (req: Request, res: Response) => {
-    try {
-        // parse req. body as new machine event record
-        let me: MachineEvent = req.body as MachineEvent;
-        let timestamp = new Date();
+export const createNewMachineEventRecord = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const me: MachineEvent = req.body;
 
-        // add to database
-        let { data, error } = await _supabase
-            .from(_machineEventsTable)
-            .insert([{
-                machineId: me.machineId,
-                reportingOperatorId: me.reportingOperatorId,
-                description: me.description,
-                timestamp: timestamp,
-                resolved: false,
-                type: me.relatedIssue
-            }])
-            .select();
+    console.log("Incoming Machine Event:", me);
 
-        res.status(201).json({ data });
-    } catch (error) {
-        if (error instanceof Error) {
-            res.status(400).json({ message: error.message });
-        } else {
-            res.status(500).json({ message: "Unknown error occurred" });
-        }
+    const { data, error } = await _supabase
+      .from(_machineEventsTable)
+      .insert([
+        {
+          machineId: me.machineId,
+          reportingOperatorId: me.reportingOperatorId,
+          description: me.description,
+          timestamp: new Date(me.timestamp),
+          resolved: false,
+          relatedIssue: me.relatedIssue ?? 0,
+          eventType: me.eventType, 
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Supabase insert error:", error);
+      return res.status(400).json({ error: error.message });
     }
-}
+
+    return res.status(201).json(data);
+  } catch (err) {
+    console.error("API error:", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 
 // Read
 
