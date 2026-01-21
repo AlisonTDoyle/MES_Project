@@ -1,6 +1,6 @@
 import { randomInt } from "crypto";
 import Clock from "../dashboard/_components/clock"
-import OperatorStationStatusButton from "../dashboard/_components/operator-station-status-button"
+import OperatorStationStatusButton from "./operator-station-status-button"
 import { ArrowRightStartOnRectangleIcon, ClockIcon } from '@heroicons/react/24/outline'
 import { formatWithOptions } from "util";
 import { RecordEventModal } from "./record-event-modal/record-event-modal";
@@ -51,10 +51,7 @@ export async function OperatorSidebar() {
                 <div className="text-center mb-4 text-lg font-bold">
                     <Clock></Clock>
                 </div>
-                <button className="btn btn-soft btn-primary mb-2 w-full">
-                    <ClockIcon className="w-5 h-5" />
-                    <span>Clock into Station</span>
-                </button>
+                <OperatorStationStatusButton></OperatorStationStatusButton>
                 <button className="btn btn-soft btn-error mb-2 w-full">
                     <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
                     <span>Sign Out</span>

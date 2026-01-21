@@ -19,6 +19,8 @@ export const createNewOperatorLineStatusRecord = async (req: Request, res: Respo
     let statusInformation: UpdatedOperatorInformation = req.body as UpdatedOperatorInformation;
     let timestamp = new Date();
 
+    console.log("Incoming Operator Line Status Update:", statusInformation);
+
     try {
         // create new operator line status record
         let { data, error } = await _supabase
