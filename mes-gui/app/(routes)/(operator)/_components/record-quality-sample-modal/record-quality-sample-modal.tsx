@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 export function RecordQualitySampleModal() {
-
     type TimeMode = "now" | "manual";
     type Result = "pass" | "fail" | "pending";
 
@@ -17,22 +16,66 @@ export function RecordQualitySampleModal() {
     const [notes, setNotes] = useState("");
     const [quantityUnit, setQuantityUnit] = useState("pcs");
 
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!result) {
+            alert("Please select a result");
+            return;
+        }
+
+        // Example numeric mapping for result
+        const resultValue =
+            result === "pass" ? 1 : result === "fail" ? 0 : -1;
+
         const payload = {
-            workOrder,
+            workOrderId: workOrder,
             itemId,
-            timestamp:
-                timeMode === "now" ? new Date().toISOString() : manualTime,
-            result,
-            quantity,
-            operator,
+            sampleTime:
+                timeMode === "now"
+                    ? new Date().toISOString()
+                    : new Date(manualTime).toISOString(),
+            result: resultValue,
+            sampleQuantity: quantity,
+            sampleUnit: quantityUnit,
+            operatorId: operator,
             notes,
         };
 
-        console.log("Quality Sample:", payload);
+        try {
+            const response = await fetch(
+                "http://localhost:3001/api/quality-sample",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || "Failed to save quality sample");
+            }
+
+            const savedSample = await response.json();
+            console.log("Saved Quality Sample:", savedSample);
+
+            // Optional: reset form
+            setWorkOrder("");
+            setItemId("");
+            setResult(null);
+            setQuantity(1);
+            setQuantityUnit("pcs");
+            setOperator("");
+            setNotes("");
+            setManualTime("");
+            setTimeMode("now");
+        } catch (err: any) {
+            console.error(err);
+            alert(err.message);
+        }
     };
 
     return (
@@ -42,8 +85,6 @@ export function RecordQualitySampleModal() {
                 onSubmit={handleSubmit}
                 className="space-y-4"
             >
-                
-
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">Work Order</legend>
                     <input
