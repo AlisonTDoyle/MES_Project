@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 
@@ -32,7 +33,7 @@ export default function LogIn() {
             </label>
 
             <button onClick={Nav} className="btn btn-primary w-100 mb-2">Sign In</button><br />
-            <button type='button' className="btn btn-soft btn-primary w-100">Forgot Password</button>
+            <Link href={'/authentication/forgot-password'} className="btn btn-soft btn-primary w-100">Forgot Password</Link>
         </div>
     )
 }

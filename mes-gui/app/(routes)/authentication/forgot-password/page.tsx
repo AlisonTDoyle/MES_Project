@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ForgotPassword() {
     return (
         <div>
@@ -9,7 +11,7 @@ export default function ForgotPassword() {
                 </fieldset>
 
                 <button className="btn btn-primary w-100 mb-2">Send Recovery Email</button><br />
-                <button className="btn btn-soft btn-primary w-100" type="button">Sign In</button>
+                <Link href='/authentication/log-in' className="btn btn-soft btn-primary w-100" type="button">Sign In</Link>
             </form>
         </div>
     )
