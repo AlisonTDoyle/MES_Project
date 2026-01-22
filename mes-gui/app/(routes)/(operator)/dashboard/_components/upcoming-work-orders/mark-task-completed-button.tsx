@@ -4,12 +4,17 @@ import { WorkOrder } from "@/app/_interfaces/work-order";
 import { useState } from "react";
 
 export function MarkTaskCompletedButton({ workOrder }: { workOrder: WorkOrder }) {
-    let isCompleted: boolean = workOrder.completed;
-    let [nextState, setNextState] = useState(isCompleted ? "Incomplete" : "Complete");
-    let [buttonStyling, setButtonStyling] = useState(isCompleted ? 'btn-danger' : 'btn-success');
+    const [isCompleted, setIsCompleted] = useState(workOrder.completed);
+
+    const nextState = isCompleted ? "Incomplete" : "Complete";
+    const buttonStyling = isCompleted
+        ? "btn btn-soft btn-error"
+        : "btn btn-soft btn-success";
 
     const sendPostRequest = async () => {
-        const response = await fetch(
+        const newStatus = !isCompleted;
+
+        await fetch(
             `http://localhost:3001/api/operator/${workOrder.operatorId}/work-order`,
             {
                 method: "POST",
@@ -18,20 +23,18 @@ export function MarkTaskCompletedButton({ workOrder }: { workOrder: WorkOrder })
                 },
                 body: JSON.stringify({
                     workOrderId: workOrder.id,
-                    status: !isCompleted
+                    status: newStatus,
                 }),
             }
         );
 
-        // update variables and components
-        isCompleted = !isCompleted;
-        setButtonStyling(isCompleted ? 'btn-danger' : 'btn-success');
-        setNextState(isCompleted ? "Incomplete" : "Complete");
+        // update React state
+        setIsCompleted(newStatus);
     };
 
     return (
-        <div>
-            <button className={`${buttonStyling}`} onClick={sendPostRequest}>Mark as {nextState}</button>
-        </div>
+        <button className={buttonStyling} onClick={sendPostRequest}>
+            Mark as {nextState}
+        </button>
     );
 }
