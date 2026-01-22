@@ -1,4 +1,5 @@
 import { ArrowRightStartOnRectangleIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"
+import { ReturnToHomeButton } from "./return-to-home-button"
 
 export function Sidebar() {
     return (
@@ -6,6 +7,7 @@ export function Sidebar() {
 
             {/* TOP AREA */}
             <div className="flex flex-col flex-1 min-h-0">
+                <ReturnToHomeButton />
                 {/* Filter */}
                 <div className="join mb-4">
                     <select className="select join-item">

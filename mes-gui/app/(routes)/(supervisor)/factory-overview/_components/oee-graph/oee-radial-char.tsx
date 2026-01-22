@@ -26,7 +26,7 @@ const CenteredMetric: PieLayer<{ id: string; label: string; value: number; color
             <text
                 textAnchor="middle"
                 dominantBaseline="central"
-                fill="black"
+                fill="#999"
                 fontWeight={600}
             >
                 {percent}%
@@ -47,6 +47,6 @@ export function OeeRadialChart() {
             arcLinkLabelsDiagonalLength={0}
             enableArcLabels={false}
             enableArcLinkLabels={false}
-            layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]} />
+            layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}/>
     )
 }

@@ -27,7 +27,7 @@ export function OeeGraph() {
                 <text
                     textAnchor="middle"
                     dominantBaseline="central"
-                    fill="white"
+                    fill="#999"
                     fontWeight={600}
                     fontSize={32}
                 >
