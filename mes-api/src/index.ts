@@ -6,7 +6,7 @@ import breakdownRoutes from "./routes/machine-event";
 import operatorRoutes from "./routes/operator";
 import workOrderRoutes from "./routes/work-order";
 import machineRoutes from './routes/machine';
-import qualitySampleRoutes from './routes/quality-sample';
+import productionOrderRoutes from './routes/production-order';
 
 // Enable environment variables
 dotenv.config();
@@ -23,7 +23,7 @@ app.use("/api/machine-event", breakdownRoutes);
 app.use("/api/operator", operatorRoutes);
 app.use("/api/work-order", workOrderRoutes);
 app.use("/api/machine", machineRoutes);
-app.use("/api/quality-sample", qualitySampleRoutes);
+app.use("/api/production-order", productionOrderRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
