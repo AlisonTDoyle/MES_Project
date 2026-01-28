@@ -7,24 +7,7 @@ import { CurrentWorkOrder } from "./_components/current-work-order/current-work-
 
 export default function Dashboard() {
     return (
-        // <div className="grid grid-cols-[33%_33%_33%] grid-rows-2 h-screen min-h-0">
-        //     <div className="m-2 row-span-2">
-        //         <CurrentWorkOrder/>
-        //     </div>
-
-        //     <div className="m-2 row-span-2">
-        //         <UpcomingWorkOrders />
-        //     </div>
-
-        //     <div className="m-2">
-        //         <MachineEventHistory />
-        //     </div>
-
-        //     <div className="m-2">
-        //         <OperatorOee></OperatorOee>
-        //     </div>
-        // </div>
-        <div className="grid h-screen lg:grid-cols-[33%_33%_33%] lg:grid-rows-2 min-h-0">
+        <div className="grid h-screen lg:grid-cols-[33%_33%_33%] lg:grid-rows-[30%_70%] min-h-0">
             <div className="m-2 row-span-2">
                 <CurrentWorkOrder />
             </div>
@@ -34,13 +17,11 @@ export default function Dashboard() {
             </div>
 
             <div className="m-2">
-                <MachineEventHistory />
+                <OperatorOee></OperatorOee>
             </div>
 
             <div className="m-2">
-                <div className="card border">
-                    <div className="card-body">4</div>
-                </div>
+                <MachineEventHistory />
             </div>
         </div>
     )

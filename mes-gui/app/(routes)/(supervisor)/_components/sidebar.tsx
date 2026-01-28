@@ -2,6 +2,19 @@ import { ArrowRightStartOnRectangleIcon, MagnifyingGlassIcon } from "@heroicons/
 import { ReturnToHomeButton } from "./return-to-home-button"
 
 export function Sidebar() {
+    let recentItems:{id:string,type:string}[] = [
+        {id: '1234567890', type: 'Machine'},
+        {id: '0987654321', type: 'PO'},
+        {id: '1122334455', type: 'Machine'},
+        {id: '5566778899', type: 'PO'},
+        {id: '5566778899', type: 'PO'},
+        {id: '5566778899', type: 'PO'},
+        {id: '1122334455', type: 'Machine'},
+        {id: '1122334455', type: 'Machine'},
+        {id: '5566778899', type: 'PO'},
+        {id: '1122334455', type: 'Machine'},
+    ]
+
     return (
         <div className="bg-base-100 w-80 p-4 shadow-lg h-full flex flex-col">
 
@@ -21,14 +34,14 @@ export function Sidebar() {
                 </div>
 
                 {/* Recently Viewed */}
-                <div className="flex flex-col min-h-0">
-                    <h4 className="mb-2">[Results Title]</h4>
+                <div className="flex flex-col min-h-0 h-full">
+                    <h4 className="mb-2">Recently Viewed</h4>
 
                     <ul className="border border-base-300 rounded-box w-full flex-1 min-h-0 overflow-auto">
-                        {Array(20).fill(1).map((_, i) => (
-                            <li key={i} className="list-row rounded-box m-1 px-2 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-500/30">
-                                <span>1234567890</span>
-                                <span className="badge badge-soft badge-info">Machine</span>
+                        {recentItems.map((item) => (
+                            <li key={item.id} className="list-row rounded-box m-1 px-2 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-500/30">
+                                <span>{item.id}</span>
+                                <span className={`badge badge-soft ${item.type === 'PO' ? 'badge-error' : 'badge-info'}`}>{item.type}</span>
                             </li>
                         ))}
                     </ul>

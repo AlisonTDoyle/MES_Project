@@ -1,28 +1,34 @@
 "use client"
 import { PieLayer, ResponsivePie } from "@nivo/pie"
-
-let data = [
-    {
-        "id": "Running",
-        "label": "Running",
-        "value": 32,
-        "color": "hsl(159.74 100% 37%)"
-    },
-    {
-        "id": "Offline",
-        "label": "Offline",
-        "value": 10,
-        "color": "hsl(215.38 18% 47%)"
-    }];
+import { useMemo } from "react"
 
 export function OeeGraph() {
-    const CenteredMetric: PieLayer<{ id: string; label: string; value: number; color: string }> = ({ centerX, centerY, dataWithArc }) => {
-        const total = dataWithArc.reduce((s, d) => s + d.value, 0);
-        const running = dataWithArc.find(d => d.data.id === 'Running')?.value ?? 0;
-        const percent = total ? Math.round((running / total) * 100) : 0;
+    const data = useMemo(() => {
+        const efficiency = Math.floor(Math.random() * 100) + 1
+        const potential = Math.floor(Math.random() * 100) + 1
+
+        return [
+            {
+                id: "Efficiency",
+                label: "Efficiency",
+                value: efficiency,
+                color: "hsl(159.74 100% 37%)",
+            },
+            {
+                id: "Potential",
+                label: "Potential",
+                value: potential,
+                color: "hsl(215.38 18% 47%)",
+            },
+        ]
+    }, [])
+
+    const CenteredMetric: PieLayer<any> = ({ centerX, centerY, dataWithArc }) => {
+        const total = dataWithArc.reduce((s, d) => s + d.value, 0)
+        const efficiency = dataWithArc.find(d => d.data.id === "Efficiency")?.value ?? 0
+        const percent = total ? Math.round((efficiency / total) * 100) : 0
 
         return (
-            // raw svg styling needed here
             <g transform={`translate(${centerX}, ${centerY})`}>
                 <text
                     textAnchor="middle"
@@ -34,21 +40,21 @@ export function OeeGraph() {
                     {percent}%
                 </text>
             </g>
-        );
-    };
+        )
+    }
 
     return (
-        <ResponsivePie /* or Pie for fixed dimensions */
+        <ResponsivePie
             data={data}
-            colors={{ datum: 'data.color' }}
-            margin={{ top: 0, right: 80, bottom: 200, left: 80 }}
+            colors={{ datum: "data.color" }}
+            margin={{ top: 0, right: 20, bottom: 120, left: 20 }}
             startAngle={-90}
             endAngle={90}
             cornerRadius={6}
             innerRadius={0.72}
-            arcLinkLabelsDiagonalLength={0}
             enableArcLabels={false}
             enableArcLinkLabels={false}
-            layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]} />
+            layers={["arcs", "arcLabels", "arcLinkLabels", "legends", CenteredMetric]}
+        />
     )
 }

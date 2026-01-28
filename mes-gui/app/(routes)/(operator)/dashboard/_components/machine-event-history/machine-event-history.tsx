@@ -8,7 +8,7 @@ export async function MachineEventHistory() {
     let machineEventTypes = await fetch("http://localhost:3001/api/machine-event/type").then(res => res.json()).then(data => data.data);
 
     return (
-        <div className="card shadow-sm bg-base-100 flex h-full flex-col min-h-0">
+        <div className="card shadow-sm bg-base-100 flex h-100 lg:h-full flex-col min-h-0">
             <div className="card-body overflow-hidden">
                 <span className="card-title shrink-0 pb-2">
                     Machine History
