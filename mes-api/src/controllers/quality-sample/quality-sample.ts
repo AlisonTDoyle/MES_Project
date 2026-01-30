@@ -10,6 +10,18 @@ dotenv.config();
 // Properties
 const _qualitySampleTable: string = process.env.QUALITY_CONTROL_TABLE || "";
 
+const _updatableFields = [
+    'productionOrderId',
+    'workOrderId',
+    'machineId',
+    'operatorId',
+    'notes',
+    'result',
+    'sampleQuantity',
+    'sampleUnit',
+    'timestamp'
+] as const;
+
 // Create
 export const createNewQualitySampleRecord = async (req: Request, res: Response) => {
     try {
@@ -36,7 +48,11 @@ export const createNewQualitySampleRecord = async (req: Request, res: Response) 
 
         return res.status(200).json({ message: 'Added Quality Sample' });
     } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
+
+        return res.status(500).json({ error: error.message, code: error.code });
     }
 };
 
@@ -61,7 +77,11 @@ export const getQualitySampleById = async (req: Request, res: Response) => {
             return res.status(400).json({ error: "Bad Request" })
         }
     } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
+
+        return res.status(500).json({ error: error.message, code: error.code });
     }
 };
 
@@ -86,7 +106,11 @@ export const getQualitySamplesByProductionOrder = async (req: Request, res: Resp
         return res.status(200).json({ data: result.recordset });
 
     } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
+
+        return res.status(500).json({ error: error.message, code: error.code });
     }
 };
 
@@ -103,7 +127,7 @@ export const updateQualitySample = async (req: Request, res: Response) => {
         const updates: string[] = [];
         const request = db.request();
 
-        for (const field of updatableFields) {
+        for (const field of _updatableFields) {
             if (req.body[field] !== undefined) {
                 updates.push(`${field} = @${field}`);
                 request.input(field, req.body[field]);
@@ -127,7 +151,11 @@ export const updateQualitySample = async (req: Request, res: Response) => {
         return res.status(200).json({message: `Quality Sample with ID '${id}' has been updated`})
 
     } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
+
+        return res.status(500).json({ error: error.message, code: error.code });
     }
 };
 
@@ -150,7 +178,11 @@ export const deleteQualitySample = async (req: Request, res: Response) => {
 
         return res.status(200).json({message: `Quality Sample with ID '${id}' has been deleted`})
     } catch (error:any) {
-        return res.status(500).json({ error: error.message });
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
+
+        return res.status(500).json({ error: error.message, code: error.code });
     }
 };
 
@@ -170,16 +202,4 @@ function ConvertTimestampToSqlAcceptableFormat(sampleTimestamp: Date): string {
 
     return newTimestamp
 }
-
-const updatableFields = [
-    'productionOrderId',
-    'workOrderId',
-    'machineId',
-    'operatorId',
-    'notes',
-    'result',
-    'sampleQuantity',
-    'sampleUnit',
-    'timestamp'
-] as const;
 

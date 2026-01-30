@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export interface QualitySample {
-    id?: string;
+    id?: number;
     productOrderId: number;
     workOrderId: number;
     machineId: number;
