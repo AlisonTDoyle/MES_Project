@@ -3,25 +3,12 @@ import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { QualitySample, ValidateQualitySample } from "../../interfaces/object-models/quality-sample";
 import sql, { IResult } from "mssql";
+import { dbClientSetup } from "../../misc/db-client-setup";
 
 dotenv.config();
 
 // Properties
 const _qualitySampleTable: string = process.env.QUALITY_CONTROL_TABLE || "";
-
-// Db client setup
-async function dbClientSetup(): Promise<sql.ConnectionPool> {
-    let db = await sql.connect({
-        user: process.env.AWS_RDS_USER || "",
-        password: process.env.AWS_RDS_PASSWORD || "",
-        server: process.env.AWS_RDS_SERVER || "",
-        port: 1433,
-        database: process.env.AWS_RDS_NAME || "",
-        options: { encrypt: true, trustServerCertificate: true }
-    });
-
-    return db;
-}
 
 // Create
 export const createNewQualitySampleRecord = async (req: Request, res: Response) => {
@@ -195,3 +182,4 @@ const updatableFields = [
     'sampleUnit',
     'timestamp'
 ] as const;
+
