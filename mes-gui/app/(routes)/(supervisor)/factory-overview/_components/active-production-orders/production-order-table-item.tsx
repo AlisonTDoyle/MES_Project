@@ -14,7 +14,7 @@ export function ProductionOrderTableItem({ productionOrder }: { productionOrder:
     return (
         <tr
             key={productionOrder.id}
-            onClick={() => router.push(`/production-order/1`)}
+            onClick={() => router.push(`/production-order/${productionOrder.id}`)}
             className="p-1 hover:cursor-pointer hover:bg-base-200"
         >
             <td>{productionOrder.id}</td>
