@@ -1,4 +1,4 @@
-import { ActiveWorkOrders } from "./_components/active-work-orders/active-work-orders";
+import { ActiveWorkOrders } from "./_components/active-production-orders/active-production-orders";
 import { MachineAlerts } from "./_components/machine-alerts/machine-alerts";
 import { MachineStatusesPieChart } from "./_components/machine-statuses-pie-chart/machine-statuses-pie-chart";
 import { OeeGraph } from "./_components/oee-graph/oee-graph";

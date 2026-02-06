@@ -14,7 +14,7 @@ export async function MachineEventHistory() {
                     Machine History
                 </span>
                 <ul className="list flex-1 min-h-0 overflow-y-auto">
-                    {events.map(e => (
+                    {events.map((e:any) => (
                         <MachineEventListItem MachineEvent={e} breakdownTypes={machineEventTypes} />
                     ))}
                 </ul>

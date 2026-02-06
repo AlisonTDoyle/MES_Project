@@ -114,7 +114,7 @@ export const readProductionOrders = async (req: Request, res: Response) => {
         let query = `
             SELECT TOP(15)
                 po.*,
-                c.name AS customer_name
+                c.name AS customerName
             FROM productOrder.productionOrder po
             LEFT JOIN productOrder.customer c
                 ON c.id = po.customerId

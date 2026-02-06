@@ -1,10 +1,10 @@
-import { WorkOrder } from "@/app/_interfaces/work-order";
-import { WorkOrderTableItem } from "./work-order-table-item";
+import { ProductionOrderTableItem } from "./production-order-table-item";
+import { ProductionOrder } from "@/app/_interfaces/production-order/production-order";
 
 export async function ActiveWorkOrders() {
-    const response = await fetch("http://localhost:3001/api/operator/1/work-order");
-    const parsedRes: { data: [] } = await response.json();
-    const workOrders: WorkOrder[] = parsedRes.data;
+    const response = await fetch("http://localhost:3001/api/production-order");
+    const parsedRes = await response.json();
+    const productionOrders: ProductionOrder[] = parsedRes || [];
 
     return (
         <div className="card shadow-sm h-full">
@@ -14,14 +14,14 @@ export async function ActiveWorkOrders() {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Customer No.</th>
+                            <th>Customer Name</th>
                             <th>State</th>
-                            <th>Description</th>
-                            <th>Schedules</th>
+                            <th>Order Date</th>
+                            <th>Deadline</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {workOrders.map(wo => (<WorkOrderTableItem workOrder={wo}></WorkOrderTableItem>))}
+                        {productionOrders.map(po => (<ProductionOrderTableItem productionOrder={po}></ProductionOrderTableItem>))}
                     </tbody>
                 </table>
             </div>
