@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { QualitySample, ValidateQualitySample } from "../../interfaces/object-models/dbo/quality-sample";
 import sql, { IResult } from "mssql";
 import { dbClientSetup } from "../../misc/db-client-setup";
+import { ConvertTimestampToSqlAcceptableFormat } from "../../misc/convert-timestamp-to-sql-acceptable-format";
 
 dotenv.config();
 
@@ -185,21 +186,3 @@ export const deleteQualitySample = async (req: Request, res: Response) => {
         return res.status(500).json({ error: error.message, code: error.code });
     }
 };
-
-// Misc
-function ConvertTimestampToSqlAcceptableFormat(sampleTimestamp: Date): string {
-    let newTimestamp: string;
-
-    var pad = function (num: any) { return ('00' + num).slice(-2) };
-    let formattedTimestamp: string = sampleTimestamp.getUTCFullYear() + '-' +
-        pad(sampleTimestamp.getUTCMonth() + 1) + '-' +
-        pad(sampleTimestamp.getUTCDate()) + ' ' +
-        pad(sampleTimestamp.getUTCHours()) + ':' +
-        pad(sampleTimestamp.getUTCMinutes()) + ':' +
-        pad(sampleTimestamp.getUTCSeconds());
-
-    newTimestamp = `'${formattedTimestamp}'`;
-
-    return newTimestamp
-}
-
