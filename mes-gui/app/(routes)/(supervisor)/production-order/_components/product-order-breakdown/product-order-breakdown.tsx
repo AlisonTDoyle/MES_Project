@@ -1,4 +1,6 @@
-export function ProductOrderBreakdown () {
+import { ProductionOrderResponse } from "@/app/_interfaces/response-objects/production-order";
+
+export function ProductOrderBreakdown ({ productionOrder }: { productionOrder: ProductionOrderResponse }) {
 
     return (
         <div className="card bg-base-100 card-md shadow-sm h-full">
@@ -16,41 +18,15 @@ export function ProductOrderBreakdown () {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="bg-base-300">
-                                <td>12345</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>12345</td>
-                                <td>Alliminium panel with dimensions 900mm x 400mm</td>
-                                <td>2</td>
-                                <td>In Progress</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>12345</td>
-                                <td>Alliminium panel with dimensions 900mm x 400mm</td>
-                                <td>2</td>
-                                <td>In Progress</td>
-                            </tr>
-                            <tr className="bg-base-300">
-                                <td>12345</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>12345</td>
-                                <td>Alliminium panel with dimensions 900mm x 400mm</td>
-                                <td>2</td>
-                                <td>In Progress</td>
-                            </tr>
+                            {productionOrder.products.map((prod:any) => (
+                                <tr key={prod.id}>
+                                    <td>{prod.id}</td>
+                                    <td>{prod.partNumber}</td>
+                                    <td>{prod.description}</td>
+                                    <td>{prod.quantity}</td>
+                                    <td>{prod.status}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

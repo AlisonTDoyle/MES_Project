@@ -80,9 +80,12 @@ export const readProductionOrder = async (req: Request, res: Response) => {
             // get production order metadata
             let query = `
                 -- metadata query
-                SELECT *
-                FROM ${_schema}.${_productionOrderTable}
-                WHERE id = ${productionOrderId};
+                SELECT po.*,
+                c.name AS customerName
+                FROM ${_schema}.${_productionOrderTable} as po
+                LEFT JOIN productOrder.customer c
+                ON c.id = po.customerId
+                WHERE po.id = ${productionOrderId};
                 
                 -- associated products query
                 SELECT productionOrderItem.id, completed, productionOrderId, productId, quantity, description, recipeId
@@ -96,7 +99,7 @@ export const readProductionOrder = async (req: Request, res: Response) => {
 
             // format results into json
             let formattedResults = {
-                "orderInfo": result.recordsets[0],
+                "orderInfo": result.recordsets[0][0],
                 "products": result.recordsets[1]
             }
             
