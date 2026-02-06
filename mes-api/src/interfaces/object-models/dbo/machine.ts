@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { MachineType } from "../../enums/machineType";
+import { MachineType } from "../../../enums/machineType";
 
 export interface Machine {
     id?: number;

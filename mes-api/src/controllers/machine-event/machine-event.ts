@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import { createClient } from '@supabase/supabase-js'
 import dotenv from "dotenv";
-import { MachineEvent } from "../../interfaces/object-models/machine-event";
+import { OperatorRecordedEvent } from "../../interfaces/object-models/dbo/operator-recorded-event";
 
 dotenv.config();
 
@@ -18,7 +18,7 @@ export const createNewMachineEventRecord = async (
   res: Response
 ) => {
   try {
-    const me: MachineEvent = req.body;
+    const me: OperatorRecordedEvent = req.body;
 
     console.log("Incoming Machine Event:", me);
 

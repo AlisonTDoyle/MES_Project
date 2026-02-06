@@ -1,4 +1,4 @@
-export interface MachineEvent {
+export interface OperatorRecordedEvent {
     id?:number,
     machineId:number,
     reportingOperatorId:number,

@@ -1,7 +1,7 @@
 // Imports
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import { QualitySample, ValidateQualitySample } from "../../interfaces/object-models/quality-sample";
+import { QualitySample, ValidateQualitySample } from "../../interfaces/object-models/dbo/quality-sample";
 import sql, { IResult } from "mssql";
 import { dbClientSetup } from "../../misc/db-client-setup";
 
