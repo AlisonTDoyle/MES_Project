@@ -1,12 +1,12 @@
 import express, { Router } from "express";
-import {readBreakdownTypes} from "../controllers/machine-event/type";
+import {readMachineIssueType} from "../controllers/machine-event/type";
 import { createNewMachineEventRecord } from "../controllers/machine-event/machine-event";
 
 // Set up router
 const router: Router = express.Router();
 
 // Routes
-router.get("/type", readBreakdownTypes);
+router.get("/type", readMachineIssueType);
 
 router.post("/", createNewMachineEventRecord);
 
