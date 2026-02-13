@@ -12,8 +12,10 @@
   "license": "ISC",
   "keywords": [],
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.989.0",
     "@supabase/supabase-js": "^2.90.1",
     "@types/cors": "^2.8.17",
+    "aws-amplify": "^6.16.2",
     "aws-sdk": "^2.1693.0",
     "body-parser": "^2.2.2",
     "cors": "^2.8.5",
