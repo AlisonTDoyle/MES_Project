@@ -1,101 +1,188 @@
 // Imports
 import { Request, Response } from "express";
-import { createClient } from '@supabase/supabase-js'
 import dotenv from "dotenv";
-import { QualitySample } from "../../interfaces/object-models/quality-sample";
+import { QualitySample, ValidateQualitySample } from "../../interfaces/object-models/dbo/quality-sample";
+import sql, { IResult } from "mssql";
+import { dbClientSetup } from "../../misc/db-client-setup";
+import { ConvertTimestampToSqlAcceptableFormat } from "../../misc/convert-timestamp-to-sql-acceptable-format";
 
 dotenv.config();
 
 // Properties
-const _supabaseUrl: string = process.env.SUPABASE_URL || "";
-const _supabaseKey: string = process.env.SUPABASE_KEY || "";
-const _supabase = createClient(_supabaseUrl, _supabaseKey)
 const _qualitySampleTable: string = process.env.QUALITY_CONTROL_TABLE || "";
+
+const _updatableFields = [
+    'productionOrderId',
+    'workOrderId',
+    'machineId',
+    'operatorId',
+    'notes',
+    'result',
+    'sampleQuantity',
+    'sampleUnit',
+    'timestamp'
+] as const;
 
 // Create
 export const createNewQualitySampleRecord = async (req: Request, res: Response) => {
-
     try {
-        const sample: QualitySample = req.body;
+        let db: sql.ConnectionPool = await dbClientSetup();
 
-        const { data, error } = await _supabase
-            .from(_qualitySampleTable)
-            .insert([
-                {
-                    workOrderId: sample.workOrderId,
-                    itemId: sample.itemId,
-                    sampleTime: sample.sampleTime,
-                    result: sample.result,
-                    sampleQuantity: sample.sampleQuantity,
-                    sampleUnit: sample.sampleUnit,
-                    operatorId: sample.operatorId,
-                    notes: sample.notes,
-                },
-            ])
-            .select()
-            .single();
+        // validate passed data before going further
+        let sample: QualitySample = req.body;
+        const { error } = ValidateQualitySample(sample);
 
         if (error) {
             return res.status(400).json({ error: error.message });
         }
 
-        return res.status(201).json(data);
-    } catch (err) {
-        return res.status(500).json({ error: "Failed to create quality sample" });
+        let timestamp: string = ConvertTimestampToSqlAcceptableFormat(new Date(sample.timestamp));
+
+        let query = `
+            INSERT INTO ${_qualitySampleTable}
+            (productOrderId, workOrderId, machineId, operatorId, timestamp, sampleQuantity, sampleUnit, notes, result)
+            VALUES
+            (${sample.productOrderId}, ${sample.workOrderId}, ${sample.machineId}, ${sample.operatorId}, ${timestamp}, ${sample.sampleQuantity}, '${sample.sampleUnit}', '${sample.notes || ""}', ${sample.result});
+        `;
+
+        let result: IResult<any> = await db.request().query(query);
+
+        return res.status(200).json({ message: 'Added Quality Sample' });
+    } catch (error: any) {
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
+
+        return res.status(500).json({ error: error.message, code: error.code });
     }
 };
-
 
 // Read
-export const getQualitySamplesByWorkOrder = async (req: Request, res: Response) => {
-    try {
-        const workOrderId = req.query["work-order"] as string;
-
-        if (!workOrderId) {
-            return res.status(400).json({
-                error: 'Missing required query parameter "work-order"',
-            });
-        }
-
-        const { data, error } = await _supabase
-            .from(_qualitySampleTable)
-            .select("*")
-            .eq("workOrderId", workOrderId)
-            .order("sampleTime", { ascending: false });
-
-        if (error) {
-            return res.status(400).json({ error: error.message });
-        }
-
-        return res.status(200).json(data);
-    } catch (err) {
-        return res.status(500).json({
-            error: "Failed to fetch quality samples by work order",
-        });
-    }
-};
-
 export const getQualitySampleById = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        let db: sql.ConnectionPool = await dbClientSetup();
 
-        const { data, error } = await _supabase
-            .from(_qualitySampleTable)
-            .select("*")
-            .eq("id", id)
-            .single();
+        let qualitySampleId: string = req.params.id as string;
 
-        if (error) {
-            return res.status(404).json({ error: "Quality sample not found" });
+        if (qualitySampleId && Number.parseInt(qualitySampleId)) {
+            let query = `
+                SELECT *
+                FROM ${_qualitySampleTable}
+                WHERE id = ${qualitySampleId}
+            `;
+
+            let result: IResult<any> = await db.request().query(query);
+
+            return res.status(200).json({ data: result.recordset })
+        } else {
+            return res.status(400).json({ error: "Bad Request" })
         }
+    } catch (error: any) {
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
 
-        return res.status(200).json(data);
-    } catch (err) {
-        return res.status(500).json({ error: "Failed to fetch quality sample" });
+        return res.status(500).json({ error: error.message, code: error.code });
     }
 };
 
+export const getQualitySamplesByProductionOrder = async (req: Request, res: Response) => {
+    try {
+        const db = await dbClientSetup();
+
+        const productionOrderId = Number(req.query.productionOrderId);
+
+        if (!Number.isInteger(productionOrderId)) {
+            return res.status(400).json({ error: "Bad Request" });
+        }
+
+        const result = await db.request()
+            .input('productionOrderId', sql.Int, productionOrderId)
+            .query(`
+                SELECT *
+                FROM ${_qualitySampleTable}
+                WHERE productionOrderId = @productionOrderId
+            `);
+
+        return res.status(200).json({ data: result.recordset });
+
+    } catch (error: any) {
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
+
+        return res.status(500).json({ error: error.message, code: error.code });
+    }
+};
 
 // Update
+export const updateQualitySample = async (req: Request, res: Response) => {
+    try {
+        const db = await dbClientSetup();
+
+        const id = Number(req.params.id);
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({ error: 'Invalid id' });
+        }
+
+        const updates: string[] = [];
+        const request = db.request();
+
+        for (const field of _updatableFields) {
+            if (req.body[field] !== undefined) {
+                updates.push(`${field} = @${field}`);
+                request.input(field, req.body[field]);
+            }
+        }
+
+        if (updates.length === 0) {
+            return res.status(400).json({ error: 'No valid fields provided' });
+        }
+
+        request.input('id', sql.Int, id);
+
+        const query = `
+            UPDATE ${_qualitySampleTable}
+            SET ${updates.join(', ')}
+            WHERE id = @id
+        `;
+
+        await request.query(query);
+
+        return res.status(200).json({message: `Quality Sample with ID '${id}' has been updated`})
+
+    } catch (error: any) {
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
+
+        return res.status(500).json({ error: error.message, code: error.code });
+    }
+};
 
 // Delete
+export const deleteQualitySample = async (req: Request, res: Response) => {
+    try {
+        const db = await dbClientSetup();
+
+        const id = Number(req.params.id);
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({ error: 'Invalid id' });
+        }
+
+        let query:string = `
+            DELETE FROM ${_qualitySampleTable}
+            WHERE id = ${id}
+        `;
+
+        let result = await db.request().query(query);
+
+        return res.status(200).json({message: `Quality Sample with ID '${id}' has been deleted`})
+    } catch (error:any) {
+        if (error.code == "ETIMEOUT") {
+            return res.status(408).json({error: "Request Timeout"});
+        } 
+
+        return res.status(500).json({ error: error.message, code: error.code });
+    }
+};

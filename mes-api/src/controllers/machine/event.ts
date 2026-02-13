@@ -1,43 +1,36 @@
 // Imports
 import { Request, Response } from "express";
-import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
+import sql from "mssql";
+import { dbClientSetup } from "../../misc/db-client-setup";
 
 dotenv.config();
 
-const _supabaseUrl: string = process.env.SUPABASE_URL || "";
-const _supabaseKey: string = process.env.SUPABASE_KEY || "";
-const _supabase = createClient(_supabaseUrl, _supabaseKey)
 const _machineEventsTable: string = process.env.MACHINE_EVENTS_TABLE || ""
 
 // Create
 
 // Read
 export const readMachineEventHistory = async (req: Request, res: Response) => {
-    // get filter information
-    let machineId: number = Number.parseInt(Array.isArray(req.params.machineId) ? req.params.machineId[0] : req.params.machineId);
-    let timePeriod: string = req.query.timePeriod == undefined ? "1" : (req.query.timePeriod).toString();
-    let timePeriodInMonths: number = Number.parseInt(timePeriod);
+    try {
+        let db: sql.ConnectionPool = await dbClientSetup();
 
-    // calc cut off date
-    let today = new Date();
-    let cutoffDate = new Date;
+        // get filter information
+        let machineId: number = Number.parseInt(Array.isArray(req.params.machineId) ? req.params.machineId[0] : req.params.machineId);
+        let timePeriod: string = req.query.timePeriod == undefined ? "1" : (req.query.timePeriod).toString();
+        let timePeriodInMonths: number = Number.parseInt(timePeriod);
 
-    cutoffDate.setMonth(today.getMonth() - timePeriodInMonths)
+        // calc cut off date
+        let today = new Date();
+        let cutoffDate = new Date;
 
-    // fetch information related to machine
-    let { data, error } = await _supabase
-        .from(_machineEventsTable)
-        .select("*")
-        .lte('timestamp', cutoffDate)
-        .eq('machineId', machineId)
-        .order('timestamp', { ascending: false });
+        cutoffDate.setMonth(today.getMonth() - timePeriodInMonths)
 
-    if (error) {
-        let err: Error = error as Error;
-        res.status(500).json({ message: err.message });
-    } else {
-        res.status(200).json(data);
+        // fetch information related to machine
+
+        
+    } catch (error: any) {
+
     }
 }
 
