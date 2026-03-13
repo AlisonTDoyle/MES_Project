@@ -97,7 +97,7 @@ export default function Home() {
           <form>
             <div className='my-2'>
               <label htmlFor="">Customer ID</label><br />
-              <input id="customer-id-input" type="text" className="rounded border border-neutral-700 p-2 dark:bg-neutral-900 w-80 text-white/50" disabled value={selectedCustomer != null ? selectedCustomer?.id : ""} />
+              <input id="customer-id-input" type="text" className="rounded border border-neutral-700 p-2 dark:bg-neutral-900 w-80" disabled value={selectedCustomer != null ? selectedCustomer?.id : ""} />
             </div>
             <div className='my-2'>
               <label htmlFor="">Customer Name</label><br />
@@ -117,7 +117,7 @@ export default function Home() {
             <div className='my-2'>
               <label htmlFor="">Item ID</label>
               <br />
-              <input type="text" name="" id="product-id" className="rounded border border-neutral-700 p-2 dark:bg-neutral-900 w-80 text-white/50" value={selectedItem != null ? selectedItem?.id : ""} />
+              <input type="text" name="" id="product-id" className="rounded border border-neutral-700 p-2 dark:bg-neutral-900 w-80" value={selectedItem != null ? selectedItem?.id : ""} />
             </div>
             <div className='my-2'>
               <label htmlFor="">Item Name</label>
@@ -138,11 +138,11 @@ export default function Home() {
               <br />
               <div className='w-80 grid grid-cols-[70%_30%]'>
                 <input type="text" name="" id="product-quantity" className="rounded-l border border-neutral-500 p-2 dark:bg-neutral-900" />
-                <span id="product-quantity" className="rounded-r border border-neutral-500 p-2 dark:bg-neutral-900 text-white/50" >{selectedItem?.unit}</span>
+                <span id="product-quantity" className="rounded-r border border-neutral-500 p-2 dark:bg-neutral-900" >{selectedItem?.unit}</span>
               </div>
             </div>
           </form>
-          <button onClick={(e) => AddProductToOrder(e)} className="my-4 p-2 rounded border border-slate-500 bg-slate-800 hover:border-sky-500 hover:bg-sky-800 hover:cursor-pointer">Add To Order</button>
+          <button onClick={(e) => AddProductToOrder(e)} className="my-4 p-2 rounded border border-slate-500 bg-sky-500/20 hover:border-sky-500 hover:bg-sky-500/50 hover:cursor-pointer">Add To Order</button>
         </div>
         <div className="dark:bg-neutral-900 h-full">
           <div className="h-[48rem] max-h-[48rem] overflow-y-auto border rounded border-neutral-500">
@@ -167,7 +167,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <button onClick={(e) => CreateOrderFile()} className="self-auto md:self-end my-4 p-2 rounded border border-slate-500 bg-slate-800 hover:border-sky-500 hover:bg-sky-800 hover:cursor-pointer">Submit Order</button>
+      <button onClick={(e) => CreateOrderFile()} className="self-auto md:self-end my-4 p-2 rounded border border-slate-500 bg-sky-500/20 hover:border-sky-500 hover:bg-sky-500/50 hover:cursor-pointer">Submit Order</button>
     </main>
   );
 }
