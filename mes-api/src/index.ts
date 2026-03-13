@@ -11,6 +11,7 @@ import qualitySampleRoutes from './routes/quality-sample';
 import authRoutes from './routes/auth';
 import { dbClientSetup } from "./misc/db-client-setup";
 import fetch from 'node-fetch';
+import { fetchCustomers } from "./controllers/customer/customer";
 
 // Enable environment variables
 dotenv.config();
@@ -30,6 +31,7 @@ app.use("/api/machine", machineRoutes);
 app.use("/api/production-order", productionOrderRoutes);
 app.use("/api/quality-sample", qualitySampleRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/customer", fetchCustomers);
 
 app.get("/api/db-test", async (req, res) => {
     try {
