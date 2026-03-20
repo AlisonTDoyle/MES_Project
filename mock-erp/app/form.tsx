@@ -7,8 +7,9 @@ import { Customer } from '@/interfaces/customer'
 import { Item } from '@/interfaces/item'
 import { OrderItem } from '@/interfaces/order-item';
 import { Order } from '@/interfaces/order';
+import { Product } from '@/interfaces/product';
 
-export default function Form({Customers}:{Customers:Customer[]}) {
+export default function Form({Customers, Products}:{Customers:Customer[], Products:Product[]}) {
   //#region code behind
   // properties
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);

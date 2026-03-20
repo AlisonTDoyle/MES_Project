@@ -6,15 +6,25 @@ export default async function Home() {
   let customers:Customer[] = [];
   let products:Product[] = [];
 
-  let response = await fetch('http://localhost:3001/api/customer/');
-  let parsedResponse = await response.json();
-  customers = parsedResponse.data;
+  let response:any;
+  let parsedResponse:any;
+  try {
+    response = await fetch('http://localhost:3001/api/customer/');
+    parsedResponse = await response.json();
+    customers = parsedResponse.data;
+  } catch (error) {
+    console.log(error)
+  }
 
-  response = await fetch('http://localhost:3001/api/product/')
-  parsedResponse = await response.json();
-  products = parsedResponse.data;
+  try {
+    response = await fetch('http://localhost:3001/api/product/')
+    parsedResponse = await response.json();
+    products = parsedResponse.data;
+  } catch (error) {
+    console.log(error)
+  }
 
   return (
-    <Form Customers={customers}></Form>
+    <Form Customers={customers} Products={products}></Form>
   );
 }
