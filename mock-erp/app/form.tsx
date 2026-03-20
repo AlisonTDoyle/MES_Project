@@ -1,6 +1,5 @@
 "use client";
 
-import products from '@/data/mock_products.json'
 import { useState } from "react";
 import { Builder } from "xml2js";
 import { Customer } from '@/interfaces/customer'
@@ -8,13 +7,15 @@ import { Item } from '@/interfaces/item'
 import { OrderItem } from '@/interfaces/order-item';
 import { Order } from '@/interfaces/order';
 import { Product } from '@/interfaces/product';
+import { CreateOrder } from "./json-exporter";
 
 export default function Form({Customers, Products}:{Customers:Customer[], Products:Product[]}) {
   //#region code behind
   // properties
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Product | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[] | null>(null);
+  let products = Products
 
   // methods
   function UpdateSelectedCustomer(event: any): any {
@@ -25,7 +26,7 @@ export default function Form({Customers, Products}:{Customers:Customer[], Produc
 
   function UpdateselectedItem(event: any): any {
     let id = event.target.value;
-    let product = products.find(p => p.id === id) || null;
+    let product = products.find(p => p.id == id) || null;
     setSelectedItem(product);
   }
 
@@ -38,9 +39,9 @@ export default function Form({Customers, Products}:{Customers:Customer[], Produc
 
     let product: OrderItem = {
       id: productId,
-      description: products.find(p => p.id == productId)?.description || "",
+      description: products.find(p => (p.id).toString() == productId)?.description || "",
       quantity: parseInt(productQuantity),
-      unit: products.find(p => p.id == productId)?.unit || ""
+      unit: products.find(p => (p.id).toString() == productId)?.unit || ""
     }
 
     // updating order items. to add new product need to re-add older ones and current
@@ -49,40 +50,6 @@ export default function Form({Customers, Products}:{Customers:Customer[], Produc
     console.log(orderItems);
   }
 
-  function CreateOrderFile(): any {
-    if (selectedCustomer != null && orderItems != null) {
-      // compile order variables into one object
-      let order: Order = {
-        orderHeader: {
-          orderNumber: Math.floor(Math.random() * 100000000),
-          // xml cant handle data as its an object to needs to be a string
-          orderDate: new Date().toLocaleDateString(), 
-          customer: selectedCustomer
-        },
-        orderItems: {
-          item: orderItems
-        }
-      }
-      console.log(order)
-
-      // convert from json object to xml
-      let builder = new Builder();
-      let xml = builder.buildObject(order);
-      console.log(xml);
-
-      // publish xml file
-      const blob = new Blob([xml], { type: 'application/xml' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `order_${selectedCustomer.id}_${order.orderHeader.orderNumber}_${order.orderHeader.orderDate}.xml`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-    else {
-      console.error("Check values. Either no customer selected or no products added.");
-    }
-  }
   //#endregion
 
   return (
@@ -166,7 +133,7 @@ export default function Form({Customers, Products}:{Customers:Customer[], Produc
           </div>
         </div>
       </div>
-      <button onClick={(e) => CreateOrderFile()} className="self-auto md:self-end my-4 p-2 rounded border border-slate-500 bg-sky-500/20 hover:border-sky-500 hover:bg-sky-500/50 hover:cursor-pointer">Submit Order</button>
+      <button onClick={(e) => CreateOrder(selectedCustomer, orderItems)} className="self-auto md:self-end my-4 p-2 rounded border border-slate-500 bg-sky-500/20 hover:border-sky-500 hover:bg-sky-500/50 hover:cursor-pointer">Submit Order</button>
     </main>
   );
 }

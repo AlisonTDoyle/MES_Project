@@ -1,5 +1,6 @@
 export interface Product {
     id:number,
     description:string,
-    recipeId:any
+    recipeId:any,
+    unit:string
 }
