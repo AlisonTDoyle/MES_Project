@@ -1,0 +1,86 @@
+<main class='m-16 align-items'>
+    <div class="grid grid-cols-2 sm:gap-4 gap-8 items-start">
+        <div>
+            <h1 class="text-3xl font-bold">Mock Order Creator</h1>
+            <p>Use this application to create an XML file that will represent an order such as the outputs that SAP
+                would produce</p>
+            <br />
+            <h2 class="text-xl font-bold">Meta-level Details</h2>
+            <form>
+                <div class='my-2'>
+                    <label for="">Customer ID</label><br />
+                    <input id="customer-id-input" type="text"
+                        class="rounded border border-neutral-700 p-2 dark:bg-neutral-900 w-80" disabled
+                        [value]="SelectedCustomer?.id" />
+                </div>
+                <div class='my-2'>
+                    <label for="">Customer Name</label><br />
+                    <select class="rounded border border-neutral-500 p-2 dark:bg-neutral-900 w-80"
+                        (change)="UpdateSelectedCustomer($event)">
+                        <option value="">Select a Customer</option>
+                        <option *ngFor="let customer of Customers" [value]="customer.id">
+                            {{ customer.name }}
+                        </option>
+                    </select>
+                </div>
+            </form>
+            <hr class='my-4' />
+            <h2 class="text-xl font-bold">Order Details</h2>
+            <form>
+                <div class='my-2'>
+                    <label for="">Item ID</label>
+                    <br />
+                    <input type="text" id="product-id"
+                        class="rounded border border-neutral-700 p-2 dark:bg-neutral-900 w-80"
+                        [value]="SelectedProduct?.id" />
+                </div>
+                <div class='my-2'>
+                    <label for="">Item Name</label>
+                    <br />
+                    <select id="product-select" class="rounded border border-neutral-500 p-2 dark:bg-neutral-900 w-80"
+                        (change)="UpdateSelectedItem($event)">
+                        <option value="">Select a Product</option>
+                        <option *ngFor="let product of Products" [value]="product.id">
+                            {{ product.description }}
+                        </option>
+                    </select>
+                </div>
+                <div class='my-2'>
+                    <label for="">Quantity</label>
+                    <br />
+                    <div class='w-80 grid grid-cols-[70%_30%]'>
+                        <input type="text" id="product-quantity"
+                            class="rounded-l border border-neutral-500 p-2 dark:bg-neutral-900" />
+                        <span class="rounded-r border border-neutral-500 p-2 dark:bg-neutral-900">{{ SelectedProduct?.unit }}</span>
+                    </div>
+                </div>
+            </form>
+            <button (click)="AddProductToOrder()" class="my-4 p-2 rounded border border-slate-500
+                bg-sky-500/20 hover:border-sky-500 hover:bg-sky-500/50 hover:cursor-pointer">Add To Order</button>
+        </div>
+        <div class="dark:bg-neutral-900 h-full">
+            <div class="h-[48rem] max-h-[48rem] overflow-y-auto border rounded border-neutral-500">
+                <table class="border-collapse w-full dark:bg-neutral-900">
+                    <thead>
+                        <tr>
+                            <th class="border border-neutral-500 bg-neutral-800 p-2">Item ID</th>
+                            <th class="border border-neutral-500 bg-neutral-800 p-2">Item Name</th>
+                            <th class="border border-neutral-500 bg-neutral-800 p-2">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of OrderItems">
+                            <td class="align-top border border-neutral-500 p-2">{{ p.id }}</td>
+                            <td class="align-top border border-neutral-500 p-2">{{ p.description }}</td>
+                            <td class="align-top border border-neutral-500 p-2">{{ p.quantity }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <button (click)="CreateOrder()"
+        class="self-auto md:self-end my-4 p-2 rounded border border-slate-500 bg-sky-500/20 hover:border-sky-500 hover:bg-sky-500/50 hover:cursor-pointer">
+        Submit Order
+    </button>
+</main>
