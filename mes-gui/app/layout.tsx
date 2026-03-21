@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ConfigureAmplify from "@/utils/configureAmplify";
 
 let companyName:string|undefined = process.env.COMPANY_NAME
 

@@ -1,67 +1,65 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import React from "react";
+import { handleSignIn } from "@/utils/cognitoActions";
 
 export default function LogIn() {
-    const router = useRouter();
+  const [errorMessage, dispatch, isPending] = React.useActionState(
+    handleSignIn,
+    undefined
+  );
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+  return (
+    <form action={dispatch} className="w-100">
+      <fieldset className="fieldset">
+        <label htmlFor="email" className="label">
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          className="input validator w-100"
+          placeholder="example@email.com"
+          required
+        />
+      </fieldset>
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        setError("");
+      <fieldset className="fieldset mb-4">
+        <label htmlFor="password" className="label">
+          Password
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          className="input validator w-100"
+          placeholder="Password"
+          required
+        />
+      </fieldset>
 
-        if (email === "admin") {
-            router.replace("/factory-overview");
-            return;
-        }
+      {errorMessage && (
+        <div className="alert alert-error mb-3 w-100">
+          {errorMessage}
+        </div>
+      )}
 
-        if (email === "operator") {
-            router.replace("/dashboard");
-            return;
-        }
+      <button
+        type="submit"
+        className="btn btn-primary w-100 mb-2"
+        disabled={isPending}
+      >
+        {isPending ? "Signing In..." : "Sign In"}
+      </button>
 
-        setError("Incorrect email or password.");
-    }
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <fieldset className="fieldset">
-                <label className="label">Email</label>
-                <input
-                    className="input validator w-100"
-                    placeholder="example@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required />
-                <p className="validator-hint hidden m-0">Required</p>
-            </fieldset>
-
-            <label className="fieldset mb-4">
-                <span className="label">Password</span>
-                <input type="password"
-                    className="input validator w-100"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}/>
-                <span className="validator-hint hidden m-0">Required</span>
-            </label>
-
-            {/* let user know if smt went wrong */}
-            {error && (
-                <div className="alert alert-error mb-3 w-100">
-                    {error}
-                </div>
-            )}
-
-            <button type="submit" className="btn btn-primary w-100 mb-2">
-                Sign In
-            </button>
-            <Link href={'/authentication/forgot-password'} className="btn btn-soft btn-primary w-100">Forgot Password</Link>
-        </form>
-    )
+      <Link
+        href="/authentication/forgot-password"
+        className="btn btn-soft btn-primary w-100"
+      >
+        Forgot Password
+      </Link>
+    </form>
+  );
 }
