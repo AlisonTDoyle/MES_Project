@@ -19,6 +19,6 @@ jobs:
       - name: Install dependencies  
         run: cd mes-api; npm i
       - name: Env check
-        run: ls 
+        run: cd mes-api; ls 
       - name: Start Server
-        run: npm run dev
+        run: cd mes-api; npm run dev
