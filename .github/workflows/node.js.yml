@@ -17,4 +17,4 @@ jobs:
         with:  
           node-version: 20.x 
       - name: Install dependencies  
-        run: npm install
+        run: cd mes-api; npm i
