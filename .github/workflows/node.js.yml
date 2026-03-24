@@ -21,12 +21,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: List files in mes-api
+      run: ls -la mes-api/
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: "mes-api/package-lock.json"
+        cache-dependency-path: mes-api/package-lock.json
     - name: Install dependencies
       run: cd mes-api && npm ci
     - name: Create .env file
