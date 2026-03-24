@@ -6,31 +6,15 @@ on:
   pull_request:
     branches: ["main"]
 
-jobs:
-  run-prebuilt:
-    runs-on: self-hosted
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Verify build folder exists
-        run: |
-          if [ -d "mes-api/build" ]; then
-            echo "Build directory exists"
-          else
-            echo "Build directory NOT found"
-            exit 1
-          fi
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Create .env file
-        working-directory: mes-api
-        run: printf "%s" "${{ secrets.PROD_ENV_FILES }}" > .env
-
-      - name: Run prebuilt app
-        working-directory: mes-api
-        run: node build/index.js
+jobs:  
+  deploy:  
+    runs-on: self-hosted  
+    steps:  
+      - name: Checkout code  
+        uses: actions/checkout@v4  
+      - name: Set up Node.js  
+        uses: actions/setup-node@v2  
+        with:  
+          node-version: 20.x 
+      - name: Install dependencies  
+        run: npm install
