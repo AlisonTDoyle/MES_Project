@@ -16,19 +16,26 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v4
+    - name: List files in mes-api
+      run: ls -la mes-api/
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: cd ./mes-api
-    - run: npm ci
-    - run: |
+        cache-dependency-path: mes-api/package-lock.json' # Try glob pattern
+    - name: Install dependencies
+      run: cd mes-api && npm ci
+    - name: Create .env file
+      run: |
+        cd mes-api
         touch .env
-        echo "${{secrets.PROD_ENV_FILES}}" > .env
+        echo "${{ secrets.PROD_ENV_FILES }}" > .env  # Create .env in mes-api
+    - name: Run the app
+      run: cd mes-api && npm start
         
