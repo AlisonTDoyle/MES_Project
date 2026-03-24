@@ -18,3 +18,7 @@ jobs:
           node-version: 20.x 
       - name: Install dependencies  
         run: cd mes-api; npm i
+      - name: Env check
+        run: ls 
+      - name: Start Server
+        run: npm run dev
