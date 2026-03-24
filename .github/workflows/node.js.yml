@@ -26,10 +26,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: './mes-api/package-lock.json'
-    - run: cd ./mes-api
-    - run: npm ci
-    - run: |
+        cache-dependency-path: "mes-api/package-lock.json"
+    - name: Install dependencies
+      run: cd mes-api && npm ci
+    - name: Create .env file
+      run: |
+        cd mes-api
         touch .env
-        echo "${{secrets.PROD_ENV_FILES}}" > .env
+        echo "${{ secrets.PROD_ENV_FILES }}" > .env  # Create .env in mes-api
+    - name: Run the app
+      run: cd mes-api && npm start
         
