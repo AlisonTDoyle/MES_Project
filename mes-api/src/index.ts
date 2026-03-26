@@ -8,7 +8,7 @@ import workOrderRoutes from "./routes/work-order";
 import machineRoutes from './routes/machine';
 import productionOrderRoutes from './routes/production-order';
 import qualitySampleRoutes from './routes/quality-sample';
-import authRoutes from './routes/auth';
+// import authRoutes from './routes/auth';
 import { dbClientSetup } from "./misc/db-client-setup";
 import mqttController from './controllers/mqtt/mqtt';
 
@@ -33,7 +33,7 @@ app.use("/api/work-order", workOrderRoutes);
 app.use("/api/machine", machineRoutes);
 app.use("/api/production-order", productionOrderRoutes);
 app.use("/api/quality-sample", qualitySampleRoutes);
-app.use("/api/auth", authRoutes);
+// app.use("/api/auth", authRoutes);
 app.use("/api/customer", customerRoutes);
 app.use("/api/product", productRoutes);
 app.use('/api/mqtt', mqttController);
