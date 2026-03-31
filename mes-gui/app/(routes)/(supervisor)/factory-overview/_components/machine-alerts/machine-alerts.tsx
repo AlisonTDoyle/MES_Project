@@ -4,13 +4,14 @@ import { BreakdownType } from "@/app/_interfaces/breakdown-type"
 
 export async function MachineAlerts() {
     let _apiUrl: string | undefined = process.env.API_URL;
-    const _response = await fetch(`${_apiUrl}/machine-event/type`);
-    const _parsedRes: { data: [] } = await _response.json();
+    // const _response = await fetch(`${_apiUrl}/machine-event/type`);
+    // const _parsedRes: { data: [] } = await _response.json();
+    const _parsedRes = { data: [] };
     const _breakdownTypes:BreakdownType[] = _parsedRes.data;
 
     let data:MachineEvent[] = [
         {
-            machineId:1,
+            machineId:1,    
             reportingOperatorId:90283444,
             description: "This is an error",
             timestamp: new Date(),
