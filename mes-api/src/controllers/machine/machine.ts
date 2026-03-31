@@ -106,6 +106,27 @@ export const searchForMachinesById = async (req:Request, res: Response) => {
     }
 }
 
+export const readMachinesThatContainSearchTerm = async (req: Request, res: Response) => {
+    let searchTerm: string = String(req.params.searchTerm) || "";
+
+    if (!searchTerm || searchTerm.trim() === "") {
+        return res.status(400).json({ "error": "Invalid search term passed" });
+    }
+
+    try {
+        let db: sql.ConnectionPool = await dbClientSetup();
+        let query = `EXEC dbo.FetchMachines @SearchTerm`;
+        let result:IResult<any> = await db.request()
+            .input("SearchTerm", sql.NVarChar, searchTerm)
+            .query(query);
+
+        return res.status(200).json({ "results": result.recordset });
+    } catch (error) {
+        return res.status(400).json({ "error": error });
+    }
+}
+
+
 // Update
 export const updateMachine = async (req: Request, res: Response) => {
     try {

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowRightStartOnRectangleIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"
+import { ArrowRightStartOnRectangleIcon, MagnifyingGlassIcon, DocumentIcon, Cog6ToothIcon } from "@heroicons/react/24/solid"
 import { ReturnToHomeButton } from "./return-to-home-button"
 import { Search } from "./sidebar-actions"
 
@@ -56,7 +56,11 @@ export function Sidebar() {
                                     <span className="text-sm text-gray-500">{item.additionalInfo}</span>
                                 </div>
                                 <div>
-                                    <span className={`h-full badge badge-soft ${item.type === 'PO' ? 'badge-error' : 'badge-info'}`}>{item.type}</span>
+                                    <span className={`h-full badge badge-soft ${item.type === 'PO' ? 'badge-error' : 'badge-info'}`} title={item.type === 'PO' ? 'Production Order' : 'Machine'}>
+                                        {
+                                            item.type === 'PO' ? <DocumentIcon className="w-4 h-4" title="Production Order"/> : <Cog6ToothIcon className="w-4 h-4" />
+                                        }
+                                    </span>
                                 </div>
                             </li>
                         ))}
