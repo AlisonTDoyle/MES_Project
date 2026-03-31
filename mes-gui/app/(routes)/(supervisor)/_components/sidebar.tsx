@@ -1,17 +1,21 @@
 "use client"
 
+import { useRouter } from "next/navigation";
 import { useState } from "react"
 import { ArrowRightStartOnRectangleIcon, MagnifyingGlassIcon, DocumentIcon, Cog6ToothIcon } from "@heroicons/react/24/solid"
 import { ReturnToHomeButton } from "./return-to-home-button"
 import { Search } from "./sidebar-actions"
 
 interface RecentItem {
+    databaseId?: string
     id: string
     type: string
     additionalInfo?: string
 }
 
 export function Sidebar() {
+    let router = useRouter();
+
     const [listItems, setListItems] = useState<RecentItem[]>([])
     const [listName, setListName] = useState<string>("Recently Viewed")
 
@@ -49,7 +53,9 @@ export function Sidebar() {
                     <h4 className="mb-2">{listName}</h4>
                     <ul className="list border border-base-300 rounded-box w-full flex-1 min-h-0 overflow-auto">
                         {listItems.map((item) => (
-                            <li key={item.id} className="list-row px-2 py-1 hover:bg-neutral-100 hover:cursor-pointer dark:hover:bg-neutral-500/30">
+                            <li key={item.id} 
+                                className="list-row px-2 py-1 hover:bg-neutral-100 hover:cursor-pointer dark:hover:bg-neutral-500/30" 
+                                onClick={() => console.log(item.id)}>
                                 <div></div>
                                 <div>
                                     <span>{item.id}</span><br></br>

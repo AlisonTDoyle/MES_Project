@@ -4,10 +4,15 @@ export async function Search(formData: FormData) {
     // parse inputs
     let searchTerm = formData.get('searchTerm') as string;
     let searchObject = formData.get('searchObject') as string;
-    
+
     // search using appropriate url
-    let searchResults: {id:any, type:string, additionalInfo?: string}[] = [];
-    
+    let searchResults: {
+        id: any, 
+        type: string, 
+        additionalInfo?: string,
+        databaseId?: string
+    }[] = [];
+
     let res;
     let json;
 
@@ -18,6 +23,7 @@ export async function Search(formData: FormData) {
             let productionOrders = json.results || [];
             for (let po of productionOrders) {
                 searchResults.push({
+                    databaseId: po.id,
                     id: po.orderNumber,
                     type: 'PO',
                     additionalInfo: po.name
