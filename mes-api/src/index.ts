@@ -10,8 +10,6 @@ import productionOrderRoutes from './routes/production-order';
 import qualitySampleRoutes from './routes/quality-sample';
 import { dbClientSetup } from "./misc/db-client-setup";
 import mqttController from './controllers/mqtt/mqtt';
-
-import fetch from 'node-fetch';
 import customerRoutes from "./routes/customer";
 import productRoutes from "./routes/product";
 
