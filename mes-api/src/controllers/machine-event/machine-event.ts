@@ -63,6 +63,19 @@ export const createNewMachineEventRecord = async (req: Request, res: Response) =
 
 
 // Read
+export const getLatestMachineEvents = async (req: Request, res: Response) => {
+  try {
+    let db: sql.ConnectionPool = await dbClientSetup();
+    let query = `EXEC GetMostRecentOperatorRecordedEvents 10`;
+    let result: IResult<any> = await db.request().query(query);
+
+    return res.status(200).json(result.recordset);
+  }
+  catch (err) {
+    console.error("API error:", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 // Update
 
