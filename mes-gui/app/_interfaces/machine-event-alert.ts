@@ -2,7 +2,7 @@ export interface MachineEventAlert {
     id: number;
     machineId: number;
     timestamp: string;
-    decription:string;
+    description:string;
     type:string;
     issue:string;
 }

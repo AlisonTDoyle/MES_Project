@@ -12,25 +12,22 @@ const _machineEventsTable: string = process.env.MACHINE_EVENTS_TABLE || ""
 
 // Read
 export const readMachineEventHistory = async (req: Request, res: Response) => {
+    let machineId: number = Number.parseInt(req.params.machineId as string);
+
     try {
         let db: sql.ConnectionPool = await dbClientSetup();
 
-        // get filter information
-        let machineId: number = Number.parseInt(Array.isArray(req.params.machineId) ? req.params.machineId[0] : req.params.machineId);
-        let timePeriod: string = req.query.timePeriod == undefined ? "1" : (req.query.timePeriod).toString();
-        let timePeriodInMonths: number = Number.parseInt(timePeriod);
+        let query:string = `EXEC [dbo].[GetLatestEventsForMachine] @MachineId, @NumberOfEvents`;
 
-        // calc cut off date
-        let today = new Date();
-        let cutoffDate = new Date;
-
-        cutoffDate.setMonth(today.getMonth() - timePeriodInMonths)
-
-        // fetch information related to machine
-
+        let result = await db.request()
+            .input('MachineId', sql.Int, machineId)
+            .input('NumberOfEvents', sql.Int, 15)
+            .query(query);
         
+        return res.status(200).json(result.recordset);
     } catch (error: any) {
-
+        console.error("API error:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
