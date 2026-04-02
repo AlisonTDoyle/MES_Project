@@ -6,13 +6,13 @@ let machineData = [
         "id": "Running",
         "label": "Running",
         "value": 32,
-        "color": "hsl(159.74 100% 37%)"
+        "color": "oklch(76% 0.177 163.223)"
     },
     {
         "id": "Offline",
         "label": "Offline",
         "value": 10,
-        "color": "hsl(215.38 18% 47%)"
+        "color": "oklch(70% 0.015 286.067)"
     }];
 
 const CenteredMetric: PieLayer<{ id: string; label: string; value: number; color: string }> = ({ centerX, centerY, dataWithArc }) => {

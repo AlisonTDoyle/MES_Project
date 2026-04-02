@@ -6,9 +6,9 @@ export function StatusPieChart({data}: {data: {stage: number, statusDescription:
     let categoryColours = [
         "oklch(70% 0.2 220)",
         "oklch(82% 0.111 230.318)",
-        "oklch(77% 0.152 181.912)",
-        "oklch(76% 0.188 70.08)",
-        "hsl(356.95 96% 58%)"
+        "oklch(76% 0.177 163.223)",
+        "oklch(82% 0.189 84.429)",
+        "oklch(71% 0.194 13.428)"
     ]
     
     const machineData = useMemo(() => {
