@@ -27,7 +27,6 @@ export default function FactoryOverview({
       </div>
 
       <div className=" h-fill m-2 xl:col-1 xl:row-start-5 xl:row-span-2">
-        <ProductOrderStatuses></ProductOrderStatuses>
       </div>
 
       {/* Column 2 - Middle */}
@@ -45,6 +44,7 @@ export default function FactoryOverview({
       </div>
 
       <div className=" h-fill m-2 lg:col-3 lg:row-start-4 lg:row-span-3">
+        <ProductOrderStatuses></ProductOrderStatuses>
       </div>
     </div>
   );
