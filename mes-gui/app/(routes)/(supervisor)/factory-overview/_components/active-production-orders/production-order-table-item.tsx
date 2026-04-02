@@ -11,16 +11,16 @@ export function ProductionOrderTableItem({ productionOrder }: { productionOrder:
 
     return (
         <tr
-            key={productionOrder.id}
             onClick={() => router.push(`/production-order/${productionOrder.id}`)}
             className="p-1 hover:cursor-pointer hover:bg-base-200"
         >
-            <td>{productionOrder.orderNumber}</td>
+            <td>{productionOrder.id}</td>
             <td>{productionOrder.customerName}</td>
             <td>
                 state
             </td>
             <td>{new Date(productionOrder.orderPlacedOn).toLocaleDateString()}</td>
+            <td>{productionOrder.deadline ? (productionOrder.deadline).toLocaleDateString() : "N/A"}</td>
         </tr>
     )
 }

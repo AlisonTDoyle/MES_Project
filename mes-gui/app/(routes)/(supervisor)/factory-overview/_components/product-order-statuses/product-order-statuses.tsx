@@ -5,8 +5,6 @@ export async function ProductOrderStatuses() {
     let json = await res.json();
     let data = json.message || [];
 
-    console.log(data);
-
     return (
         <div className="card shadow-sm h-full min-h-72">
             <div className="card-body">

@@ -2,15 +2,9 @@ import { ProductionOrderTableItem } from "./production-order-table-item";
 import { ProductionOrder } from "@/app/_interfaces/production-order/production-order";
 
 export async function ActiveWorkOrders() {
-    let productionOrders: ProductionOrder[] = [];
-
-    try {
-        const response = await fetch("http://localhost:3001/api/production-order");
-        const parsedRes = await response.json();
-        productionOrders = parsedRes || [];
-    } catch (error) {
-        console.error("Error fetching production orders:", error);
-    }
+    const response = await fetch("http://localhost:3001/api/production-order");
+    const parsedRes = await response.json();
+    const productionOrders: ProductionOrder[] = parsedRes || [];
 
     return (
         <div className="card shadow-sm h-full">
@@ -27,7 +21,7 @@ export async function ActiveWorkOrders() {
                             </tr>
                         </thead>
                         <tbody>
-                            {productionOrders.map(po => (<ProductionOrderTableItem productionOrder={po}></ProductionOrderTableItem>))}
+                            {productionOrders.map(po => (<ProductionOrderTableItem key={po.id} productionOrder={po}></ProductionOrderTableItem>))}
                         </tbody>
                     </table>
                 </div>
