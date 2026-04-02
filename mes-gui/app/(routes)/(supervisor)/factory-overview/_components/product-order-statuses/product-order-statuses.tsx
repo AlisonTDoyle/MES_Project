@@ -10,7 +10,7 @@ export async function ProductOrderStatuses() {
     return (
         <div className="card shadow-sm h-full min-h-72">
             <div className="card-body">
-                <span className="card-title">PO Statuses</span>
+                <span className="card-title">WO Statuses</span>
                 <StatusPieChart data={data}></StatusPieChart>
             </div>
         </div>
