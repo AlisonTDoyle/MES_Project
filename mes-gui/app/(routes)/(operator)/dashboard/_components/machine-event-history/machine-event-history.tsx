@@ -1,12 +1,14 @@
 import { BreakdownType } from "@/app/_interfaces/breakdown-type";
 import { MachineEvent } from "@/app/_interfaces/machine-breakdown";
 import { MachineEventListItem } from "./machine-event-list-item";
+import { MachineEventAlert } from "@/app/_interfaces/machine-event-alert";
 
 export async function MachineEventHistory() {
-    const historyResponse = await fetch("http://localhost:3001/api/machine/1/events");
-    const events = await historyResponse.json();
-    let machineEventTypes = await fetch("http://localhost:3001/api/machine-event/type").then(res => res.json()).then(data => data.data);
+    let events: MachineEventAlert[] = [];
 
+    let response = await fetch("http://localhost:3001/api/machine/5621/events");
+    events = await response.json() || [];
+    
     return (
         <div className="card shadow-sm bg-base-100 flex h-100 lg:h-full flex-col min-h-0">
             <div className="card-body overflow-hidden">
@@ -15,7 +17,7 @@ export async function MachineEventHistory() {
                 </span>
                 <ul className="list flex-1 min-h-0 overflow-y-auto">
                     {events.map((e:any) => (
-                        <MachineEventListItem MachineEvent={e} breakdownTypes={machineEventTypes} />
+                        <MachineEventListItem key={e.id} MachineEvent={e} />
                     ))}
                 </ul>
             </div>

@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import sql, { IResult } from "mssql";
 import { dbClientSetup } from "../../misc/db-client-setup";
 import { ValidateMachine } from "../../interfaces/object-models/dbo/machine";
-import { MachineType } from "../../enums/machineType";
 
 dotenv.config();
 
@@ -105,6 +104,27 @@ export const searchForMachinesById = async (req:Request, res: Response) => {
         return res.status(500).json({ error: error.message, code: error.code });
     }
 }
+
+export const readMachinesThatContainSearchTerm = async (req: Request, res: Response) => {
+    let searchTerm: string = String(req.params.searchTerm) || "";
+
+    if (!searchTerm || searchTerm.trim() === "") {
+        return res.status(400).json({ "error": "Invalid search term passed" });
+    }
+
+    try {
+        let db: sql.ConnectionPool = await dbClientSetup();
+        let query = `EXEC dbo.FetchMachines @SearchTerm`;
+        let result:IResult<any> = await db.request()
+            .input("SearchTerm", sql.NVarChar, searchTerm)
+            .query(query);
+
+        return res.status(200).json({ "results": result.recordset });
+    } catch (error) {
+        return res.status(400).json({ "error": error });
+    }
+}
+
 
 // Update
 export const updateMachine = async (req: Request, res: Response) => {

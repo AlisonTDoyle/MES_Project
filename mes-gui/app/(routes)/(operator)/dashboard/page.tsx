@@ -13,7 +13,7 @@ export default function Dashboard() {
             </div>
 
             <div className="m-2 row-span-2">
-                <UpcomingWorkOrders />
+                {/* <UpcomingWorkOrders /> */}
             </div>
 
             <div className="m-2">

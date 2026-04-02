@@ -1,9 +1,11 @@
 export interface WorkOrder {
     id:number,
-    operatorId:number,
-    machineId:number,
-    description:string,
-    scheduleDate:Date,
-    completed:boolean,
-    createdAt:Date,
+    productionOrderId:number,
+    productId:number,
+    description?:string,
+    stage:number,
+    productionOrderItemId:number,
+    status:number,
+    creationDate:Date,
+    completionDate:Date,
 }

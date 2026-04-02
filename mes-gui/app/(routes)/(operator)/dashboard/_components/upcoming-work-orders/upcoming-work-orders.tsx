@@ -4,7 +4,7 @@ import { WorkOrderListItem } from "./work-order-list-item";
 export default async function UpcomingWorkOrders() {
     const response = await fetch("http://localhost:3001/api/operator/1/work-order");
     const parsedRes:{data:[]} = await response.json();
-    const workOrders: WorkOrder[] = parsedRes.data;
+    const workOrders: WorkOrder[] = parsedRes.data || [];
 
     return (
         <div className="card shadow-sm bg-base-100 flex h-100 lg:h-full flex-col min-h-0">

@@ -9,11 +9,8 @@ export function ProductionOrderTableItem({ productionOrder }: { productionOrder:
     // let badge: string = workOrder.completed ? "badge-success" : "badge-danger";
     let router = useRouter();
 
-    console.log(productionOrder)
-
     return (
         <tr
-            key={productionOrder.id}
             onClick={() => router.push(`/production-order/${productionOrder.id}`)}
             className="p-1 hover:cursor-pointer hover:bg-base-200"
         >
