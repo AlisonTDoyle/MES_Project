@@ -36,6 +36,7 @@ export function StatusPieChart({data}: {data: {stage: number, statusDescription:
             enableArcLinkLabels={false}
             margin={{ top: 0, right: 0, bottom: 100, left: 0 }}
             arcLinkLabelsDiagonalLength={0}
+            isInteractive={false}
             legends={[
                 {
                     anchor: "bottom",
