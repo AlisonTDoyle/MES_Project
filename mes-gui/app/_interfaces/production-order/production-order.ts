@@ -2,6 +2,7 @@ import { ProductionOrderItem } from "./production-order-item"
 
 export interface ProductionOrder {
     id?: number
+    orderNumber?: number
     customerId: number
     orderPlacedOn: Date
     deadline?: Date
