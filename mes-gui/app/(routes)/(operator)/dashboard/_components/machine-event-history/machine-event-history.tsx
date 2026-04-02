@@ -8,7 +8,7 @@ export async function MachineEventHistory() {
 
     let response = await fetch("http://localhost:3001/api/machine/5621/events");
     events = await response.json() || [];
-    console.log(events);
+    
     return (
         <div className="card shadow-sm bg-base-100 flex h-100 lg:h-full flex-col min-h-0">
             <div className="card-body overflow-hidden">
