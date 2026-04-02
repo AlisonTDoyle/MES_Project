@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import sql, { IResult } from "mssql";
 import { dbClientSetup } from "../../misc/db-client-setup";
 import { ValidateMachine } from "../../interfaces/object-models/dbo/machine";
-import { MachineType } from "../../enums/machineType";
 
 dotenv.config();
 
