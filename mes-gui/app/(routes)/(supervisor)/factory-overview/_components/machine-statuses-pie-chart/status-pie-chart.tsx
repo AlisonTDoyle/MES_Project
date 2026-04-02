@@ -51,6 +51,7 @@ export function StatusPieChart() {
                 {
                     anchor: "bottom",
                     direction: "row",
+                    itemDirection: "top-to-bottom",
                     itemHeight: 18,
                     itemWidth: 100,
                     itemTextColor: "#999",
