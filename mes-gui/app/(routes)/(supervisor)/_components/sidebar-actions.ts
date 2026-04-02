@@ -38,7 +38,8 @@ export async function Search(formData: FormData) {
                 searchResults.push({
                     id: machine.id,
                     type: 'Machine',
-                    additionalInfo: machine.description
+                    additionalInfo: machine.description,
+                    databaseId: machine.id
                 });
             }
             break;
@@ -47,3 +48,4 @@ export async function Search(formData: FormData) {
     // return results
     return searchResults;
 }
+

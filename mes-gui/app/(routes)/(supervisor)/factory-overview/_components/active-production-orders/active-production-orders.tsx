@@ -8,7 +8,6 @@ export async function ActiveWorkOrders() {
         const response = await fetch("http://localhost:3001/api/production-order");
         const parsedRes = await response.json();
         productionOrders = parsedRes || [];
-        console.log(productionOrders);
     } catch (error) {
         console.error("Error fetching production orders:", error);
     }
