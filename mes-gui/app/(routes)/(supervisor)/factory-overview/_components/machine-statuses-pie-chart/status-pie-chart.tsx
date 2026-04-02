@@ -21,19 +21,19 @@ export function StatusPieChart() {
                 id: "Running",
                 label: "Running",
                 value: running,
-                color: "hsl(159.74 100% 37%)",
+                color: "oklch(76% 0.177 163.223)",
             },
             {
                 id: "Offline",
                 label: "Offline",
                 value: offline,
-                color: "hsl(215.38 18% 47%)",
+                color: "oklch(70% 0.015 286.067)",
             },
             {
                 id: "Broken Down",
                 label: "Broken Down",
                 value: brokenDown,
-                color: "hsl(356.95 96% 58%)",
+                color: "oklch(71% 0.194 13.428)",
             },
         ]
     }, [])
