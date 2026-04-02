@@ -1,10 +1,11 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ArrowRightStartOnRectangleIcon, MagnifyingGlassIcon, DocumentIcon, Cog6ToothIcon } from "@heroicons/react/24/solid"
 import { ReturnToHomeButton } from "./return-to-home-button"
 import { Search } from "./sidebar-actions"
+import UpcomingWorkOrders from "../../(operator)/dashboard/_components/upcoming-work-orders/upcoming-work-orders";
 
 interface RecentItem {
     databaseId?: string
@@ -19,6 +20,46 @@ export function Sidebar() {
     const [listItems, setListItems] = useState<RecentItem[]>([])
     const [listName, setListName] = useState<string>("Recently Viewed")
 
+    // on component mount, get recently viewed items from local storage
+    useEffect(() => {
+        const recentItems = GetRecentlyViewed();
+        setListItems(recentItems);
+    }, [])
+
+    function GetRecentlyViewed() {
+        let recentItems: RecentItem[] = [];
+
+        recentItems = localStorage.getItem('recentlyViewed') ? JSON.parse(localStorage.getItem('recentlyViewed') as string) : [];
+
+        return recentItems;
+    }
+
+    function UpdateRecentlyViewed(item: RecentItem) {
+        let recentItems: RecentItem[] = [];
+
+        // get current local storage
+        recentItems = localStorage.getItem('recentlyViewed') ? JSON.parse(localStorage.getItem('recentlyViewed') as string) : [];
+        console.log("Current recently viewed items:", recentItems);
+
+        // remove oldest item and add newest
+        if (recentItems.length >= 10) {
+            recentItems.splice(0, 1);
+        }
+
+        // check if item already exists in recent items
+        const existingIndex = recentItems.findIndex((i) => i.id === item.id && i.type === item.type);
+        if (existingIndex !== -1) {
+            // if it exists, remove it from its current position
+            recentItems.splice(existingIndex, 1);
+        }
+        recentItems.push(item);
+
+
+        // update local storage
+        localStorage.setItem('recentlyViewed', JSON.stringify(recentItems));
+    }
+
+
     const handleSearch = async (formData: FormData) => {
         setListName("Search Results")
         const searchResults = await Search(formData)
@@ -26,6 +67,7 @@ export function Sidebar() {
 
         if (searchResults.length === 0) {
             setListName("Recently Viewed")
+            setListItems(GetRecentlyViewed())
         }
     }
 
@@ -53,9 +95,14 @@ export function Sidebar() {
                     <h4 className="mb-2">{listName}</h4>
                     <ul className="list border border-base-300 rounded-box w-full flex-1 min-h-0 overflow-auto">
                         {listItems.map((item) => (
-                            <li key={item.id} 
-                                className="list-row px-2 py-1 hover:bg-neutral-100 hover:cursor-pointer dark:hover:bg-neutral-500/30" 
-                                onClick={() => console.log(item.id)}>
+                            <li key={item.id}
+                                className="list-row px-2 py-1 hover:bg-neutral-100 hover:cursor-pointer dark:hover:bg-neutral-500/30"
+                                onClick={() => {
+                                    UpdateRecentlyViewed(item)
+                                    if (item.type === 'PO') {
+                                        router.push(`/production-order/${item.databaseId}`)
+                                    }
+                                }}>
                                 <div></div>
                                 <div>
                                     <span>{item.id}</span><br></br>
@@ -64,7 +111,7 @@ export function Sidebar() {
                                 <div>
                                     <span className={`h-full badge badge-soft ${item.type === 'PO' ? 'badge-error' : 'badge-info'}`} title={item.type === 'PO' ? 'Production Order' : 'Machine'}>
                                         {
-                                            item.type === 'PO' ? <DocumentIcon className="w-4 h-4" title="Production Order"/> : <Cog6ToothIcon className="w-4 h-4" />
+                                            item.type === 'PO' ? <DocumentIcon className="w-4 h-4" title="Production Order" /> : <Cog6ToothIcon className="w-4 h-4" />
                                         }
                                     </span>
                                 </div>

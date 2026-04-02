@@ -23,7 +23,6 @@ export function StatusPieChart({data}: {data: {stage: number, statusDescription:
             datapoints.push(datapoint);
         }
         
-        console.log(datapoints);
         return datapoints;
     }, [])
 
