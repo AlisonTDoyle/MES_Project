@@ -2,17 +2,13 @@ import { WorkOrder } from "@/app/_interfaces/work-order";
 import { PlayIcon, PauseIcon, CheckIcon } from "@heroicons/react/24/solid"
 import React from "react";
 
-export async function CurrentWorkOrder() {
-    let workOrder: Partial<WorkOrder> = {};
-    try {
-        let response = await fetch("http://localhost:3001/api/machine/5621/current-work-order");
-        workOrder = await response.json() || {};
-    } catch (error) {
-        workOrder = {};
-    }
+let workOrder: WorkOrder;
+let response = await fetch("http://localhost:3001/api/machine/5621/current-work-order");
+workOrder = await response.json() || {};
 
+export function CurrentWorkOrder() {
     function formatDescription() {
-        if (!workOrder.description || typeof workOrder.description !== 'string') return "No description provided.";
+        if (!workOrder.description) return "No description provided.";
 
         let desc = workOrder.description;
 
@@ -32,11 +28,11 @@ export async function CurrentWorkOrder() {
                 <tbody>
                     <tr>
                         <td className="font-bold">ID</td>
-                        <td>{workOrder.productionOrderId || 'N/A'}-{workOrder.id || 'N/A'}</td>
+                        <td>{workOrder.productionOrderId}-{workOrder.id}</td>
                     </tr>
                     <tr>
                         <td className="font-bold">Creation Date</td>
-                        <td>{workOrder.creationDate ? new Date(workOrder.creationDate).toLocaleDateString() : 'N/A'}</td>
+                        <td>{new Date(workOrder.creationDate).toLocaleDateString()}</td>
                     </tr>
                     <tr>
                         <td className="font-bold">Description</td>

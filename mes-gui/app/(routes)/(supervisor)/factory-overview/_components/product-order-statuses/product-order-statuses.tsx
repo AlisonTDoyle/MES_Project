@@ -1,15 +1,9 @@
 import { StatusPieChart } from "./status-pie-chart";
 
 export async function ProductOrderStatuses() {
-    let data: {stage: number, statusDescription: string, workOrderCount:number}[] = [];
-    try {
-        let res = await fetch("http://localhost:3001/api/work-order/statuses");
-        let json = await res.json();
-        data = Array.isArray(json.message) ? json.message : [];
-    } catch (error) {
-        // Handle fetch error during prerendering
-        data = [];
-    }
+    let res = await fetch("http://localhost:3001/api/work-order/statuses");
+    let json = await res.json();
+    let data = json.message || [];
 
     return (
         <div className="card shadow-sm h-full min-h-72">

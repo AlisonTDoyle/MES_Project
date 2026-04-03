@@ -2,15 +2,9 @@ import { WorkOrder } from "@/app/_interfaces/work-order";
 import { WorkOrderListItem } from "./work-order-list-item";
 
 export default async function UpcomingWorkOrders() {
-    let workOrders: WorkOrder[] = [];
-
-    try {
-        let response = await fetch("http://localhost:3001/api/operator/1/work-order");
-        const json = await response.json();
-        workOrders = Array.isArray(json) ? json : [];
-    } catch (error) {
-        workOrders = [];
-    }
+    const response = await fetch("http://localhost:3001/api/operator/1/work-order");
+    const parsedRes:{data:[]} = await response.json();
+    const workOrders: WorkOrder[] = parsedRes.data || [];
 
     return (
         <div className="card shadow-sm bg-base-100 flex h-100 lg:h-full flex-col min-h-0">
