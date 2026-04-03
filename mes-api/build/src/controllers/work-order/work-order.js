@@ -13,14 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.readStatusesOfAllOngoingWorkOrders = exports.readWorkOrdersForTimePeriod = exports.readWorkOrders = void 0;
-const supabase_js_1 = require("@supabase/supabase-js");
 const dotenv_1 = __importDefault(require("dotenv"));
 const db_client_setup_1 = require("../../misc/db-client-setup");
 dotenv_1.default.config();
 // Properties
-const _supabaseUrl = process.env.SUPABASE_URL || "";
-const _supabaseKey = process.env.SUPABASE_KEY || "";
-const _supabase = (0, supabase_js_1.createClient)(_supabaseUrl, _supabaseKey);
 const _workOrderTable = process.env.WORK_ORDER_TABLE || "";
 // Create
 // Read

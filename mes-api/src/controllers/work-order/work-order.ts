@@ -1,6 +1,5 @@
 // Imports
 import { Request, Response } from "express";
-import { createClient } from '@supabase/supabase-js'
 import dotenv from "dotenv";
 import sql, { IResult } from "mssql";
 import { dbClientSetup } from "../../misc/db-client-setup";
@@ -8,9 +7,6 @@ import { dbClientSetup } from "../../misc/db-client-setup";
 dotenv.config();
 
 // Properties
-const _supabaseUrl: string = process.env.SUPABASE_URL || "";
-const _supabaseKey: string = process.env.SUPABASE_KEY || "";
-const _supabase = createClient(_supabaseUrl, _supabaseKey);
 const _workOrderTable: string = process.env.WORK_ORDER_TABLE || "";
 
 // Create

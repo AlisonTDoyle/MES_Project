@@ -12,7 +12,6 @@
   "license": "ISC",
   "keywords": [],
   "dependencies": {
-    "@supabase/supabase-js": "^2.90.1",
     "@types/cors": "^2.8.17",
     "aws-cdk-lib": "^2.248.0",
     "aws-iot-device-sdk-v2": "^1.25.1",
