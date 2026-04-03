@@ -43,7 +43,15 @@ app.get("/api/db-test", async (req, res) => {
     catch (err: any) {
         res.status(500).json({ error: err.message });
     }  
-})
+});
+
+app.get("/api/health", (req, res) => {
+    res.status(200).json({ status: "API is healthy" });
+});
+
+app.get("/api/test", (req, res) => {
+    res.status(200).json({ message: `Test endpoint is working! Env variable PORT = ${PORT}` });
+});
 
 // Start server
 app.listen(PORT, () => {

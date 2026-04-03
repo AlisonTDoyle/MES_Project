@@ -13,7 +13,6 @@
   "keywords": [],
   "dependencies": {
     "@types/cors": "^2.8.17",
-    "aws-cdk-lib": "^2.248.0",
     "aws-iot-device-sdk-v2": "^1.25.1",
     "aws-sdk": "^2.1693.0",
     "body-parser": "^2.2.2",
