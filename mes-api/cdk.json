@@ -1,5 +1,5 @@
 {
-  "app": "build/index.js",
+  "app": "build/src/index.js",
   "context": {
     "@aws-cdk/aws-signer:signingProfileNamePassedToCfn": true,
     "@aws-cdk/aws-ecs-patterns:secGroupsDisablesImplicitOpenListener": true,
