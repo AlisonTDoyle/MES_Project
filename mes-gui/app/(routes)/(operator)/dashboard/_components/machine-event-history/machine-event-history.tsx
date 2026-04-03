@@ -5,9 +5,13 @@ import { MachineEventAlert } from "@/app/_interfaces/machine-event-alert";
 
 export async function MachineEventHistory() {
     let events: MachineEventAlert[] = [];
-
-    let response = await fetch("http://localhost:3001/api/machine/5621/events");
-    events = await response.json() || [];
+    try {
+        let response = await fetch("http://localhost:3001/api/machine/5621/events");
+        const json = await response.json();
+        events = Array.isArray(json) ? json : [];
+    } catch (error) {
+        events = [];
+    }
     
     return (
         <div className="card shadow-sm bg-base-100 flex h-100 lg:h-full flex-col min-h-0">

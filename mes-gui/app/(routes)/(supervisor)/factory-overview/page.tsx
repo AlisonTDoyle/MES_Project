@@ -5,6 +5,8 @@ import { OeeGraph } from "./_components/oee-graph/oee-graph";
 import { OutputTargetGraph } from "./_components/output-target-graph/output-target-graph";
 import { ProductOrderStatuses } from "./_components/product-order-statuses/product-order-statuses";
 
+export const dynamic = 'force-dynamic';
+
 export default function FactoryOverview({
   children,
 }: Readonly<{

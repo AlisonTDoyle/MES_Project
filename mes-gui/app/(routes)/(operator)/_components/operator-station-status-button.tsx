@@ -46,7 +46,7 @@ export default function OperatorStationStatusButton() {
     }
 
     return (
-        <button className="btn btn-soft btn-primary mb-2 w-full" onClick={(e) => ChangeStationStatus(e)}>
+        <button className="btn btn-soft btn-primary mb-2 w-full" onClick={(e) => ChangeStationStatus()}>
             <ClockIcon className="w-5 h-5" />
             <span>{buttonText}</span>
         </button>

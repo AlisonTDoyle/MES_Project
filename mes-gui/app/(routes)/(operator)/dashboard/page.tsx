@@ -5,6 +5,8 @@ import { MachineEventHistory } from "./_components/machine-event-history/machine
 import { OperatorOee } from "./_components/operator-oee/operator-oee";
 import { CurrentWorkOrder } from "./_components/current-work-order/current-work-order";
 
+export const dynamic = 'force-dynamic';
+
 export default function Dashboard() {
     return (
         <div className="grid h-screen lg:grid-cols-[33%_33%_33%] lg:grid-rows-[30%_70%] min-h-0">

@@ -2,16 +2,11 @@
 
 import Link from "next/link";
 import React from "react";
-import { handleSignIn } from "@/utils/cognitoActions";
 
 export default function LogIn() {
-  const [errorMessage, dispatch, isPending] = React.useActionState(
-    handleSignIn,
-    undefined
-  );
 
   return (
-    <form action={dispatch} className="w-100">
+    <form className="w-100">
       <fieldset className="fieldset">
         <label htmlFor="email" className="label">
           Email
@@ -40,18 +35,11 @@ export default function LogIn() {
         />
       </fieldset>
 
-      {errorMessage && (
-        <div className="alert alert-error mb-3 w-100">
-          {errorMessage}
-        </div>
-      )}
-
       <button
         type="submit"
         className="btn btn-primary w-100 mb-2"
-        disabled={isPending}
       >
-        {isPending ? "Signing In..." : "Sign In"}
+        Sign In
       </button>
 
       <Link

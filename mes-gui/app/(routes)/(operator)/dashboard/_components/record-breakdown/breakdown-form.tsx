@@ -3,9 +3,10 @@
 import { BreakdownType } from "@/app/_interfaces/breakdown-type";
 import { FormEvent, useState } from "react";
 
-export default function BreakdownForm({ breakdownTypes }: { breakdownTypes: BreakdownType[] }) {
+export default function BreakdownForm({ breakdownTypes = [] }: { breakdownTypes?: BreakdownType[] }) {
     let _breakdownHintText: string = "Give as much information as possible about the breakdown such as error codes or steps to reproduce";
     let _apiUrl = "http://localhost:3001/api";
+    
     let [breakdownForm, setBreakdownForm] = useState({
         machineId: 0,
         reportingOperatorId: 1,
@@ -15,7 +16,10 @@ export default function BreakdownForm({ breakdownTypes }: { breakdownTypes: Brea
 
     function updateFormValues (e:any) {
         let { name, value } = e.target;
-        setBreakdownForm({...breakdownForm, [name]:value});
+        setBreakdownForm({
+            ...breakdownForm,
+            [name]: name === "machineId" || name === "type" ? Number(value) : value
+        });
     }
 
     function submitForm (event: FormEvent<HTMLFormElement>) {
@@ -23,7 +27,7 @@ export default function BreakdownForm({ breakdownTypes }: { breakdownTypes: Brea
 
         const formData = new FormData(event.currentTarget);
 
-        console.log(formData.values)
+        console.log(Array.from(formData.entries()));
 
         let body = {
             "machineId": breakdownForm.machineId,

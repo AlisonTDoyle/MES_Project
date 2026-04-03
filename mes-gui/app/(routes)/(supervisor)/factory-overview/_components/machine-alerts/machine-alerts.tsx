@@ -2,9 +2,16 @@ import { MachineEventAlert } from "@/app/_interfaces/machine-event-alert";
 import { AlertTableItem } from "./alert-table-item";
 
 export async function MachineAlerts() {
-    const _apiUrl = process.env.API_URL;
-    const _response = await fetch(`${_apiUrl}/machine-event/recent`);
-    const _machineEventAlert: MachineEventAlert[] = (await _response.json()) || [];
+    let _machineEventAlert: MachineEventAlert[] = [];
+    try {
+        const _apiUrl = process.env.API_URL;
+        const _response = await fetch(`${_apiUrl}/machine-event/recent`);
+        const json = await _response.json();
+        _machineEventAlert = Array.isArray(json) ? json : [];
+    } catch (error) {
+        // Handle fetch error during prerendering
+        _machineEventAlert = [];
+    }
 
     return (
         <div className="card shadow-sm h-full">
