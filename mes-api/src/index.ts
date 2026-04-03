@@ -12,8 +12,6 @@ import { dbClientSetup } from "./misc/db-client-setup";
 import mqttController from './controllers/mqtt/mqtt';
 import customerRoutes from "./routes/customer";
 import productRoutes from "./routes/product";
-import * as cdk from 'aws-cdk-lib/core';
-import { CdkStack } from './../cdk/lib/cdk-stack';
 
 // Enable environment variables
 dotenv.config();
