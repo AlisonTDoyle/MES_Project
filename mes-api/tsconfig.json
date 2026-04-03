@@ -1,9 +1,13 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "target": "ES2022",
+        "lib": ["ES2022"],
         "module": "commonjs",
         "outDir": "./build",
+        "rootDir": "./src",
         "strict": true,
-        "esModuleInterop": true
-    }
+        "esModuleInterop": true,
+        // "types": ["node"]  // only include @types/node, nothing else automatically
+    },
+    "include": ["src"]
 }

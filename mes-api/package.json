@@ -13,6 +13,7 @@
   "keywords": [],
   "dependencies": {
     "@types/cors": "^2.8.17",
+    "@types/tedious": "^4.0.14",
     "aws-iot-device-sdk-v2": "^1.25.1",
     "aws-sdk": "^2.1693.0",
     "body-parser": "^2.2.2",
@@ -22,16 +23,15 @@
     "express": "^4.21.1",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.3",
-    "mssql": "^12.2.0",
+    "mssql": "^12.2.1",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/jest": "^30.0.0",
-    "@types/mssql": "^9.1.9",
-    "@types/node": "^22.19.7",
+    "@types/mssql": "^9.1.11",
+    "@types/node": "^22.19.17",
     "typescript": "^5.6.3"
   },
   "nodemonConfig": {
