@@ -15,8 +15,6 @@ jobs:
           node-version: '22'
       - name: Install dependencies
         run: cd mes-api; npm install
-      - name: Build the project
-        run: cd mes-api; npm run build
       - name: Deploy to AWS
         run: cd mes-api; npx cdk deploy --require-approval never
         env:
