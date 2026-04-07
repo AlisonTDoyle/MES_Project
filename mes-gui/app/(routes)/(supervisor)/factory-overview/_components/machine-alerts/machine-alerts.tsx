@@ -3,8 +3,31 @@ import { AlertTableItem } from "./alert-table-item";
 
 export async function MachineAlerts() {
     const _apiUrl = process.env.API_URL;
-    const _response = await fetch(`${_apiUrl}/machine-event/recent`);
-    const _machineEventAlert: MachineEventAlert[] = (await _response.json()) || [];
+    let _machineEventAlert: MachineEventAlert[] = [];
+
+    if (!_apiUrl) {
+        console.error("Missing API_URL environment variable");
+    } else {
+        try {
+            const _response = await fetch(`${_apiUrl}/machine-event/recent`);
+
+            if (!_response.ok) {
+                console.error("Failed to fetch machine event alerts", {
+                    status: _response.status,
+                    statusText: _response.statusText,
+                });
+            } else {
+                const data = await _response.json();
+                if (Array.isArray(data)) {
+                    _machineEventAlert = data as MachineEventAlert[];
+                } else {
+                    console.warn("Unexpected machine event alert response shape", data);
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching machine event alerts", error);
+        }
+    }
 
     return (
         <div className="card shadow-sm h-full">
