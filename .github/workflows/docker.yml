@@ -60,7 +60,7 @@ jobs:
             docker run -d \
               --name mes-api \
               --restart always \
-              -p 443:3001 \
+              -p 443:10001 \
               --env-file /home/ubuntu/api/.env \
               ${{ steps.login-ecr.outputs.registry }}/mes-api:${{ github.sha }}
 
