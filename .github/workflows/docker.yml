@@ -55,10 +55,13 @@ jobs:
             docker stop mes-api || true
             docker rm mes-api || true
 
+            echo "${{ secrets.ENV_FILE }}" > /home/ubuntu/api/.env
+
             docker run -d \
               --name mes-api \
               --restart always \
               -p 443:3000 \
+              --env-file /home/ubuntu/api/.env \
               ${{ steps.login-ecr.outputs.registry }}/mes-api:${{ github.sha }}
 
             docker image prune -f
