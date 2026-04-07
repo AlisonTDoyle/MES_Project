@@ -1,37 +1,65 @@
-import type { FormEvent } from "react"
-import { Amplify } from "aws-amplify"
-import { signIn } from "aws-amplify/auth"
-// import outputs from "../amplify_outputs.json"
+"use client";
 
-// Amplify.configure(outputs)
+import Link from "next/link";
+import React from "react";
+import { handleSignIn } from "@/utils/cognitoActions";
 
-interface SignInFormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement
-  password: HTMLInputElement
-}
-
-interface SignInForm extends HTMLFormElement {
-  readonly elements: SignInFormElements
-}
-
-export default function App() {
-  async function handleSubmit(event: FormEvent<SignInForm>) {
-    event.preventDefault()
-    const form = event.currentTarget
-    // ... validate inputs
-    await signIn({
-      username: form.elements.email.value,
-      password: form.elements.password.value,
-    })
-  }
+export default function LogIn() {
+  const [errorMessage, dispatch, isPending] = React.useActionState(
+    handleSignIn,
+    undefined
+  );
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Email:</label>
-      <input type="text" id="email" name="email" />
-      <label htmlFor="password">Password:</label>
-      <input type="password" id="password" name="password" />
-      <input type="submit" />
+    <form action={dispatch} className="w-100">
+      <fieldset className="fieldset">
+        <label htmlFor="email" className="label">
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          className="input validator w-100"
+          placeholder="example@email.com"
+          required
+        />
+      </fieldset>
+
+      <fieldset className="fieldset mb-4">
+        <label htmlFor="password" className="label">
+          Password
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          className="input validator w-100"
+          placeholder="Password"
+          required
+        />
+      </fieldset>
+
+      {errorMessage && (
+        <div className="alert alert-error mb-3 w-100">
+          {errorMessage}
+        </div>
+      )}
+
+      <button
+        type="submit"
+        className="btn btn-primary w-100 mb-2"
+        disabled={isPending}
+      >
+        {isPending ? "Signing In..." : "Sign In"}
+      </button>
+
+      <Link
+        href="/authentication/forgot-password"
+        className="btn btn-soft btn-primary w-100"
+      >
+        Forgot Password
+      </Link>
     </form>
-  )
+  );
 }

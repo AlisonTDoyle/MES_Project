@@ -4,7 +4,7 @@ import { WorkOrder } from "@/app/_interfaces/work-order";
 import { useState } from "react";
 
 export function MarkTaskCompletedButton({ workOrder }: { workOrder: WorkOrder }) {
-    const [isCompleted, setIsCompleted] = useState(workOrder.completed);
+    const [isCompleted, setIsCompleted] = useState(false);
 
     const nextState = isCompleted ? "Incomplete" : "Complete";
     const buttonStyling = isCompleted
@@ -14,22 +14,22 @@ export function MarkTaskCompletedButton({ workOrder }: { workOrder: WorkOrder })
     const sendPostRequest = async () => {
         const newStatus = !isCompleted;
 
-        await fetch(
-            `http://localhost:3001/api/operator/${workOrder.operatorId}/work-order`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    workOrderId: workOrder.id,
-                    status: newStatus,
-                }),
-            }
-        );
+        // await fetch(
+        //     `http://localhost:3001/api/operator/${workOrder.operatorId}/work-order`,
+        //     {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //             workOrderId: workOrder.id,
+        //             status: newStatus,
+        //         }),
+        //     }
+        // );
 
         // update React state
-        setIsCompleted(newStatus);
+        setIsCompleted(false);
     };
 
     return (
