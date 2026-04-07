@@ -4,12 +4,13 @@ import UpcomingWorkOrders from "./_components/upcoming-work-orders/upcoming-work
 import { MachineEventHistory } from "./_components/machine-event-history/machine-event-history";
 import { OperatorOee } from "./_components/operator-oee/operator-oee";
 import { CurrentWorkOrder } from "./_components/current-work-order/current-work-order";
+export const dynamic = 'force-dynamic'
 
 export default function Dashboard() {
     return (
         <div className="grid h-screen lg:grid-cols-[33%_33%_33%] lg:grid-rows-[30%_70%] min-h-0">
             <div className="m-2 row-span-2">
-                <CurrentWorkOrder />
+                {/* <CurrentWorkOrder /> */}
             </div>
 
             <div className="m-2 row-span-2">
@@ -17,11 +18,11 @@ export default function Dashboard() {
             </div>
 
             <div className="m-2">
-                <OperatorOee></OperatorOee>
+                {/* <OperatorOee></OperatorOee> */}
             </div>
 
             <div className="m-2">
-                <MachineEventHistory />
+                {/* <MachineEventHistory /> */}
             </div>
         </div>
     )

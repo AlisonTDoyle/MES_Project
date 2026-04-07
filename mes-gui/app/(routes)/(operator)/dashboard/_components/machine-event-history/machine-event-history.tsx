@@ -2,6 +2,7 @@ import { BreakdownType } from "@/app/_interfaces/breakdown-type";
 import { MachineEvent } from "@/app/_interfaces/machine-breakdown";
 import { MachineEventListItem } from "./machine-event-list-item";
 import { MachineEventAlert } from "@/app/_interfaces/machine-event-alert";
+export const dynamic = 'force-dynamic'
 
 export async function MachineEventHistory() {
     let events: MachineEventAlert[] = [];

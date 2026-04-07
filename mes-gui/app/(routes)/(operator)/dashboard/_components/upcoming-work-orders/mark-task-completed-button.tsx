@@ -2,6 +2,7 @@
 
 import { WorkOrder } from "@/app/_interfaces/work-order";
 import { useState } from "react";
+export const dynamic = 'force-dynamic'
 
 export function MarkTaskCompletedButton({ workOrder }: { workOrder: WorkOrder }) {
     const [isCompleted, setIsCompleted] = useState(false);

@@ -1,6 +1,7 @@
 import { WorkOrder } from "@/app/_interfaces/work-order";
 import { PlayIcon, PauseIcon, CheckIcon } from "@heroicons/react/24/solid"
 import React from "react";
+export const dynamic = 'force-dynamic'
 
 let workOrder: WorkOrder;
 let response = await fetch("http://localhost:3001/api/machine/5621/current-work-order");

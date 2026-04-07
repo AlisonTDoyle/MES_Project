@@ -1,5 +1,6 @@
 import { WorkOrder } from "@/app/_interfaces/work-order";
 import { WorkOrderListItem } from "./work-order-list-item";
+export const dynamic = 'force-dynamic'
 
 export default async function UpcomingWorkOrders() {
     const response = await fetch("http://localhost:3001/api/operator/1/work-order");

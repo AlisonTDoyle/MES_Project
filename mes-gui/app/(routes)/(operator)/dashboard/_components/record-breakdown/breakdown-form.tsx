@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = 'force-dynamic'
 
 import { BreakdownType } from "@/app/_interfaces/breakdown-type";
 import { FormEvent, useState } from "react";

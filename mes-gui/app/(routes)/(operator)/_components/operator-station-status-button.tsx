@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = 'force-dynamic'
 
 import { MouseEventHandler, MouseEvent, useState } from "react";
 import { ArrowRightStartOnRectangleIcon, ClockIcon } from '@heroicons/react/24/solid'

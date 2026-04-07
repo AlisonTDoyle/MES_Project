@@ -1,4 +1,5 @@
 'use server';
+export const dynamic = 'force-dynamic'
 
 import { BreakdownType } from "@/app/_interfaces/breakdown-type";
 import Form from "next/form";
