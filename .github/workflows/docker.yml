@@ -55,12 +55,12 @@ jobs:
             docker stop mes-api || true
             docker rm mes-api || true
 
-            echo "${{ secrets.ENV_FILE }}" > /home/ubuntu/api/.env
+            echo "${{ secrets.PROD_ENV_FILE }}" > /home/ubuntu/api/.env
 
             docker run -d \
               --name mes-api \
               --restart always \
-              -p 443:10001 \
+              -p 443:3001 \
               --env-file /home/ubuntu/api/.env \
               ${{ steps.login-ecr.outputs.registry }}/mes-api:${{ github.sha }}
 
