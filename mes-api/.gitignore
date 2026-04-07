@@ -28,3 +28,8 @@ benchmarks/graphs
 build
 
 certificates/*
+
+# amplify
+.amplify
+amplify_outputs*
+amplifyconfiguration*
