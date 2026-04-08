@@ -8,7 +8,10 @@ import { signOut } from 'aws-amplify/auth';
 import outputs from "./../../../../amplify_outputs.json";
 import { Amplify } from "aws-amplify";
 import { useRouter } from "next/navigation";
-import { GetMachineEventTypes } from "./sidebar-actions";
+import { GetMachineEventTypes, GetOperator } from "./sidebar-actions";
+import { fetchAuthSession } from "aws-amplify/auth";
+import { Operator } from "@/app/_interfaces/operator";
+import { useEffect, useState } from "react";
 
 Amplify.configure(outputs);
 
@@ -19,6 +22,20 @@ export function OperatorSidebar() {
     let status: string = "";
     let badge: string = "badge badge-soft";
     let machineEventTypes = GetMachineEventTypes;
+
+    const [operator, setOperator] = useState<Operator>();
+
+    useEffect(() => {
+    async function getOperatorDetails() {
+        const session = await fetchAuthSession();
+        let cognitoUsername = session.userSub as string;
+
+        let currentOperator = await GetOperator(cognitoUsername);
+        setOperator(currentOperator);
+    }
+
+    getOperatorDetails();
+}, []);
 
     async function handleSignOut() {
         await signOut();
@@ -44,7 +61,7 @@ export function OperatorSidebar() {
         <div className="bg-base-100 w-80 p-4 shadow-lg h-full flex flex-col">
             <div className="flex flex-col flex-1 min-h-0">
                 <div className="mb-4">
-                    <h3 className="text-center font-bold">Hello, Alex Turner</h3>
+                    <h3 className="text-center font-bold">Hello, {operator?.firstName} {operator?.lastName}</h3>
                     <p className="text-center">{companyName}</p>
                 </div>
 

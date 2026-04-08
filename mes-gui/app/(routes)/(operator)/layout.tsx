@@ -4,7 +4,6 @@ import Clock from "@/app/(routes)/(operator)/dashboard/_components/clock";
 import { OperatorSidebar } from "./_components/sidebar";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import { useAuthGuard } from "@/app/hooks/useAuthGuard";
-
 let companyName = process.env.COMPANY_NAME
 
 export default function OperatorLayout({
