@@ -1,15 +1,15 @@
-"use client"
+// "use client"
 
 import Image from 'next/image'
 import type { Metadata } from "next";
-import { useGuestGuard } from '@/app/hooks/useGuestGuard';
+// import { useGuestGuard } from '@/app/hooks/useGuestGuard';
 
 let companyName: string | undefined = process.env.NEXT_PUBLIC_COMPANY_NAME
 
-// export const metadata: Metadata = {
-//   title: `Log In - ${companyName}`,
-//   description: "Log into account to access MES information",
-// };
+export const metadata: Metadata = {
+  title: `Log In - ${companyName}`,
+  description: "Log into account to access MES information",
+};
 
 export default function AuthenticationLayout({
   children,
