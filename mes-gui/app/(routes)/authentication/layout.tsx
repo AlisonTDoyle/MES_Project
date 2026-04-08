@@ -1,18 +1,27 @@
+"use client"
+
 import Image from 'next/image'
 import type { Metadata } from "next";
+import { useGuestGuard } from '@/app/hooks/useGuestGuard';
 
-let companyName: string | undefined = process.env.COMPANY_NAME
+let companyName: string | undefined = process.env.NEXT_PUBLIC_COMPANY_NAME
 
-export const metadata: Metadata = {
-  title: `Log In - ${companyName}`,
-  description: "Log into account to access MES information",
-};
+// export const metadata: Metadata = {
+//   title: `Log In - ${companyName}`,
+//   description: "Log into account to access MES information",
+// };
 
 export default function AuthenticationLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const { loading } = useGuestGuard();
+
+  // if (loading) {
+  //   return <span className="loading loading-spinner"></span>;
+  // }
+
   return (
     <div className="relative grid grid-cols-1 lg:grid-cols-2 bg-base-200">
       {/* left/column underneath. contains image */}

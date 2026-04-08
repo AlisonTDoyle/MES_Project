@@ -12,7 +12,6 @@ export function useAuthGuard(requiredGroup?: string) {
         async function checkAuth() {
             try {
                 const session = await fetchAuthSession();
-                console.log(session)
 
                 const groups:any =
                     session.tokens?.idToken?.payload["cognito:groups"] || [];
