@@ -3,7 +3,7 @@ import Joi from "joi";
 export interface OperatorRecordedEvent {
     id?:number,
     machineId:number,
-    reportingOperatorId:number,
+    reportingOperatorId:string,
     description:string,
     timestamp:Date,
     resolved?:boolean,
@@ -15,7 +15,7 @@ export const ValidateOperatorRecordedEvent = (event: OperatorRecordedEvent) => {
     const schema = Joi.object<OperatorRecordedEvent>({
         id: Joi.number().min(0).optional(),
         machineId: Joi.number().min(0).required(),
-        reportingOperatorId: Joi.number().min(0).required(),
+        reportingOperatorId: Joi.string().required(),
         description: Joi.string().required(),
         timestamp: Joi.date().required(),
         resolved: Joi.number().optional(),

@@ -33,26 +33,16 @@ export const createNewMachineEventRecord = async (req: Request, res: Response) =
       return res.status(400).json({ error: error.message });
     }
 
-    let query = `
-      INSERT INTO ${_operatorRecordedEventsTable}
-      (machineId, reportingOperatorId, description, timestamp, eventType, issueCategoryId)
-      VALUES
-      (${opRecordedEvent.machineId}
-        , ${opRecordedEvent.reportingOperatorId}
-        , '${opRecordedEvent.description}'
-        , ${ConvertTimestampToSqlAcceptableFormat(opRecordedEvent.timestamp)}
-        , ${opRecordedEvent.eventType}
-        , ${opRecordedEvent.relatedIssue}
-      );
+    let query = `EXEC dbo.CreateNewOperatorRecordedEvent @MachineId, @ReportingOperatorCognitoUsername, @Description, @Timestamp, @EventType, @RelatedIssue`;
 
-      declare @Id int = SCOPE_IDENTITY();
-
-      SELECT *
-      FROM operatorRecordedEvent
-      WHERE id = @Id
-    `;
-
-    let result: IResult<any> = await db.request().query(query);
+    let result: IResult<any> = await db.request()
+      .input("MachineId", sql.Int, opRecordedEvent.machineId)
+      .input("ReportingOperatorCognitoUsername", sql.NVarChar, opRecordedEvent.reportingOperatorId)
+      .input("Description", sql.NVarChar, opRecordedEvent.description)
+      .input("Timestamp", sql.Date, opRecordedEvent.timestamp)
+      .input("EventType", sql.Int, opRecordedEvent.eventType)
+      .input("RelatedIssue", sql.Int, opRecordedEvent.relatedIssue)
+      .query(query);
 
     return res.status(201).json(result.recordset[0]);
   } catch (err) {
