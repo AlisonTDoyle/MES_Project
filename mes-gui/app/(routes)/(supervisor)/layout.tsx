@@ -1,11 +1,22 @@
+"use client"
+
 import { Sidebar } from "./_components/sidebar";
 import { Bars3Icon } from "@heroicons/react/24/solid";
+import { useAuthGuard } from "@/app/hooks/useAuthGuard";
 
 export default function SupervisorLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { loading } = useAuthGuard("admin");
+
+  if (loading) {
+    return <div className="flex justify-center p-10">
+      <span className="loading loading-spinner loading-lg"></span>
+    </div>;
+  }
+
   return (
     <div className="h-screen">
       <div className="drawer xl:drawer-open">

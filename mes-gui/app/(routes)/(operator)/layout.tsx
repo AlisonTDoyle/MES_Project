@@ -1,6 +1,9 @@
+"use client"
+
 import Clock from "@/app/(routes)/(operator)/dashboard/_components/clock";
 import { OperatorSidebar } from "./_components/sidebar";
 import { Bars3Icon } from "@heroicons/react/24/solid";
+import { useAuthGuard } from "@/app/hooks/useAuthGuard";
 
 let companyName = process.env.COMPANY_NAME
 
@@ -9,6 +12,14 @@ export default function OperatorLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { loading } = useAuthGuard("operator");
+
+  if (loading) {
+    return <div className="flex justify-center p-10">
+      <span className="loading loading-spinner loading-lg"></span>
+    </div>;
+  }
+
   return (
     <div className="max-h-screen">
       <div className="drawer xl:drawer-open">
