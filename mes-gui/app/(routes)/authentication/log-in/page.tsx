@@ -1,65 +1,140 @@
-"use client";
+"use client"
 
+import React, { FormEvent, useState } from "react";
+import { Amplify } from "aws-amplify";
+import { signIn, confirmSignIn, fetchAuthSession } from "aws-amplify/auth";
+import outputs from "./../../../../amplify_outputs.json";
+import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import React from "react";
-import { handleSignIn } from "@/utils/cognitoActions";
+
+Amplify.configure(outputs);
+
+interface SignInFormElements extends HTMLFormControlsCollection {
+  email: HTMLInputElement;
+  password: HTMLInputElement;
+}
+
+interface SignInForm extends HTMLFormElement {
+  readonly elements: SignInFormElements;
+}
 
 export default function LogIn() {
-  const [errorMessage, dispatch, isPending] = React.useActionState(
-    handleSignIn,
-    undefined
-  );
+  const [hideError, setHideError] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
+  function showError(message: string) {
+    setErrorMessage(message);
+    setHideError(false);
+  }
+
+  function validate(email: string, password: string) {
+    if (!email) return "Please enter email";
+    if (!/\S+@\S+\.\S+/.test(email)) return "Please enter a valid email";
+    if (!password) return "Please enter password";
+    return null;
+  }
+
+  async function handleSubmit(event: FormEvent<SignInForm>) {
+    event.preventDefault();
+    setHideError(true);
+    setLoading(true);
+
+    const form = event.currentTarget;
+    const email = form.elements.email.value.trim();
+    const password = form.elements.password.value;
+
+    const validationError = validate(email, password);
+    if (validationError) {
+      showError(validationError);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      let res = await signIn({
+        username: email,
+        password,
+      });
+
+      // Handle new password challenge
+      if (res.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED") {
+        res = await confirmSignIn({
+          challengeResponse: "P4ssword@1", // usually should prompt user instead
+        });
+      }
+
+      if (res.nextStep.signInStep === "DONE") {
+        const session = await fetchAuthSession();
+
+        const groups: any =
+          session.tokens?.idToken?.payload["cognito:groups"] || [];
+
+        if (groups.includes("admin")) {
+          router.push("/factory-overview");
+        } else {
+          router.push("/dashboard");
+        }
+      }
+
+    } catch (err: any) {
+      console.error(err);
+      showError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <form action={dispatch} className="w-100">
-      <fieldset className="fieldset">
-        <label htmlFor="email" className="label">
-          Email
+    <form onSubmit={handleSubmit} className="w-100 max-w-md mx-auto">
+
+      {/* Error Alert */}
+      <div
+        role="alert"
+        className="alert alert-error alert-soft mb-4"
+        hidden={hideError}
+      >
+        <ExclamationCircleIcon className="h-6 w-6" />
+        <span><b>Error:</b> {errorMessage}</span>
+      </div>
+
+      {/* Email */}
+      <fieldset className="my-4">
+        <label className="label">
+          <span className="label-text">Email</span>
         </label>
         <input
-          id="email"
-          name="email"
           type="email"
-          className="input validator w-100"
-          placeholder="example@email.com"
-          required
+          name="email"
+          className="input input-bordered w-full"
+          placeholder="Enter email"
         />
       </fieldset>
 
-      <fieldset className="fieldset mb-4">
-        <label htmlFor="password" className="label">
-          Password
+      {/* Password */}
+      <fieldset className="my-4">
+        <label className="label">
+          <span className="label-text">Password</span>
         </label>
         <input
-          id="password"
-          name="password"
           type="password"
-          className="input validator w-100"
-          placeholder="Password"
-          required
+          name="password"
+          className="input input-bordered w-full"
+          placeholder="Enter password"
         />
       </fieldset>
 
-      {errorMessage && (
-        <div className="alert alert-error mb-3 w-100">
-          {errorMessage}
-        </div>
-      )}
-
+      {/* Submit */}
       <button
         type="submit"
-        className="btn btn-primary w-100 mb-2"
-        disabled={isPending}
+        className={`mb-2 btn btn-primary w-full ${loading ? "btn-disabled" : ""}`}
       >
-        {isPending ? "Signing In..." : "Sign In"}
+        {loading ? "Signing in..." : "Sign In"}
       </button>
-
-      <Link
-        href="/authentication/forgot-password"
-        className="btn btn-soft btn-primary w-100"
-      >
-        Forgot Password
-      </Link>
+      <Link href='/authentication/forgot-password' className="btn btn-soft btn-primary w-100" type="button">Forgot Password</Link>
     </form>
   );
 }

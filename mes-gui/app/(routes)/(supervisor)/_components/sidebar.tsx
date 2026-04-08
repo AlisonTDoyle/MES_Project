@@ -5,7 +5,11 @@ import { useEffect, useState } from "react"
 import { ArrowRightStartOnRectangleIcon, MagnifyingGlassIcon, DocumentIcon, Cog6ToothIcon } from "@heroicons/react/24/solid"
 import { ReturnToHomeButton } from "./return-to-home-button"
 import { Search } from "./sidebar-actions"
-import UpcomingWorkOrders from "../../(operator)/dashboard/_components/upcoming-work-orders/upcoming-work-orders";
+import { signOut } from 'aws-amplify/auth';
+import outputs from "./../../../../amplify_outputs.json";
+import { Amplify } from "aws-amplify";
+
+Amplify.configure(outputs);
 
 interface RecentItem {
     databaseId?: string
@@ -19,6 +23,11 @@ export function Sidebar() {
 
     const [listItems, setListItems] = useState<RecentItem[]>([])
     const [listName, setListName] = useState<string>("Recently Viewed")
+
+    async function handleSignOut() {
+        await signOut();
+        router.push("/authentication/log-in")
+    }
 
     // on component mount, get recently viewed items from local storage
     useEffect(() => {
@@ -128,10 +137,10 @@ export function Sidebar() {
                     <li><a>Add New Production Line</a></li>
                     <li><a>Add New Machine</a></li>
                 </ul>
-                <a className="btn btn-error w-full">
+                <button className="btn btn-error w-full" onClick={handleSignOut}>
                     <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
                     <span>Sign Out</span>
-                </a>
+                </button>
             </div>
         </div>
     )

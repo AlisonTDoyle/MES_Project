@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+@import "@aws-amplify/ui-react/styles.css";
 
 h1 {
   @apply text-3xl

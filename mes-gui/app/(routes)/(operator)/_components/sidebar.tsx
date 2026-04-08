@@ -1,18 +1,29 @@
-import { randomInt } from "crypto";
+"use client"
+
 import Clock from "../dashboard/_components/clock"
 import OperatorStationStatusButton from "./operator-station-status-button"
 import { ArrowRightStartOnRectangleIcon, ClockIcon } from '@heroicons/react/24/outline'
-import { formatWithOptions } from "util";
-import { RecordEventModal } from "./record-event-modal/record-event-modal";
-import { Sidebar } from "../../(supervisor)/_components/sidebar";
 import { SidebarRecorderButtons } from "./sidebar-recorder-buttons";
+import { signOut } from 'aws-amplify/auth';
+import outputs from "./../../../../amplify_outputs.json";
+import { Amplify } from "aws-amplify";
+import { useRouter } from "next/navigation";
+import { GetMachineEventTypes } from "./sidebar-actions";
 
-export async function OperatorSidebar() {
+Amplify.configure(outputs);
+
+export function OperatorSidebar() {
+    let router = useRouter();
     let companyName = process.env.COMPANY_NAME
-    let statusCode: number = randomInt(3);
+    let statusCode: number = 2;
     let status: string = "";
     let badge: string = "badge badge-soft";
-    let machineEventTypes = await fetch("http://localhost:3001/api/machine-event/type").then(res => res.json()).then(data => data.data);
+    let machineEventTypes = GetMachineEventTypes;
+
+    async function handleSignOut() {
+        await signOut();
+        router.push("/authentication/log-in")
+    }
 
     switch (statusCode) {
         case 0:
@@ -52,7 +63,7 @@ export async function OperatorSidebar() {
                     <Clock></Clock>
                 </div>
                 <OperatorStationStatusButton></OperatorStationStatusButton>
-                <button className="btn btn-soft btn-error mb-2 w-full">
+                <button className="btn btn-error w-full" onClick={handleSignOut}>
                     <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
                     <span>Sign Out</span>
                 </button>

@@ -4,8 +4,10 @@ import { useState } from "react";
 
 type TimeMode = "now" | "manual";
 
-export function RecordEventModal(props: { props: any[] }) {
-  const breakdownTypes = props.props;
+export function RecordEventModal(props: { props: any[]}) {
+  const breakdownTypes = Array.isArray(props?.props)
+  ? props.props
+  : [];
 
   const [form, setForm] = useState({
     machineId: 1,
