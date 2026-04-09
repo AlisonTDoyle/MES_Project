@@ -2,7 +2,7 @@ import Joi from "joi";
 
 export interface OperatorLineCheckInOut {
     id?:number,
-    operatorId:number,
+    operatorId:string,
     lineId:number,
     checkedIn:number,
     timestamp: Date
@@ -11,7 +11,7 @@ export interface OperatorLineCheckInOut {
 export const ValidateOperatorLineCheckInOut = (operatorLineCheckInOut: OperatorLineCheckInOut) => {
     const schema = Joi.object<OperatorLineCheckInOut>({
         id: Joi.number().min(0).optional(),
-        operatorId: Joi.number().min(0).required(),
+        operatorId: Joi.string().required(),
         lineId: Joi.number().min(0).required(),
         checkedIn: Joi.number().required(),
         timestamp: Joi.date().optional()

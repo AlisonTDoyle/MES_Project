@@ -38,20 +38,25 @@ export const createNewQualitySampleRecord = async (req: Request, res: Response) 
 
         let timestamp: string = ConvertTimestampToSqlAcceptableFormat(new Date(sample.timestamp));
 
-        let query = `
-            INSERT INTO ${_qualitySampleTable}
-            (productOrderId, workOrderId, machineId, operatorId, timestamp, sampleQuantity, sampleUnit, notes, result)
-            VALUES
-            (${sample.productOrderId}, ${sample.workOrderId}, ${sample.machineId}, ${sample.operatorId}, ${timestamp}, ${sample.sampleQuantity}, '${sample.sampleUnit}', '${sample.notes || ""}', ${sample.result});
-        `;
+        let query = `EXEC dbo.CreateNewQualitySampleRecord @ProductionOrderId, @WorkOrderId, @MachineId, @Operator, @Timestamp, @SampleQuantity, @SampleUnit, @Notes, @Result`;
 
-        let result: IResult<any> = await db.request().query(query);
+        let result: IResult<any> = await db.request()
+            .input("ProductionOrderId", sql.Int, sample.productOrderId)
+            .input("WorkOrderId", sql.Int, sample.workOrderId)
+            .input("MachineId", sql.Int, sample.machineId)
+            .input("Operator", sql.NVarChar(50), sample.operatorId)
+            .input("Timestamp", sql.DateTime, sample.timestamp)
+            .input("SampleQuantity", sql.TinyInt, sample.sampleQuantity)
+            .input("SampleUnit", sql.NChar(10), sample.sampleUnit)
+            .input("Notes", sql.NVarChar(240), sample.notes || "")
+            .input("Result", sql.TinyInt, sample.result)
+            .query(query);
 
         return res.status(200).json({ message: 'Added Quality Sample' });
     } catch (error: any) {
         if (error.code == "ETIMEOUT") {
-            return res.status(408).json({error: "Request Timeout"});
-        } 
+            return res.status(408).json({ error: "Request Timeout" });
+        }
 
         return res.status(500).json({ error: error.message, code: error.code });
     }
@@ -65,13 +70,11 @@ export const getQualitySampleById = async (req: Request, res: Response) => {
         let qualitySampleId: string = req.params.id as string;
 
         if (qualitySampleId && Number.parseInt(qualitySampleId)) {
-            let query = `
-                SELECT *
-                FROM ${_qualitySampleTable}
-                WHERE id = ${qualitySampleId}
-            `;
+            let query = `EXEC dbo.GetQualitySampleById @Id`;
 
-            let result: IResult<any> = await db.request().query(query);
+            let result: IResult<any> = await db.request()
+                .input("Id", sql.Int, qualitySampleId)
+                .query(query);
 
             return res.status(200).json({ data: result.recordset })
         } else {
@@ -79,8 +82,8 @@ export const getQualitySampleById = async (req: Request, res: Response) => {
         }
     } catch (error: any) {
         if (error.code == "ETIMEOUT") {
-            return res.status(408).json({error: "Request Timeout"});
-        } 
+            return res.status(408).json({ error: "Request Timeout" });
+        }
 
         return res.status(500).json({ error: error.message, code: error.code });
     }
@@ -96,20 +99,18 @@ export const getQualitySamplesByProductionOrder = async (req: Request, res: Resp
             return res.status(400).json({ error: "Bad Request" });
         }
 
+        let query:string = `EXEC dbo.GetQualtiySamplesByPO @ProductionOrderId`
+
         const result = await db.request()
-            .input('productionOrderId', sql.Int, productionOrderId)
-            .query(`
-                SELECT *
-                FROM ${_qualitySampleTable}
-                WHERE productionOrderId = @productionOrderId
-            `);
+            .input('ProductionOrderId', sql.Int, productionOrderId)
+            .query(query);
 
         return res.status(200).json({ data: result.recordset });
 
     } catch (error: any) {
         if (error.code == "ETIMEOUT") {
-            return res.status(408).json({error: "Request Timeout"});
-        } 
+            return res.status(408).json({ error: "Request Timeout" });
+        }
 
         return res.status(500).json({ error: error.message, code: error.code });
     }
@@ -149,12 +150,12 @@ export const updateQualitySample = async (req: Request, res: Response) => {
 
         await request.query(query);
 
-        return res.status(200).json({message: `Quality Sample with ID '${id}' has been updated`})
+        return res.status(200).json({ message: `Quality Sample with ID '${id}' has been updated` })
 
     } catch (error: any) {
         if (error.code == "ETIMEOUT") {
-            return res.status(408).json({error: "Request Timeout"});
-        } 
+            return res.status(408).json({ error: "Request Timeout" });
+        }
 
         return res.status(500).json({ error: error.message, code: error.code });
     }
@@ -170,18 +171,18 @@ export const deleteQualitySample = async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Invalid id' });
         }
 
-        let query:string = `
+        let query: string = `
             DELETE FROM ${_qualitySampleTable}
             WHERE id = ${id}
         `;
 
         let result = await db.request().query(query);
 
-        return res.status(200).json({message: `Quality Sample with ID '${id}' has been deleted`})
-    } catch (error:any) {
+        return res.status(200).json({ message: `Quality Sample with ID '${id}' has been deleted` })
+    } catch (error: any) {
         if (error.code == "ETIMEOUT") {
-            return res.status(408).json({error: "Request Timeout"});
-        } 
+            return res.status(408).json({ error: "Request Timeout" });
+        }
 
         return res.status(500).json({ error: error.message, code: error.code });
     }

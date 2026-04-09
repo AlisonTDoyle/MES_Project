@@ -5,7 +5,7 @@ export interface QualitySample {
     productOrderId: number;
     workOrderId: number;
     machineId: number;
-    operatorId: number;
+    operatorId: string;
     timestamp: Date;
     sampleQuantity: number;
     sampleUnit: string;
@@ -19,7 +19,7 @@ export const ValidateQualitySample = (sample:QualitySample) => {
         productOrderId: Joi.number().min(0).required(),
         workOrderId: Joi.number().min(0).required(),
         machineId: Joi.number().min(0).required(),
-        operatorId: Joi.number().min(0).required(),
+        operatorId: Joi.string().required(),
         timestamp: Joi.date().required(),
         sampleQuantity: Joi.number().min(0).required(),
         sampleUnit: Joi.string().required(),

@@ -27,7 +27,7 @@ export const createNewOperatorLineStatusRecord = async (req: Request, res: Respo
 
         let body = req.body;
         let newCheckInOutStatus: OperatorLineCheckInOut = {
-            operatorId: Number.parseInt(operatorId),
+            operatorId: operatorId,
             lineId: body.lineId,
             checkedIn: body.newStatus,
             timestamp: new Date()
@@ -38,14 +38,14 @@ export const createNewOperatorLineStatusRecord = async (req: Request, res: Respo
             return res.status(400).json({ error: error.message });
         }
 
-        let query: string = `
-            INSERT INTO ${_schema}.${_statusTable}
-            (operatorId, lineId, checkedIn, timestamp)
-            VALUES
-            (${newCheckInOutStatus.operatorId}, ${newCheckInOutStatus.lineId}, ${newCheckInOutStatus.checkedIn}, ${ConvertTimestampToSqlAcceptableFormat(newCheckInOutStatus.timestamp)})
-        `;
+        let query: string = `EXEC dbo.UpdateOperatorLineStatus @ReportingOperatorCognitoUsername, @LineId, @NewStatus, @Timestamp`;
 
-        let result: IResult<any> = await db.request().query(query);
+        let result: IResult<any> = await db.request()
+            .input("ReportingOperatorCognitoUsername", sql.NVarChar, newCheckInOutStatus.operatorId)
+            .input("LineId", sql.Int, newCheckInOutStatus.lineId)
+            .input("NewStatus", sql.Bit, newCheckInOutStatus.checkedIn)
+            .input("Timestamp", sql.Date, newCheckInOutStatus.timestamp)
+            .query(query);
 
         return res.status(200).json({
             message: result
@@ -67,14 +67,11 @@ export const readOperatorLineStatus = async (req: Request, res: Response) => {
     try {
         let db: sql.ConnectionPool = await dbClientSetup();
 
-        let query: string = `
-            SELECT TOP(1) *
-            FROM ${_schema}.${_statusTable}
-            WHERE operatorId = 1
-            ORDER BY timestamp DESC;
-        `;
+        let query: string = `EXEC dbo.ReadOperatorLatestLineStatus @OperatorCognitoUsername`;
 
-        let result: IResult<any> = await db.request().query(query);
+        let result: IResult<any> = await db.request()
+        .input("OperatorCognitoUsername", sql.NVarChar, operatorId)
+        .query(query);
 
         return res.status(200).json(
             result.recordset[0]
