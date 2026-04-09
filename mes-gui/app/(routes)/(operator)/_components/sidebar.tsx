@@ -1,7 +1,7 @@
 "use client"
 
 import Clock from "../dashboard/_components/clock"
-import OperatorStationStatusButton from "./operator-station-status-button"
+import OperatorStationStatusButton from "./operator-station-status-button/operator-station-status-button"
 import { ArrowRightStartOnRectangleIcon, ClockIcon } from '@heroicons/react/24/outline'
 import { SidebarRecorderButtons } from "./sidebar-recorder-buttons";
 import { signOut } from 'aws-amplify/auth';
@@ -26,16 +26,16 @@ export function OperatorSidebar() {
     const [operator, setOperator] = useState<Operator>();
 
     useEffect(() => {
-    async function getOperatorDetails() {
-        const session = await fetchAuthSession();
-        let cognitoUsername = session.userSub as string;
+        async function getOperatorDetails() {
+            const session = await fetchAuthSession();
+            let cognitoUsername = session.userSub as string;
 
-        let currentOperator = await GetOperator(cognitoUsername);
-        setOperator(currentOperator);
-    }
+            let currentOperator = await GetOperator(cognitoUsername);
+            setOperator(currentOperator);
+        }
 
-    getOperatorDetails();
-}, []);
+        getOperatorDetails();
+    }, []);
 
     async function handleSignOut() {
         await signOut();
@@ -86,7 +86,5 @@ export function OperatorSidebar() {
                 </button>
             </div>
         </div>
-
-
     )
 }

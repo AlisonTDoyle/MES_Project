@@ -1,7 +1,7 @@
 // Imports
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import sql, { IResult } from "mssql";
+import sql, { DateTime, IResult } from "mssql";
 import { UpdatedOperatorInformation } from "../../interfaces/request-models/update-op-line-status-req";
 import { dbClientSetup } from "../../misc/db-client-setup";
 import { OperatorLineCheckInOut, ValidateOperatorLineCheckInOut } from "../../interfaces/object-models/dbo/operator-line-check-in-out";
@@ -32,6 +32,7 @@ export const createNewOperatorLineStatusRecord = async (req: Request, res: Respo
             checkedIn: body.newStatus,
             timestamp: new Date()
         }
+
         const { error } = ValidateOperatorLineCheckInOut(newCheckInOutStatus);
 
         if (error) {
@@ -44,7 +45,7 @@ export const createNewOperatorLineStatusRecord = async (req: Request, res: Respo
             .input("ReportingOperatorCognitoUsername", sql.NVarChar, newCheckInOutStatus.operatorId)
             .input("LineId", sql.Int, newCheckInOutStatus.lineId)
             .input("NewStatus", sql.Bit, newCheckInOutStatus.checkedIn)
-            .input("Timestamp", sql.Date, newCheckInOutStatus.timestamp)
+            .input("Timestamp", sql.DateTime, newCheckInOutStatus.timestamp)
             .query(query);
 
         return res.status(200).json({
@@ -72,6 +73,8 @@ export const readOperatorLineStatus = async (req: Request, res: Response) => {
         let result: IResult<any> = await db.request()
         .input("OperatorCognitoUsername", sql.NVarChar, operatorId)
         .query(query);
+
+        console.log(result)
 
         return res.status(200).json(
             result.recordset[0]
