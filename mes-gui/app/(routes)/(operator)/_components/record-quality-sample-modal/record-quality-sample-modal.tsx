@@ -1,18 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { fetchAuthSession } from "aws-amplify/auth";
+import { useEffect, useState } from "react";
+import { GetOperator, SubmitNewSampleOrder } from "./record-quality-sample-modal-actions";
+import { Operator } from "@/app/_interfaces/operator";
+import { QualitySample } from "@/app/_interfaces/quality-sample";
 
 export function RecordQualitySampleModal() {
     type TimeMode = "now" | "manual";
-    type Result = "pass" | "fail" | "pending";
+    type Result = "pass" | "fail";
+
+    const MAX_NOTE_CHARACTERS:number = 240;
+    const MAX_SAMPLE_QUANTITY:number = 255;
 
     const [workOrder, setWorkOrder] = useState("");
-    const [itemId, setItemId] = useState("");
+    const [productionOrderId, setProductionOrderId] = useState("");
+    const [machineId, setMachineId] = useState<number>(0);
     const [timeMode, setTimeMode] = useState<TimeMode>("now");
     const [manualTime, setManualTime] = useState("");
     const [result, setResult] = useState<Result | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
-    const [operator, setOperator] = useState("");
+    const [operator, setOperator] = useState<Operator>();
     const [notes, setNotes] = useState("");
     const [quantityUnit, setQuantityUnit] = useState("pcs");
 
@@ -28,48 +36,36 @@ export function RecordQualitySampleModal() {
         const resultValue =
             result === "pass" ? 1 : result === "fail" ? 0 : -1;
 
-        const payload = {
+        const newQualitySample:QualitySample = {
             workOrderId: workOrder,
-            itemId,
-            sampleTime:
+            productOrderId: productionOrderId,
+            timestamp:
                 timeMode === "now"
                     ? new Date().toISOString()
                     : new Date(manualTime).toISOString(),
             result: resultValue,
             sampleQuantity: quantity,
             sampleUnit: quantityUnit,
-            operatorId: operator,
-            notes,
+            operatorId: operator?.cognitoUsername as string,
+            machineId: machineId,
+            notes:notes,
         };
 
         try {
-            const response = await fetch(
-                "http://localhost:3001/api/quality-sample",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                }
-            );
+            let publishSuccess:boolean = await SubmitNewSampleOrder(newQualitySample);
 
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error || "Failed to save quality sample");
+            if (!publishSuccess) {
+                throw new Error("Failed to save quality sample");
             }
-
-            const savedSample = await response.json();
-            console.log("Saved Quality Sample:", savedSample);
 
             // Optional: reset form
             setWorkOrder("");
-            setItemId("");
+            setProductionOrderId("");
             setResult(null);
             setQuantity(1);
             setQuantityUnit("pcs");
-            setOperator("");
             setNotes("");
+            setMachineId(0)
             setManualTime("");
             setTimeMode("now");
         } catch (err: any) {
@@ -78,6 +74,18 @@ export function RecordQualitySampleModal() {
         }
     };
 
+    useEffect(() => {
+        async function getOperatorDetails() {
+            const session = await fetchAuthSession();
+            let cognitoUsername = session.userSub as string;
+
+            let currentOperator = await GetOperator(cognitoUsername);
+            setOperator(currentOperator);
+        }
+
+        getOperatorDetails();
+    }, []);
+
     return (
         <div className="modal-box">
             <h2 className="text-lg font-semibold">Quality Sample Entry</h2>
@@ -85,6 +93,16 @@ export function RecordQualitySampleModal() {
                 onSubmit={handleSubmit}
                 className="space-y-4"
             >
+                <fieldset className="fieldset">
+                    <legend className="fieldset-legend">Production Order</legend>
+                    <input
+                        className="input input-bordered w-full"
+                        value={productionOrderId}
+                        onChange={(e) => setProductionOrderId(e.target.value)}
+                        placeholder="ITEM-001"
+                    />
+                </fieldset>
+
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">Work Order</legend>
                     <input
@@ -96,12 +114,13 @@ export function RecordQualitySampleModal() {
                 </fieldset>
 
                 <fieldset className="fieldset">
-                    <legend className="fieldset-legend">Item ID</legend>
+                    <legend className="fieldset-legend">Machine ID</legend>
                     <input
+                        type="number"
                         className="input input-bordered w-full"
-                        value={itemId}
-                        onChange={(e) => setItemId(e.target.value)}
-                        placeholder="ITEM-001"
+                        value={machineId}
+                        onChange={(e) => setMachineId(Number(e.target.value))}
+                        placeholder="MA-12345"
                     />
                 </fieldset>
 
@@ -163,16 +182,6 @@ export function RecordQualitySampleModal() {
                             />
                             <span>Fail</span>
                         </label>
-
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="radio"
-                                className="radio radio-warning"
-                                checked={result === "pending"}
-                                onChange={() => setResult("pending")}
-                            />
-                            <span>Hold</span>
-                        </label>
                     </div>
                 </fieldset>
 
@@ -183,6 +192,7 @@ export function RecordQualitySampleModal() {
                         <input
                             type="number"
                             min={1}
+                            max={MAX_SAMPLE_QUANTITY}
                             className="input input-bordered w-full"
                             value={quantity}
                             onChange={(e) => setQuantity(Number(e.target.value))}
@@ -206,9 +216,9 @@ export function RecordQualitySampleModal() {
                     <legend className="fieldset-legend">Operator</legend>
                     <input
                         className="input input-bordered w-full"
-                        value={operator}
-                        onChange={(e) => setOperator(e.target.value)}
+                        value={(operator?.firstName)?.trim() + " " + (operator?.lastName)?.trim()}
                         placeholder="Initials or ID"
+                        disabled
                     />
                 </fieldset>
 
@@ -219,7 +229,9 @@ export function RecordQualitySampleModal() {
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="Optional comments"
+                        maxLength={MAX_NOTE_CHARACTERS}
                     />
+                    <span className="label">Characters Remaining: {MAX_NOTE_CHARACTERS - notes.length}</span>
                 </fieldset>
 
                 <button type="submit" className="btn btn-primary btn-block">
