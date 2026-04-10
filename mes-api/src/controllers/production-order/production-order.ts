@@ -128,8 +128,6 @@ export const readProductionOrders = async (req: Request, res: Response) => {
 
         let result: any = await db.request().query(query);
 
-        console.log(result)
-
         return res.status(200).json(result.recordset);
     } catch (error) {
         return res.status(400).json({ "error": error });

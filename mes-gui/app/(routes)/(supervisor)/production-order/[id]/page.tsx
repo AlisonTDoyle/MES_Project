@@ -32,7 +32,7 @@ export default async function ProductionOrderPage({
       </div>
 
       <div className="m-4 mt-2 xl:col-span-2">
-        <ProductionStages />
+        <ProductionStages productionOrderId={Number(poId)}/>
       </div>
     </div>
   )

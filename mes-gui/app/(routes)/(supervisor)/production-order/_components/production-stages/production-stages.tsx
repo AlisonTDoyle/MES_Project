@@ -1,9 +1,9 @@
 import { Assembly } from "./_components/assembly";
 import { Geneaology } from "./_components/geneaology/geneaology";
-import { PartsProduction } from "./_components/parts-production";
-import { QualityControl } from "./_components/quality-control";
+import { PartsProduction } from "./_components/parts-production/parts-production";
+import { QualityControl } from "./_components/quality-control/quality-control";
 
-export function ProductionStages() {
+export function ProductionStages({ productionOrderId }: { productionOrderId: number }) {
     return (
         <div className="card shadow-sm h-full">
             <div className="card-body h-full">
@@ -26,7 +26,7 @@ export function ProductionStages() {
 
                     <input type="radio" name="my_tabs_3" className="tab" aria-label="Quality Control" />
                     <div className="tab-content bg-base-100 border-base-300 p-6">
-                        <QualityControl></QualityControl>
+                        <QualityControl productionOrderId={productionOrderId}></QualityControl>
                     </div>
                 </div>
             </div>

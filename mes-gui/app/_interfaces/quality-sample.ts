@@ -1,4 +1,5 @@
 export interface QualitySample {
+    id?:number
     productOrderId: string,
     workOrderId: string,
     machineId: number,
@@ -8,4 +9,6 @@ export interface QualitySample {
     sampleUnit: string,
     notes: string,
     result: number
+    operatorFirstName?: string
+    opertatorLastName?: string
 }
