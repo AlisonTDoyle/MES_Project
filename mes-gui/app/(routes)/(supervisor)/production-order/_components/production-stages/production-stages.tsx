@@ -21,7 +21,7 @@ export function ProductionStages({ productionOrderId }: { productionOrderId: num
 
                     <input type="radio" name="my_tabs_3" className="tab" aria-label="Assembly" />
                     <div className="tab-content bg-base-100 border-base-300 p-0 overflow-x-auto">
-                        <Assembly></Assembly>
+                        <Assembly productionOrderId={productionOrderId}></Assembly>
                     </div>
 
                     <input type="radio" name="my_tabs_3" className="tab" aria-label="Quality Control" />
