@@ -2,13 +2,11 @@
 import { ResponsivePie } from "@nivo/pie"
 import { useMemo } from "react"
 
-export function StatusPieChart({data}: {data: {stage: number, statusDescription: string, workOrderCount:number}[]}) {
+export function StatusPieChart({data}: {data: {status: number, statusDescription: string, workOrderCount:number}[]}) {
     let categoryColours = [
-        "oklch(70% 0.2 220)",
-        "oklch(82% 0.111 230.318)",
-        "oklch(76% 0.177 163.223)",
+        "oklch(71% 0.194 13.428)",
         "oklch(82% 0.189 84.429)",
-        "oklch(71% 0.194 13.428)"
+        "oklch(76% 0.177 163.223)",
     ]
     
     const machineData = useMemo(() => {
@@ -18,7 +16,7 @@ export function StatusPieChart({data}: {data: {stage: number, statusDescription:
                 id: item.statusDescription,
                 label: item.statusDescription,
                 value: item.workOrderCount,
-                color: categoryColours[item.stage - 1]
+                color: categoryColours[item.status]
             }
             datapoints.push(datapoint);
         }
