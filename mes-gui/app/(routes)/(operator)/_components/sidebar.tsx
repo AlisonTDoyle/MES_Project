@@ -1,6 +1,6 @@
 "use client"
 
-import Clock from "../dashboard/_components/clock"
+import Clock from "../dashboard/_components/clock/clock"
 import OperatorStationStatusButton from "./operator-station-status-button/operator-station-status-button"
 import { ArrowRightStartOnRectangleIcon, ClockIcon } from '@heroicons/react/24/outline'
 import { SidebarRecorderButtons } from "./sidebar-recorder-buttons";
