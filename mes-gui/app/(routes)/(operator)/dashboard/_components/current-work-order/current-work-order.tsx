@@ -41,11 +41,11 @@ export function CurrentWorkOrder() {
                     </tr>
                 </tbody>
             </table>
-            <div className="mt-auto flex flex-col gap-2">
+            {/* <div className="mt-auto flex flex-col gap-2">
                 <button className="btn btn-success"><PlayIcon className="w-4" /><span>Start WO</span></button>
                 <button className="btn btn-warning"><PauseIcon className="w-4" />Pause WO</button>
                 <button className="btn btn-primary"><CheckIcon className="w-4" /><span>Mark WO Complete</span></button>
-            </div>
+            </div> */}
         </div>
     </div>
     )

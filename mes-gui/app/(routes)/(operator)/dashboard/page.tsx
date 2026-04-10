@@ -8,21 +8,17 @@ export const dynamic = 'force-dynamic'
 
 export default function Dashboard() {
     return (
-        <div className="grid h-screen lg:grid-cols-[33%_33%_33%] lg:grid-rows-[30%_70%] min-h-0">
+        <div className="grid h-screen lg:grid-cols-[60%_40%] lg:grid-rows-[30%_70%] min-h-0">
             <div className="m-2 row-span-2">
-                {/* <CurrentWorkOrder /> */}
-            </div>
-
-            <div className="m-2 row-span-2">
-                {/* <UpcomingWorkOrders /> */}
+                <CurrentWorkOrder />
             </div>
 
             <div className="m-2">
-                {/* <OperatorOee></OperatorOee> */}
+                <OperatorOee></OperatorOee>
             </div>
 
             <div className="m-2">
-                {/* <MachineEventHistory /> */}
+                <MachineEventHistory />
             </div>
         </div>
     )
