@@ -133,10 +133,6 @@ export function Sidebar() {
             {/* BOTTOM MENU */}
             <div className="mt-auto">
                 <div className="divider" />
-                <ul className="menu menu-md w-full">
-                    <li><a>Add New Production Line</a></li>
-                    <li><a>Add New Machine</a></li>
-                </ul>
                 <button className="btn btn-error w-full" onClick={handleSignOut}>
                     <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
                     <span>Sign Out</span>
