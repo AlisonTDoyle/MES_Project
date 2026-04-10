@@ -4,10 +4,10 @@ export function ProductOrderBreakdown ({ productionOrder }: { productionOrder: P
 
     return (
         <div className="card bg-base-100 card-md shadow-sm h-full">
-            <div className="card-body">
+            <div className="card-body overflow-y-auto">
                 <h3 className="card-title">Order Breakdown</h3>
                 <div className="overflow-x-auto">
-                    <table className="table table-xs rounded-box border border-base-content/5">
+                    <table className="table table-xs rounded-box border border-base-content/5  table-pin-rows table-pin-cols">
                         <thead>
                             <tr>
                                 <th>Item Number</th>
