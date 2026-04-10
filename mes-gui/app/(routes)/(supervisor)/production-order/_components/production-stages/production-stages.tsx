@@ -1,4 +1,4 @@
-import { Assembly } from "./_components/assembly";
+import { Assembly } from "./_components/assembly/assembly";
 import { Geneaology } from "./_components/geneaology/geneaology";
 import { PartsProduction } from "./_components/parts-production/parts-production";
 import { QualityControl } from "./_components/quality-control/quality-control";
@@ -16,7 +16,7 @@ export function ProductionStages({ productionOrderId }: { productionOrderId: num
 
                     <input type="radio" name="my_tabs_3" className="tab" aria-label="Parts Production" />
                     <div className="tab-content bg-base-100 border-base-300 p-0 overflow-x-auto">
-                        <PartsProduction></PartsProduction>
+                        <PartsProduction productionOrderId={productionOrderId}></PartsProduction>
                     </div>
 
                     <input type="radio" name="my_tabs_3" className="tab" aria-label="Assembly" />

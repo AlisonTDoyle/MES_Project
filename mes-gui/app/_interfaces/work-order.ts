@@ -8,4 +8,5 @@ export interface WorkOrder {
     status:number,
     creationDate:Date,
     completionDate:Date,
+    machineId?:number
 }
