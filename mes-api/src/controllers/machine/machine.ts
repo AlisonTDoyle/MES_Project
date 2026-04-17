@@ -5,7 +5,6 @@ import sql, { IResult } from "mssql";
 import { dbClientSetup } from "../../misc/db-client-setup";
 import { ValidateMachine } from "../../interfaces/object-models/dbo/machine";
 
-dotenv.config();
 
 const _machineTable: string = process.env.MACHINE_TABLE || "";
 
@@ -77,7 +76,7 @@ export const getMachineById = async (req: Request, res: Response) => {
     }
 }
 
-export const searchForMachinesById = async (req:Request, res: Response) => {
+export const searchForMachinesById = async (req: Request, res: Response) => {
     try {
         let db: sql.ConnectionPool = await dbClientSetup();
 
@@ -96,7 +95,7 @@ export const searchForMachinesById = async (req:Request, res: Response) => {
         let result = await db.request().query(query);
 
         return res.status(200).json({ data: result.recordset })
-    } catch (error:any) {
+    } catch (error: any) {
         if (error.code == "ETIMEOUT") {
             return res.status(408).json({ error: "Request Timeout" });
         }
@@ -115,7 +114,7 @@ export const readMachinesThatContainSearchTerm = async (req: Request, res: Respo
     try {
         let db: sql.ConnectionPool = await dbClientSetup();
         let query = `EXEC dbo.FetchMachines @SearchTerm`;
-        let result:IResult<any> = await db.request()
+        let result: IResult<any> = await db.request()
             .input("SearchTerm", sql.NVarChar, searchTerm)
             .query(query);
 
@@ -124,7 +123,6 @@ export const readMachinesThatContainSearchTerm = async (req: Request, res: Respo
         return res.status(400).json({ "error": error });
     }
 }
-
 
 // Update
 export const updateMachine = async (req: Request, res: Response) => {

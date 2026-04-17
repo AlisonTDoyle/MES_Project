@@ -12,6 +12,7 @@ import { dbClientSetup } from "./misc/db-client-setup";
 import mqttController from './controllers/mqtt/mqtt';
 import customerRoutes from "./routes/customer";
 import productRoutes from "./routes/product";
+import factoryController from './routes/factory';
 
 // Enable environment variables
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/api/quality-sample", qualitySampleRoutes);
 app.use("/api/customer", customerRoutes);
 app.use("/api/product", productRoutes);
 app.use('/api/mqtt', mqttController);
+app.use('/api/factory', factoryController);
 
 app.get("/api/db-test", async (req, res) => {
     try {
