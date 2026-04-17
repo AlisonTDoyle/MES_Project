@@ -1,20 +1,21 @@
 "use client"
+import { MachineAvailability } from "@/app/_interfaces/response-objects/machine-availability"
 import { ResponsivePie } from "@nivo/pie"
 import { useMemo } from "react"
 
-export function StatusPieChart() {
+export function StatusPieChart({data}:{data:MachineAvailability[]}) {
     const machineData = useMemo(() => {
         const total = 100
+        let running = 0;
+        let offline = 0;
 
-        // Running gets 50–80%
-        const running = Math.floor(Math.random() * 31) + 50
-
-        // Remaining percentage
-        const remaining = total - running
-
-        // Split remaining between Offline & Broken Down
-        const offline = Math.floor(Math.random() * (remaining - 1)) + 1
-        const brokenDown = remaining - offline
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].isDown) {
+                offline += 1;
+            } else {
+                running +=1;
+            }
+        }
 
         return [
             {
@@ -27,16 +28,10 @@ export function StatusPieChart() {
                 id: "Offline",
                 label: "Offline",
                 value: offline,
-                color: "oklch(70% 0.015 286.067)",
-            },
-            {
-                id: "Broken Down",
-                label: "Broken Down",
-                value: brokenDown,
                 color: "oklch(71% 0.194 13.428)",
             },
         ]
-    }, [])
+    }, [data])
 
     return (
         <ResponsivePie
