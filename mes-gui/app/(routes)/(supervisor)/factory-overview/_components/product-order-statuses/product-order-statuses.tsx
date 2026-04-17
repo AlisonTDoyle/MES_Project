@@ -1,9 +1,10 @@
+import AutoRefresh from "@/app/(routes)/(misc-components)/refresh-component/refresh";
 import { StatusPieChart } from "./status-pie-chart";
 
 export async function ProductOrderStatuses() {
     let data = [];
     try {
-        const res = await fetch("http://localhost:3001/api/work-order/statuses");
+        const res = await fetch("http://localhost:3001/api/work-order/statuses", { cache: 'no-store' });
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
@@ -15,11 +16,14 @@ export async function ProductOrderStatuses() {
     }
 
     return (
-        <div className="card shadow-sm h-full min-h-72">
-            <div className="card-body">
-                <span className="card-title">WO Statuses</span>
-                <StatusPieChart data={data}></StatusPieChart>
+        <>
+            <AutoRefresh></AutoRefresh>
+            <div className="card shadow-sm h-full min-h-72">
+                <div className="card-body">
+                    <span className="card-title">WO Statuses</span>
+                    <StatusPieChart data={data}></StatusPieChart>
+                </div>  
             </div>
-        </div>
+        </>
     )
 }

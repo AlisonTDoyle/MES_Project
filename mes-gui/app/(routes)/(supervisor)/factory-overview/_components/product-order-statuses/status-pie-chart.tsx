@@ -2,13 +2,13 @@
 import { ResponsivePie } from "@nivo/pie"
 import { useMemo } from "react"
 
-export function StatusPieChart({data}: {data: {status: number, statusDescription: string, workOrderCount:number}[]}) {
+export function StatusPieChart({ data }: { data: { status: number, statusDescription: string, workOrderCount: number }[] }) {
     let categoryColours = [
         "oklch(71% 0.194 13.428)",
         "oklch(82% 0.189 84.429)",
         "oklch(76% 0.177 163.223)",
     ]
-    
+
     const machineData = useMemo(() => {
         let datapoints = [];
         for (let item of data) {
@@ -20,9 +20,8 @@ export function StatusPieChart({data}: {data: {status: number, statusDescription
             }
             datapoints.push(datapoint);
         }
-        
         return datapoints;
-    }, [])
+    }, [data]) // 👈 add data as dependency
 
     return (
         <ResponsivePie
