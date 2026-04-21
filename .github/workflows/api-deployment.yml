@@ -10,10 +10,12 @@ jobs:
       runs-on: ubuntu-latest
       container: 
         image: node:22
+      defaults:
+        run:
+          working-directory: ./mes-api
       steps:
         - uses: actions/checkout@v3
           with:
             node-version: 22
-        - run: cd ./mes-api
         - run: npm i
         - run: npm run build
