@@ -1,68 +1,75 @@
 "use client";
 
-import { useState } from "react";
+import { fetchAuthSession } from "aws-amplify/auth";
+import { useEffect, useState } from "react";
+import { GetCurrentMachine, GetIssues, GetOperator, SubmitMachineEvent } from "./record-event-modal-actions";
+import { Operator } from "@/app/_interfaces/operator";
+import { MachineEvent } from "@/app/_interfaces/machine-breakdown";
+import { ExclamationCircleIcon, InformationCircleIcon } from "@heroicons/react/16/solid";
+import { BreakdownType } from "@/app/_interfaces/breakdown-type";
 
 type TimeMode = "now" | "manual";
 
-export function RecordEventModal(props: { props: any[]}) {
-  const breakdownTypes = Array.isArray(props?.props)
-  ? props.props
-  : [];
+export function RecordEventModal(props: { props: any[] }) {
+  const MAX_NOTE_CHARACTERS: number = 240;
 
-  const [form, setForm] = useState({
-    machineId: 1,
-    reportingOperatorId: 1,
-    description: "",
-    typeId: 0,
-  });
-
+  const [machineId, setMachineId] = useState<number>(1);
+  const [reportingOperator, setReportingOperator] = useState<Operator>();
+  const [description, setDescription] = useState<string>("");
+  const [typeId, setTypeId] = useState<number>(0);
   const [timeMode, setTimeMode] = useState<TimeMode>("now");
   const [manualTime, setManualTime] = useState("");
+  const [issueType, setIssueType] = useState<number>(0);
+  const [breakdownTypes, setBreakdownTypes] = useState<BreakdownType[]>([]);
+
+  useEffect(() => {
+    async function populateFeilds() {
+      const session = await fetchAuthSession();
+      let cognitoUsername = session.userSub as string;
+      let currentOperator = await GetOperator(cognitoUsername);
+      let machineId = await GetCurrentMachine(currentOperator.id)
+
+      let types = await GetIssues()
+
+      setReportingOperator(currentOperator);
+      setMachineId(machineId);
+      setBreakdownTypes(types)
+    }
+
+    populateFeilds();
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.typeId) {
+    if (!typeId) {
       alert("Please select an event type");
       return;
     }
 
     const payload = {
-      machineId: form.machineId,
-      reportingOperatorId: 1,
-      description: form.description,
+      machineId: machineId,
+      reportingOperatorId:reportingOperator?.cognitoUsername,
+      description: description,
       timestamp:
         timeMode === "now"
-          ? new Date().toISOString()
-          : new Date(manualTime).toISOString(),
+          ? new Date()
+          : new Date(manualTime),
       resolved: false,
-      relatedIssue: form.typeId, // update later if applicable
-      eventType: 1,
+      relatedIssue: issueType, // update later if applicable
+      eventType: typeId,
     };
 
     try {
-      const response = await fetch("http://localhost:3001/api/machine-event", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      let success: boolean = await SubmitMachineEvent(payload);
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to record machine event");
+      if (!success) {
+        throw new Error("Failed to record machine event");
       }
 
-      const savedEvent = await response.json();
-
       // Optional reset
-      setForm({
-        machineId: 1,
-        reportingOperatorId: 1,
-        description: "",
-        typeId: 0,
-      });
+      setMachineId(0);
+      setDescription("");
       setTimeMode("now");
       setManualTime("");
     } catch (err: any) {
@@ -81,11 +88,51 @@ export function RecordEventModal(props: { props: any[]}) {
           <input
             className="input w-full"
             type="number"
-            value={form.machineId}
-            onChange={(e) =>
-              setForm({ ...form, machineId: Number.parseInt(e.target.value) })
-            }></input>
+            value={machineId}
+            disabled></input>
 
+        </fieldset>
+
+        {/* Event Type */}
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend">Event Type</legend>
+          <select
+            className="select select-bordered w-full"
+            value={typeId}
+            onChange={(e) => setTypeId(Number(e.target.value))}
+          >
+            <option value={0} disabled>
+              Select an event type
+            </option>
+            <option value={1}>
+              <span className="badge badge-soft badge-error h-8 w-8 p-0" title="Breakdown"><ExclamationCircleIcon className="h-6 w-6" /></span>  Breakdown
+            </option>
+            <option value={2}>
+              <span className="badge badge-soft badge-warning h-8 w-8 p-0" title="Maintenance"><ExclamationCircleIcon className="h-6 w-6" /></span> Maintenance
+            </option>
+            <option value={3}>
+              <span className="badge badge-soft badge-info h-8 w-8 p-0" title="Fault Notice"><InformationCircleIcon className="h-6 w-6" /></span>Fault Notice
+            </option>
+          </select>
+        </fieldset>
+
+        {/* Issue Type */}
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend">Issue Type</legend>
+          <select
+            className="select select-bordered w-full"
+            value={issueType}
+            onChange={(e) => setIssueType(Number(e.target.value))}
+          >
+            <option value={0} disabled>
+              Select an issue type
+            </option>
+            {breakdownTypes.map((type: any) => (
+              <option key={type.id} value={type.id}>
+                {type.description}
+              </option>
+            ))}
+          </select>
         </fieldset>
 
         {/* Description */}
@@ -94,34 +141,9 @@ export function RecordEventModal(props: { props: any[]}) {
           <textarea
             className="textarea h-24 w-full"
             placeholder="Give as much information as possible about the issue (error codes, steps to reproduce, etc.)"
-            value={form.description}
-            onChange={(e) =>
-              setForm({ ...form, description: e.target.value })
-            }
-          />
-        </fieldset>
-
-        {/* Event Type */}
-        <fieldset className="fieldset">
-          <legend className="fieldset-legend">Event Type</legend>
-          <select
-            className="select select-bordered w-full"
-            value={form.typeId}
-            onChange={(e) => {
-              setForm({ ...form, typeId: Number(e.target.value) })
-              console.log(e.target.value)
-            }
-            }
-          >
-            <option value={0} disabled>
-              Select an event type
-            </option>
-            {breakdownTypes.map((type: any) => (
-              <option key={type.id} value={type.id}>
-                {type.description}
-              </option>
-            ))}
-          </select>
+            value={description}
+            onChange={(e) => setDescription(e.target.value)} />
+          <span className="label">Characters Remaining: {MAX_NOTE_CHARACTERS - description.length}</span>
         </fieldset>
 
         {/* Event Time */}

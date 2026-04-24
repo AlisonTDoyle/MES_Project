@@ -24,6 +24,7 @@ export function OperatorSidebar() {
     let machineEventTypes = GetMachineEventTypes;
 
     const [operator, setOperator] = useState<Operator>();
+    const [machine, setMachine] = useState<Machine>();
 
     useEffect(() => {
         async function getOperatorDetails() {

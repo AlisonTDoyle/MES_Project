@@ -13,11 +13,11 @@ export default function Dashboard() {
                 <CurrentWorkOrder />
             </div>
 
-            <div className="m-2">
+            {/* <div className="m-2">
                 <OperatorOee></OperatorOee>
-            </div>
+            </div> */}
 
-            <div className="m-2">
+            <div className="m-2 row-span-2">
                 <MachineEventHistory />
             </div>
         </div>

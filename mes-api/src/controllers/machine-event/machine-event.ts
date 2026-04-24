@@ -27,11 +27,11 @@ export const createNewMachineEventRecord = async (req: Request, res: Response) =
       timestamp: new Date()
     };
 
-    const { error } = ValidateOperatorRecordedEvent(opRecordedEvent);
+    // const { error } = ValidateOperatorRecordedEvent(opRecordedEvent);
 
-    if (error) {
-      return res.status(400).json({ error: error.message });
-    }
+    // if (error) {
+    //   return res.status(400).json({ error: error.message });
+    // }
 
     let query = `EXEC dbo.CreateNewOperatorRecordedEvent @MachineId, @ReportingOperatorCognitoUsername, @Description, @Timestamp, @EventType, @RelatedIssue`;
 

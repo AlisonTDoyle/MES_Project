@@ -15,3 +15,13 @@ export async function GetOperator(cognitoUsername:string):Promise<Operator> {
         .then((res) => res.json())
         .then((data) => data.data)
 }
+
+export async function GetCurrentMachine(operatorId: number): Promise<number> {
+    let machineId = 0;
+
+    machineId = await fetch(apiUrl + `/operator/${operatorId}/machine`)
+        .then((res) => res.json())
+        .then((data) => data.data.id)
+
+    return machineId;
+}
