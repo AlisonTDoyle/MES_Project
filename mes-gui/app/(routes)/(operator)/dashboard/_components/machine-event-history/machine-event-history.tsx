@@ -2,13 +2,18 @@ import { MachineEventListItem } from "./machine-event-list-item";
 import { MachineEventAlert } from "@/app/_interfaces/machine-event-alert";
 import AutoRefresh from "@/app/(routes)/(misc-components)/refresh-component/refresh";
 export const dynamic = 'force-dynamic'
+import dotenv from "dotenv";
+
+dotenv.config()
+let apiUrl = process.env.API_URL;
 
 export async function MachineEventHistory() {
     let events: MachineEventAlert[] = [];
 
     try {
-        let response = await fetch("http://localhost:3001/api/machine/5621/events");
-        events = await response.json() || [];
+        let response = await fetch(`${apiUrl}/machine/5621/events`);
+        let data = await response.json();
+        events = Array.isArray(data) ? data : [];
     } catch (e) {
         console.log("Error: Could not fetch machine event history information")
     }
@@ -22,7 +27,7 @@ export async function MachineEventHistory() {
                         Machine History
                     </span>
                     <ul className="list flex-1 min-h-0 overflow-y-auto">
-                        {events.map((e:any) => (
+                        {(events as Array<any>).map((e:any) => (
                             <MachineEventListItem key={e.id} MachineEvent={e} />
                         ))}
                     </ul>

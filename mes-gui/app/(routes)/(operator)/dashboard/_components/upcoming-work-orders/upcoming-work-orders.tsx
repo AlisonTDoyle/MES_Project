@@ -1,9 +1,13 @@
 import { WorkOrder } from "@/app/_interfaces/work-order";
 import { WorkOrderListItem } from "./work-order-list-item";
 export const dynamic = 'force-dynamic'
+import dotenv from "dotenv";
+
+dotenv.config()
+let apiUrl = process.env.API_URL;
 
 export default async function UpcomingWorkOrders() {
-    const response = await fetch("http://localhost:3001/api/operator/1/work-order");
+    const response = await fetch(`${apiUrl}/api/operator/1/work-order`);
     const parsedRes:{data:[]} = await response.json();
     const workOrders: WorkOrder[] = parsedRes.data || [];
 

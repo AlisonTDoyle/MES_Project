@@ -1,4 +1,8 @@
 "use server";
+import dotenv from "dotenv";
+
+dotenv.config()
+let apiUrl = process.env.API_URL;
 
 export async function Search(formData: FormData) {
     // parse inputs
@@ -18,7 +22,7 @@ export async function Search(formData: FormData) {
 
     switch (searchObject) {
         case '1':
-            res = await fetch(`http://localhost:3001/api/production-order/search/${searchTerm}`);
+            res = await fetch(`${apiUrl}/api/production-order/search/${searchTerm}`);
             json = await res.json();
             let productionOrders = json.results || [];
             for (let po of productionOrders) {
@@ -31,7 +35,7 @@ export async function Search(formData: FormData) {
             }
             break;
         case '2':
-            res = await fetch(`http://localhost:3001/api/machine/search/${searchTerm}`);
+            res = await fetch(`${apiUrl}/api/machine/search/${searchTerm}`);
             json = await res.json();
             let machines = json.results || [];
             for (let machine of machines) {

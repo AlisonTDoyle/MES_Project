@@ -1,12 +1,15 @@
 import AutoRefresh from "@/app/(routes)/(misc-components)/refresh-component/refresh";
 import { WorkOrder } from "@/app/_interfaces/work-order";
-import { PlayIcon, PauseIcon, CheckIcon } from "@heroicons/react/24/solid"
 import React from "react";
 export const dynamic = 'force-dynamic'
+import dotenv from "dotenv";
+
+dotenv.config()
+let apiUrl = process.env.API_URL;
 
 let workOrder: WorkOrder | null;
 try {
-    let response = await fetch("http://localhost:3001/api/machine/5621/current-work-order");
+    let response = await fetch(`${apiUrl}/machine/5621/current-work-order`);
     workOrder = await response.json() || {};
 } catch (e) {
     workOrder = null;
@@ -49,11 +52,6 @@ export function CurrentWorkOrder() {
                         </tr>
                     </tbody>
                 </table>
-                {/* <div className="mt-auto flex flex-col gap-2">
-                    <button className="btn btn-success"><PlayIcon className="w-4" /><span>Start WO</span></button>
-                    <button className="btn btn-warning"><PauseIcon className="w-4" />Pause WO</button>
-                    <button className="btn btn-primary"><CheckIcon className="w-4" /><span>Mark WO Complete</span></button>
-                </div> */}
             </div>
         </div>
         </>

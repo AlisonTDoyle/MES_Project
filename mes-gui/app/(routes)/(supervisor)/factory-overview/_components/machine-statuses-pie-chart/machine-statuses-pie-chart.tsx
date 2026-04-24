@@ -1,11 +1,15 @@
 import AutoRefresh from "@/app/(routes)/(misc-components)/refresh-component/refresh";
 import { StatusPieChart } from "./status-pie-chart";
 import { MachineAvailability } from "@/app/_interfaces/response-objects/machine-availability";
+import dotenv from "dotenv";
+
+dotenv.config()
+let apiUrl = process.env.API_URL;
 
 export async function MachineStatusesPieChart() {
     let data:MachineAvailability[] = [];
     try {
-        const res = await fetch("http://localhost:3001/api/factory/machine-availability", { cache: 'no-store' });
+        const res = await fetch(`${apiUrl}/factory/machine-availability`, { cache: 'no-store' });
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
