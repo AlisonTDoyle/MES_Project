@@ -1,22 +1,32 @@
+"use client"
+
 import AutoRefresh from "@/app/(routes)/(misc-components)/refresh-component/refresh";
+import { Operator } from "@/app/_interfaces/operator";
 import { WorkOrder } from "@/app/_interfaces/work-order";
-import React from "react";
+import { fetchAuthSession } from "aws-amplify/auth";
 export const dynamic = 'force-dynamic'
-import dotenv from "dotenv";
-
-dotenv.config()
-let apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-let workOrder: WorkOrder | null;
-try {
-    let response = await fetch(`${apiUrl}/machine/5621/current-work-order`);
-    workOrder = await response.json() || {};
-} catch (e) {
-    workOrder = null;
-    console.log("Error: Could not fetch current order information")
-}
+import { useEffect, useState } from "react";
+import { GetOperator, GetWorkOrder } from "./current-work-order-actions";
+import React from "react";
 
 export function CurrentWorkOrder() {
+    let [workOrder, setWorkOrder] = useState<WorkOrder>();
+        
+    useEffect(() => {
+        async function getWorkOrder() {
+            // get user cognito id
+            const session = await fetchAuthSession();
+            let cognitoUsername = session.userSub as string;
+            let op:Operator = await GetOperator(cognitoUsername);
+
+            let wo = await GetWorkOrder(op.id);
+
+            setWorkOrder(wo)
+        }
+
+        getWorkOrder();
+    }, []);
+
     function formatDescription() {
         if (!workOrder?.description) return "No description provided.";
 
