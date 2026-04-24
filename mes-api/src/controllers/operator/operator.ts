@@ -21,9 +21,9 @@ export const readOperatorWithCognitoId = async (req: Request, res: Response) => 
     }
 
     try {
-        let db:sql.ConnectionPool = await dbClientSetup();
+        let db: sql.ConnectionPool = await dbClientSetup();
 
-        let query:string = `EXEC GetOperatorByCognitoUsername @cognitoUsername`;
+        let query: string = `EXEC GetOperatorByCognitoUsername @cognitoUsername`;
 
         let result: IResult<any> = await db.request()
             .input("cognitoUsername", sql.NVarChar, cognitoUsername)
@@ -37,6 +37,28 @@ export const readOperatorWithCognitoId = async (req: Request, res: Response) => 
             res.status(400).json({ message: error.message });
         } else {
             res.status(500).json({ message: "Unknown error occurred" });
+        }
+    }
+}
+
+export const readOperatorMachine = async (req: Request, res: Response) => {
+    let operatorId: number = Number(req.params.operatorId) || -1;
+
+    if (operatorId == -1) {
+        return res.status(400).json({ error: "Invalid Operator ID passed" })
+    } else {
+        try {
+            let db: sql.ConnectionPool = await dbClientSetup();
+
+            let query: string = 'EXEC GetMachineOperatorIsAssignedTo @OperatorId';
+
+            let result: IResult<any> = await db.request()
+                .input("OperatorId", sql.Int, operatorId)
+                .query(query);
+
+            return res.status(200).json({ "data": result.recordset[0] })
+        } catch (error) {
+            return res.status(400).json({ "error": error });
         }
     }
 }

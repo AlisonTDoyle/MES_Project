@@ -2,7 +2,7 @@
 
 import { fetchAuthSession } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
-import { GetOperator, SubmitNewSampleOrder } from "./record-quality-sample-modal-actions";
+import { GetCurrentMachine, GetOperator, SubmitNewSampleOrder } from "./record-quality-sample-modal-actions";
 import { Operator } from "@/app/_interfaces/operator";
 import { QualitySample } from "@/app/_interfaces/quality-sample";
 
@@ -75,15 +75,18 @@ export function RecordQualitySampleModal() {
     };
 
     useEffect(() => {
-        async function getOperatorDetails() {
+        async function populateDefaultFeilds() {
             const session = await fetchAuthSession();
             let cognitoUsername = session.userSub as string;
-
             let currentOperator = await GetOperator(cognitoUsername);
+
+            let machineId = await GetCurrentMachine(currentOperator.id);
+
             setOperator(currentOperator);
+            setMachineId(machineId)
         }
 
-        getOperatorDetails();
+        populateDefaultFeilds();
     }, []);
 
     return (
@@ -100,6 +103,7 @@ export function RecordQualitySampleModal() {
                         value={productionOrderId}
                         onChange={(e) => setProductionOrderId(e.target.value)}
                         placeholder="ITEM-001"
+                        disabled
                     />
                 </fieldset>
 
@@ -110,6 +114,7 @@ export function RecordQualitySampleModal() {
                         value={workOrder}
                         onChange={(e) => setWorkOrder(e.target.value)}
                         placeholder="WO-12345"
+                        disabled
                     />
                 </fieldset>
 
@@ -121,6 +126,7 @@ export function RecordQualitySampleModal() {
                         value={machineId}
                         onChange={(e) => setMachineId(Number(e.target.value))}
                         placeholder="MA-12345"
+                        disabled
                     />
                 </fieldset>
 

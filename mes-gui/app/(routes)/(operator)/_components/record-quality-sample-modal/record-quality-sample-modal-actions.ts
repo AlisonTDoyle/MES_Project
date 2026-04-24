@@ -34,3 +34,17 @@ export async function SubmitNewSampleOrder(sample: QualitySample) {
 
     return successfulPublish;
 }
+
+export async function GetCurrentMachine(operatorId: number): Promise<number> {
+    let machineId = 0;
+
+    machineId = await fetch(_apiUrl + `/operator/${operatorId}/machine`)
+        .then((res) => res.json())
+        .then((data) => data.data.id )
+
+    return machineId;
+}
+
+export async function GetCurrentWorkOrderInformation() {
+    
+}

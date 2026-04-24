@@ -1,3 +1,4 @@
+import AutoRefresh from "@/app/(routes)/(misc-components)/refresh-component/refresh";
 import { WorkOrder } from "@/app/_interfaces/work-order";
 import { PlayIcon, PauseIcon, CheckIcon } from "@heroicons/react/24/solid"
 import React from "react";
@@ -27,31 +28,34 @@ export function CurrentWorkOrder() {
     }
 
     return (
-    <div className="card shadow-sm h-full">
-        <div className="card-body flex flex-col flex-1 min-h-0">
-            <span className="card-title shrink-0 pb-2">Current Work Order</span>
-            <table className="table">
-                <tbody>
-                    <tr>
-                        <td className="font-bold">ID</td>
-                        <td>{workOrder?.productionOrderId}-{workOrder?.id}</td>
-                    </tr>
-                    <tr>
-                        <td className="font-bold">Creation Date</td>
-                        <td>{workOrder != null ? new Date(workOrder.creationDate).toLocaleDateString() : ""}</td>
-                    </tr>
-                    <tr>
-                        <td className="font-bold">Description</td>
-                        <td>{formatDescription()}</td>
-                    </tr>
-                </tbody>
-            </table>
-            {/* <div className="mt-auto flex flex-col gap-2">
-                <button className="btn btn-success"><PlayIcon className="w-4" /><span>Start WO</span></button>
-                <button className="btn btn-warning"><PauseIcon className="w-4" />Pause WO</button>
-                <button className="btn btn-primary"><CheckIcon className="w-4" /><span>Mark WO Complete</span></button>
-            </div> */}
+        <>
+            <AutoRefresh></AutoRefresh>
+            <div className="card shadow-sm h-full">
+            <div className="card-body flex flex-col flex-1 min-h-0">
+                <span className="card-title shrink-0 pb-2">Current Work Order</span>
+                <table className="table">
+                    <tbody>
+                        <tr>
+                            <td className="font-bold">ID</td>
+                            <td>{workOrder?.productionOrderId}-{workOrder?.id}</td>
+                        </tr>
+                        <tr>
+                            <td className="font-bold">Creation Date</td>
+                            <td>{workOrder != null ? new Date(workOrder.creationDate).toLocaleDateString() : ""}</td>
+                        </tr>
+                        <tr>
+                            <td className="font-bold">Description</td>
+                            <td>{formatDescription()}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                {/* <div className="mt-auto flex flex-col gap-2">
+                    <button className="btn btn-success"><PlayIcon className="w-4" /><span>Start WO</span></button>
+                    <button className="btn btn-warning"><PauseIcon className="w-4" />Pause WO</button>
+                    <button className="btn btn-primary"><CheckIcon className="w-4" /><span>Mark WO Complete</span></button>
+                </div> */}
+            </div>
         </div>
-    </div>
+        </>
     )
 }
