@@ -2,7 +2,7 @@
 
 import { fetchAuthSession } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
-import { GetCurrentMachine, GetOperator, SubmitNewSampleOrder } from "./record-quality-sample-modal-actions";
+import { GetCurrentMachine, GetCurrentWorkOrderInformation, GetOperator, SubmitNewSampleOrder } from "./record-quality-sample-modal-actions";
 import { Operator } from "@/app/_interfaces/operator";
 import { QualitySample } from "@/app/_interfaces/quality-sample";
 
@@ -81,9 +81,12 @@ export function RecordQualitySampleModal() {
             let currentOperator = await GetOperator(cognitoUsername);
 
             let machineId = await GetCurrentMachine(currentOperator.id);
+            let workOrder = await GetCurrentWorkOrderInformation(machineId);
 
             setOperator(currentOperator);
             setMachineId(machineId)
+            setWorkOrder(String(workOrder?.id))
+            setProductionOrderId(String(workOrder?.productionOrderId))
         }
 
         populateDefaultFeilds();

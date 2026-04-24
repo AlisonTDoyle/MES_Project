@@ -2,6 +2,7 @@
 
 import { Operator } from "@/app/_interfaces/operator";
 import { QualitySample } from "@/app/_interfaces/quality-sample";
+import { WorkOrder } from "@/app/_interfaces/work-order";
 
 let _apiUrl: string = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -45,6 +46,15 @@ export async function GetCurrentMachine(operatorId: number): Promise<number> {
     return machineId;
 }
 
-export async function GetCurrentWorkOrderInformation() {
-    
+export async function GetCurrentWorkOrderInformation(machineId: number) :Promise<WorkOrder | null> {
+    let workOrder : WorkOrder | null;
+
+    try {
+        workOrder = await fetch(_apiUrl + `/machine/${machineId}/current-work-order`)
+            .then((res) => res.json() || {})
+    } catch (error) {
+        workOrder = null;
+    }
+
+    return workOrder;
 }
