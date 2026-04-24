@@ -3,7 +3,7 @@
 import { OperatorLineStatus } from "@/app/_interfaces/response-objects/operator-line-status";
 import { env } from "process"
 
-const _apiUrl = env.API_URL + "/operator";
+const _apiUrl = env.NEXT_PUBLIC_API_URL + "/operator";
 
 export async function GetOperatorsCurrentStatus(cognitoUsername: string): Promise<boolean> {
     let checkedIn: boolean = false;

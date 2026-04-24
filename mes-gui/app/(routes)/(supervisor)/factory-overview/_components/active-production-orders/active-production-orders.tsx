@@ -1,15 +1,14 @@
 import { ProductionOrderTableItem } from "./production-order-table-item";
 import { ProductionOrder } from "@/app/_interfaces/production-order/production-order";
-import dotenv from "dotenv";
 
-dotenv.config()
-let apiUrl = process.env.API_URL;
+let apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export async function ActiveWorkOrders() {
     let productionOrders: ProductionOrder[] = [];
     try {
-        const response = await fetch(`${apiUrl}/api/production-order`);
+        const response = await fetch(`${apiUrl}/production-order`);
         if (!response.ok) {
+
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const parsedRes = await response.json();

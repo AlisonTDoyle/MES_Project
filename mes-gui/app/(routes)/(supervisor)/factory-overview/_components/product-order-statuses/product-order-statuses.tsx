@@ -1,10 +1,12 @@
 import AutoRefresh from "@/app/(routes)/(misc-components)/refresh-component/refresh";
 import { StatusPieChart } from "./status-pie-chart";
 
+let apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export async function ProductOrderStatuses() {
     let data = [];
     try {
-        const res = await fetch("http://localhost:3001/api/work-order/statuses", { cache: 'no-store' });
+        const res = await fetch(`${apiUrl}/work-order/statuses`, { cache: 'no-store' });
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }

@@ -4,7 +4,7 @@ import { MachineAvailability } from "@/app/_interfaces/response-objects/machine-
 import dotenv from "dotenv";
 
 dotenv.config()
-let apiUrl = process.env.API_URL;
+let apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export async function MachineStatusesPieChart() {
     let data:MachineAvailability[] = [];

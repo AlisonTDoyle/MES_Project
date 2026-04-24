@@ -2,7 +2,7 @@ import { MachineEventAlert } from "@/app/_interfaces/machine-event-alert";
 import { AlertTableItem } from "./alert-table-item";
 
 export async function MachineAlerts() {
-    const _apiUrl = process.env.API_URL;
+    const _apiUrl = process.env.NEXT_PUBLIC_API_URL;
     let _machineEventAlert: MachineEventAlert[] = [];
 
     if (!_apiUrl) {

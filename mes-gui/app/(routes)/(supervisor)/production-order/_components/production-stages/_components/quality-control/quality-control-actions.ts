@@ -2,7 +2,7 @@
 
 import { QualitySample } from "@/app/_interfaces/quality-sample";
 
-const _apiUrl:string = process.env.API_URL as string + "/quality-sample";
+const _apiUrl:string = process.env.NEXT_PUBLIC_API_URL as string + "/quality-sample";
 
 export async function GetQualitySamples(productionOrderId: number): Promise<QualitySample[]> {
     const url = `${_apiUrl}?productionOrderId=${productionOrderId}`;

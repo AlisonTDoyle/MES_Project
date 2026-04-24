@@ -3,6 +3,10 @@ import { ProductOrderBreakdown } from "./../_components/product-order-breakdown/
 import { ProductOrderDetails } from "./../_components/product-order-details/product-order-detalis";
 import { ProductionStages } from "./../_components/production-stages/production-stages";
 import React from 'react'
+import dotenv from "dotenv";
+
+dotenv.config()
+let apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default async function ProductionOrderPage({
   params,
@@ -15,7 +19,7 @@ export default async function ProductionOrderPage({
   let poId = p.id
 
   const response = await fetch(
-    `http://localhost:3001/api/production-order/${poId}`,
+    `${apiUrl}/production-order/${poId}`,
     { cache: 'no-store' } // optional, but common for data fetches
   );
 

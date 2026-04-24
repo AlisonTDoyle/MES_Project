@@ -2,7 +2,7 @@
 
 import { WorkOrder } from "@/app/_interfaces/work-order"
 
-const _apiUrl: string = process.env.API_URL as string + "/production-order"
+const _apiUrl: string = process.env.NEXT_PUBLIC_API_URL as string + "/production-order"
 const _assemblyStage: number = 4;
 
 export async function GetWorkOrderInAssemblyStage(productionOrderId: number): Promise<WorkOrder[]> {

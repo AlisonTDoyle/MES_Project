@@ -3,7 +3,7 @@
 import { Operator } from "@/app/_interfaces/operator";
 import { QualitySample } from "@/app/_interfaces/quality-sample";
 
-let _apiUrl: string = process.env.API_URL as string;
+let _apiUrl: string = process.env.NEXT_PUBLIC_API_URL as string;
 
 export async function GetOperator(cognitoUsername: string): Promise<Operator> {
     return await fetch(_apiUrl + `/operator/${cognitoUsername}`)

@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 import dotenv from "dotenv";
 
 dotenv.config()
-let apiUrl = process.env.API_URL;
+let apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 let workOrder: WorkOrder | null;
 try {

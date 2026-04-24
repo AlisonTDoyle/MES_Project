@@ -2,7 +2,7 @@
 import dotenv from "dotenv";
 
 dotenv.config()
-let apiUrl = process.env.API_URL;
+let apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export async function Search(formData: FormData) {
     // parse inputs
@@ -22,7 +22,7 @@ export async function Search(formData: FormData) {
 
     switch (searchObject) {
         case '1':
-            res = await fetch(`${apiUrl}/api/production-order/search/${searchTerm}`);
+            res = await fetch(`${apiUrl}/production-order/search/${searchTerm}`);
             json = await res.json();
             let productionOrders = json.results || [];
             for (let po of productionOrders) {
@@ -35,7 +35,7 @@ export async function Search(formData: FormData) {
             }
             break;
         case '2':
-            res = await fetch(`${apiUrl}/api/machine/search/${searchTerm}`);
+            res = await fetch(`${apiUrl}/machine/search/${searchTerm}`);
             json = await res.json();
             let machines = json.results || [];
             for (let machine of machines) {

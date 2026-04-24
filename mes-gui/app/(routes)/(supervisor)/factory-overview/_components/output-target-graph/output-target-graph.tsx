@@ -3,9 +3,10 @@ import { LineGraph } from "./line-graph";
 import {FactoryEvent} from "./../../../../../_interfaces/factory-event";
 
 export async function OutputTargetGraph() {
+    const _apiUrl = process.env.NEXT_PUBLIC_API_URL;
     let data:FactoryEvent[] = [];
     try {
-        const res = await fetch("http://localhost:3001/api/factory/todays-output", { cache: 'no-store' });
+        const res = await fetch(`${_apiUrl}/factory/todays-output`, { cache: 'no-store' });
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
