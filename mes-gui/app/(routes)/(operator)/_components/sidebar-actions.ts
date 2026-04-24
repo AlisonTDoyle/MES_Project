@@ -1,5 +1,6 @@
 "use server"
 
+import { Machine } from "@/app/_interfaces/machine";
 import { Operator } from "@/app/_interfaces/operator";
 
 let apiUrl:string = process.env.NEXT_PUBLIC_API_URL as string;
@@ -16,12 +17,12 @@ export async function GetOperator(cognitoUsername:string):Promise<Operator> {
         .then((data) => data.data)
 }
 
-export async function GetCurrentMachine(operatorId: number): Promise<number> {
-    let machineId = 0;
+export async function GetCurrentMachine(operatorId: number): Promise<Machine | null> {
+    let machine:Machine | null = null;
 
-    machineId = await fetch(apiUrl + `/operator/${operatorId}/machine`)
+    machine = await fetch(apiUrl + `/operator/${operatorId}/machine`)
         .then((res) => res.json())
         .then((data) => data.data.id)
 
-    return machineId;
+    return machine;
 }

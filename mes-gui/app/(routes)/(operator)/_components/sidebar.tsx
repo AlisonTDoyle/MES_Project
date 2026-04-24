@@ -8,19 +8,17 @@ import { signOut } from 'aws-amplify/auth';
 import outputs from "./../../../../amplify_outputs.json";
 import { Amplify } from "aws-amplify";
 import { useRouter } from "next/navigation";
-import { GetMachineEventTypes, GetOperator } from "./sidebar-actions";
+import { GetCurrentMachine, GetMachineEventTypes, GetOperator } from "./sidebar-actions";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { Operator } from "@/app/_interfaces/operator";
 import { useEffect, useState } from "react";
+import { Machine } from "@/app/_interfaces/machine";
 
 Amplify.configure(outputs);
 
 export function OperatorSidebar() {
     let router = useRouter();
     let companyName = process.env.COMPANY_NAME
-    let statusCode: number = 2;
-    let status: string = "";
-    let badge: string = "badge badge-soft";
     let machineEventTypes = GetMachineEventTypes;
 
     const [operator, setOperator] = useState<Operator>();
@@ -33,6 +31,9 @@ export function OperatorSidebar() {
 
             let currentOperator = await GetOperator(cognitoUsername);
             setOperator(currentOperator);
+
+            let m = await GetCurrentMachine(currentOperator.id)
+            setMachine(m as unknown as Machine)
         }
 
         getOperatorDetails();
@@ -41,21 +42,6 @@ export function OperatorSidebar() {
     async function handleSignOut() {
         await signOut();
         router.push("/authentication/log-in")
-    }
-
-    switch (statusCode) {
-        case 0:
-            status = "Not Running";
-            badge += " badge-error";
-            break;
-        case 1:
-            status = "Paused";
-            badge += " badge-warning";
-            break;
-        case 2:
-            status = "Running";
-            badge += " badge-success";
-            break;
     }
 
     return (
@@ -67,8 +53,8 @@ export function OperatorSidebar() {
                 </div>
 
                 <div className="mb-4">
-                    <b>Machine Status: </b>
-                    <span className={badge}>{status}</span>
+                    <b>Machine: </b>
+                    <span>{machine as unknown as string}</span>
                 </div>
 
                 <SidebarRecorderButtons props={machineEventTypes}></SidebarRecorderButtons>
