@@ -1,19 +1,6 @@
 "use client"
+import { OeeFigures } from "@/app/_interfaces/response-objects/oee-figures";
 import { PieLayer, ResponsivePie } from "@nivo/pie"
-
-let machineData = [
-    {
-        "id": "Running",
-        "label": "Running",
-        "value": 32,
-        "color": "oklch(76% 0.177 163.223)"
-    },
-    {
-        "id": "Offline",
-        "label": "Offline",
-        "value": 10,
-        "color": "oklch(70% 0.015 286.067)"
-    }];
 
 const CenteredMetric: PieLayer<{ id: string; label: string; value: number; color: string }> = ({ centerX, centerY, dataWithArc }) => {
     const total = dataWithArc.reduce((s, d) => s + d.value, 0);
@@ -35,7 +22,21 @@ const CenteredMetric: PieLayer<{ id: string; label: string; value: number; color
     );
 };
 
-export function OeeRadialChart() {
+export function OeeRadialChart({data}:{data:OeeFigures|null}) {
+    let machineData = [
+        {
+            "id": "Running",
+            "label": "Running",
+            "value": data?.oee ?? 0,
+            "color": "oklch(76% 0.177 163.223)"
+        },
+        {
+            "id": "Offline",
+            "label": "Offline",
+            "value": 100 - (data?.oee ?? 0),
+            "color": "oklch(70% 0.015 286.067)"
+    }];
+
     return (
         <ResponsivePie data={machineData}
             colors={{ datum: 'data.color' }}
@@ -46,6 +47,7 @@ export function OeeRadialChart() {
             margin={{ top: 0, right: 20, bottom: 120, left: 20 }}
             arcLinkLabelsDiagonalLength={0}
             enableArcLabels={false}
+            isInteractive = {false}
             enableArcLinkLabels={false}
             layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends', CenteredMetric]}/>
     )

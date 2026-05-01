@@ -14,7 +14,6 @@ export async function ProductOrderStatuses() {
         data = json.message || [];
     } catch (error) {
         console.error("Failed to fetch work order statuses:", error);
-        // Optionally, set a default or handle error state
     }
 
     return (
