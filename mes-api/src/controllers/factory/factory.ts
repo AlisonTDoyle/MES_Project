@@ -30,20 +30,15 @@ export const getOeeFigures = async (req: Request, res: Response) => {
 
         // availability
         const machineAvailabilities = calculateMachineAvailabilities(items);
-        availability = Math.round(
-            (machineAvailabilities.reduce((sum, a) => sum + a, 0) / machineAvailabilities.length) * 10
-        ) / 10;
+        availability = parseFloat(
+            ((machineAvailabilities.reduce((sum, a) => sum + a, 0) / machineAvailabilities.length) * 10).toFixed(2)
+        );
 
         // performance
-        let itemEvents = await getTodaysEventsFromDynamo();
-        let numberOfItemsCompleted: number = itemEvents
-            .filter(i => i.status === 'Completed')
-            .length;
-        let averageRunTime: number = 0;
-
-        performance = numberOfItemsCompleted / averageRunTime;
-
-        console.log(numberOfItemsCompleted)
+        let averageRunTime: number = await getAverageCompletionTime(items);
+        const targetItemsPerHour = 360;
+        const idealCycleTimeSeconds = 3600 / targetItemsPerHour; 
+        performance = parseFloat(Math.min((idealCycleTimeSeconds / averageRunTime) * 100, 100).toFixed(2));
 
         // quality
         let date = new Date(new Date().setHours(0, 0, 0, 0));
@@ -65,10 +60,10 @@ export const getOeeFigures = async (req: Request, res: Response) => {
         let qualitySampleCount = result.recordset[0].QualitySampleCount;
         let woCompleted = result.recordset[0].WOCompleted;
 
-        quality = Math.round((100 - ((qualitySampleCount / woCompleted)) * 100))
+        quality = parseFloat((100 - ((qualitySampleCount / woCompleted)) * 100).toFixed(2))
 
         // calc oee
-        oee = Math.round((availability * 100 * quality) / 10000);
+        oee = parseFloat(((availability * performance * quality) / 10000).toFixed(2));
 
         return res.status(200).json({
             message: { availability, performance, quality, oee }
@@ -239,4 +234,41 @@ async function getTodaysEventsFromDynamo() {
     const items = result.Items?.map((item) => unmarshall(item)) || [];
 
     return items;
+}
+
+type WorkOrderTimes = {
+    start?: Date;
+    end?: Date;
+};
+
+function getAverageCompletionTime(items: any[]) {
+    const now = new Date();
+    const sixtyMinsAgo = new Date(now.getTime() - 60 * 60 * 1000);
+
+    // Only include items from the last 60 minutes
+    const recentItems = items.filter(item => new Date(item.timestamp) >= sixtyMinsAgo);
+
+    const map = new Map<number, WorkOrderTimes>();
+
+    for (const item of recentItems) {
+        if (!map.has(item.workOrder)) {
+            map.set(item.workOrder, {});
+        }
+
+        const entry = map.get(item.workOrder)!;
+        if (item.status === 'Started')   entry.start = new Date(item.timestamp);
+        if (item.status === 'Completed') entry.end   = new Date(item.timestamp);
+    }
+
+    const durations: number[] = [];
+    for (const [, entry] of map) {
+        if (entry.start && entry.end) {
+            durations.push(entry.end.getTime() - entry.start.getTime());
+        }
+    }
+
+    if (durations.length === 0) return 0;
+
+    const avgMs = durations.reduce((a, b) => a + b, 0) / durations.length;
+    return avgMs / 1000;
 }
