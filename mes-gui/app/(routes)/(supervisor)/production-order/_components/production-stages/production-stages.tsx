@@ -10,9 +10,9 @@ export function ProductionStages({ productionOrderId }: { productionOrderId: num
                 <div className="card-title">Production Stages</div>
                 <div className="tabs tabs-lift h-full overflow-hidden">
                     <input type="radio" name="my_tabs_3" className="tab" aria-label="Geneaology" defaultChecked/>
-                    <div className="tab-content bg-base-100 border-base-300 p-6 overflow-auto">
+                    {/* <div className="tab-content bg-base-100 border-base-300 p-6 overflow-auto">
                         <Geneaology></Geneaology>
-                    </div>
+                    </div> */}
 
                     <input type="radio" name="my_tabs_3" className="tab" aria-label="Parts Production" />
                     <div className="tab-content bg-base-100 border-base-300 p-0 overflow-x-auto">
