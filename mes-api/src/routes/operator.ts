@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import { createNewOperatorLineStatusRecord, readOperatorLineStatus } from "../controllers/operator/line-status";
-import { readTodaysWorkOrders, updateWorkOrderStatus } from "../controllers/operator/work-order";
+import { readCurrentWorkOrder, readTodaysWorkOrders, updateWorkOrderStatus } from "../controllers/operator/work-order";
 import { readOperatorMachine, readOperatorWithCognitoId } from "../controllers/operator/operator";
 
 // Set up router
@@ -11,6 +11,7 @@ router.get("/:operatorId/line-status", readOperatorLineStatus);
 router.get("/:operatorId/work-order", readTodaysWorkOrders)
 router.get("/:cognitoUsername", readOperatorWithCognitoId)
 router.get("/:operatorId/machine", readOperatorMachine)
+router.get("/:operatorId/current-work-order", readCurrentWorkOrder)
 
 router.post("/:operatorId/line-status", createNewOperatorLineStatusRecord);
 router.post("/:operatorId/work-order", updateWorkOrderStatus);

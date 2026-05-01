@@ -6,11 +6,12 @@ import { WorkOrder } from "@/app/_interfaces/work-order";
 import { fetchAuthSession } from "aws-amplify/auth";
 export const dynamic = 'force-dynamic'
 import { useEffect, useState } from "react";
-import { GetOperator, GetWorkOrder } from "./current-work-order-actions";
+import {GetCurrentWorkOrder, GetOperator } from "./current-work-order-actions";
 import React from "react";
+import { Machine } from "@/app/_interfaces/machine";
 
 export function CurrentWorkOrder() {
-    let [workOrder, setWorkOrder] = useState<WorkOrder>();
+    let [workOrder, setWorkOrder] = useState<WorkOrder|null>();
         
     useEffect(() => {
         async function getWorkOrder() {
@@ -18,9 +19,7 @@ export function CurrentWorkOrder() {
             const session = await fetchAuthSession();
             let cognitoUsername = session.userSub as string;
             let op:Operator = await GetOperator(cognitoUsername);
-
-            let wo = await GetWorkOrder(op.id);
-
+            let wo:WorkOrder|null = await GetCurrentWorkOrder(op.id);
             setWorkOrder(wo)
         }
 

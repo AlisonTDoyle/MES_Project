@@ -97,6 +97,10 @@ export const readTodaysWorkOrders = async (req: Request, res: Response) => {
     }
 };
 
+export const readCurrentWorkOrder = (req: Request, res: Response) => {
+    let operatorId = req.params.operatorId as string;
+    
+};
 
 // Update
 export const updateWorkOrderStatus = async (req: Request, res: Response) => {
