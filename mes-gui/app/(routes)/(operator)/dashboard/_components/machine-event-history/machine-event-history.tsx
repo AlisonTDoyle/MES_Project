@@ -1,22 +1,31 @@
+"use client"
+
 import { MachineEventListItem } from "./machine-event-list-item";
 import { MachineEventAlert } from "@/app/_interfaces/machine-event-alert";
 import AutoRefresh from "@/app/(routes)/(misc-components)/refresh-component/refresh";
+import { useEffect, useState } from "react";
+import { GetMachineHistory, GetOperator } from "./machine-event-history-actions";
+import { Operator } from "@/app/_interfaces/operator";
+import { fetchAuthSession } from "aws-amplify/auth";
 export const dynamic = 'force-dynamic'
-import dotenv from "dotenv";
 
-dotenv.config()
 let apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export async function MachineEventHistory() {
-    let events: MachineEventAlert[] = [];
+export function MachineEventHistory() {
+    let [events, setEvents] = useState<MachineEventAlert[]>([]);
 
-    try {
-        let response = await fetch(`${apiUrl}/machine/5621/events`);
-        let data = await response.json();
-        events = Array.isArray(data) ? data : [];
-    } catch (e) {
-        console.log("Error: Could not fetch machine event history information")
-    }
+    useEffect(() => {
+        async function getMachineHistory() {
+            // get user cognito id
+            const session = await fetchAuthSession();
+            let cognitoUsername = session.userSub as string;
+            let op:Operator = await GetOperator(cognitoUsername);
+            let eventHistory:MachineEventAlert[] = await GetMachineHistory(op.id);
+            setEvents(eventHistory)
+        }
+
+        getMachineHistory();
+    }, []);
     
     return (
         <>
