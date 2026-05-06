@@ -28,7 +28,6 @@ export async function ActiveWorkOrders() {
                             <tr>
                                 <th>PO #</th>
                                 <th>Customer Name</th>
-                                <th>State</th>
                                 <th>Order Date</th>
                             </tr>
                         </thead>

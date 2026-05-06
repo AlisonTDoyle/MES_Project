@@ -10,6 +10,7 @@ export function ProductOrderDetails({ productionOrder }: { productionOrder: Prod
                     <tbody>
                         <tr>
                             <td><b>PO ID:</b></td>
+                            {/* <td>{productionOrder.orderInfo.id ? productionOrder.orderInfo.id : ""}</td> */}
                             <td>{productionOrder.orderInfo.id ? productionOrder.orderInfo.id : ""}</td>
                         </tr>
                         <tr>
@@ -20,10 +21,10 @@ export function ProductOrderDetails({ productionOrder }: { productionOrder: Prod
                             <td><b>Order Received:</b></td>
                             <td>{(new Date(productionOrder.orderInfo.orderPlacedOn)).toLocaleDateString()}</td>
                         </tr>
-                        <tr>
+                        {/* <tr>
                             <td><b>Deadline:</b></td>
                             <td>{productionOrder.orderInfo.deadline ? (new Date(productionOrder.orderInfo.deadline)).toLocaleDateString() : "N/A"}</td>
-                        </tr>
+                        </tr> */}
                     </tbody>
                 </table>
             </div>

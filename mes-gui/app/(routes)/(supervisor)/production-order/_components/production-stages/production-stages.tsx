@@ -9,8 +9,8 @@ export function ProductionStages({ productionOrderId }: { productionOrderId: num
             <div className="card-body h-full">
                 <div className="card-title">Production Stages</div>
                 <div className="tabs tabs-lift h-full overflow-hidden">
-                    <input type="radio" name="my_tabs_3" className="tab" aria-label="Geneaology" defaultChecked/>
-                    {/* <div className="tab-content bg-base-100 border-base-300 p-6 overflow-auto">
+                    {/* <input type="radio" name="my_tabs_3" className="tab" aria-label="Geneaology" defaultChecked/>
+                    <div className="tab-content bg-base-100 border-base-300 p-6 overflow-auto">
                         <Geneaology></Geneaology>
                     </div> */}
 
